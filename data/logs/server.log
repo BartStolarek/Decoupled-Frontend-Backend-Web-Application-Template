@@ -1,0 +1,25 @@
+2023-12-04 at 23:25:19 | INFO | Request: GET /test
+2023-12-04 at 23:26:03 | INFO | Request: GET /test
+2023-12-04 at 23:27:27 | INFO | Request: GET /test
+2023-12-04 at 23:28:30 | INFO | Request: GET /test
+2023-12-04 at 23:29:50 | INFO | Request: GET /test
+2023-12-04 at 23:31:50 | INFO | Request: GET /test
+2023-12-04 at 23:31:50 | INFO | Response: 200 200 OK OK {
+  "data": "Test data", 
+  "status_code": 200
+}
+
+2023-12-04 at 23:32:18 | INFO | Request: GET /test
+2023-12-04 at 23:32:18 | INFO | Response: 200 200 OK OK {
+  "data": "Test data", 
+  "status_code": 200
+}
+
+2023-12-04 at 23:32:53 | INFO | Request: GET /api/health
+2023-12-04 at 23:33:04 | INFO | Request: GET /test
+2023-12-04 at 23:33:04 | INFO | Response: 200 200 OK OK {
+  "data": "Test data", 
+  "status_code": 200
+}
+
+2023-12-04 at 23:43:03 | INFO | Request: GET /test

@@ -1,0 +1,44 @@
+├── .gitignore
+├── README.md
+├── data
+├── manage.py
+├── migrations
+├── requirements.txt
+├── scripts
+├── server
+│   ├── __init__.py
+│   ├── api
+│   │   ├── __init__.py
+│   │   ├── server.py
+│   │   └── user.py
+│   ├── config.env
+│   ├── config.py
+│   ├── handler
+│   │   ├── __init__.py
+│   │   ├── rate_limit.py
+│   │   └── session_management.py
+│   ├── middleware
+│   │   ├── __init__.py
+│   │   ├── authorizer.py
+│   │   ├── logger.py
+│   │   └── response_manipulator.py
+│   ├── models
+│   │   ├── __init__.py
+│   │   └── user.py
+│   ├── schema
+│   │   ├── __init__.py
+│   │   └── user.py
+│   ├── services
+│   │   ├── __init__.py
+│   │   └── user.py
+│   ├── static
+│   │   └── __init__.py
+│   ├── templates
+│   │   ├── __init__ copy.py
+│   │   └── __init__.py
+│   ├── types
+│   │   └── __init__.py
+│   └── utils
+│       └── __init__.py
+├── tests
+│   └── test_basics.py
