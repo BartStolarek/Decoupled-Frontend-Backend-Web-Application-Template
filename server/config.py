@@ -36,6 +36,7 @@ class Config:
 class DevelopmentConfig(Config):
     ENV = 'development'
     DEBUG = True
+    LOGGING_LEVEL = os.environ.get('LOGGING_LEVEL', 'DEBUG')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL',
         'sqlite:///' + os.path.join(root_project_dir, 'data-dev.sqlite'))
 

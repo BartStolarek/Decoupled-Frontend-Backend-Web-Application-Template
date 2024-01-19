@@ -23,3 +23,65 @@
 }
 
 2023-12-04 at 23:43:03 | INFO | Request: GET /test
+2024-01-19 at 11:19:40 | INFO | Request: GET /health
+2024-01-19 at 11:23:22 | INFO | Request: GET /health
+2024-01-19 at 11:23:22 | INFO | Response: 404 404 NOT FOUND  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check y... [Truncated]
+2024-01-19 at 11:30:51 | INFO | Request: GET /api/health
+2024-01-19 at 11:30:51 | INFO | Response: 200 200 OK  {
+  "status_code": 418
+}
+
+2024-01-19 at 11:31:48 | INFO | Request: GET /api/healths
+2024-01-19 at 11:31:48 | INFO | Response: 404 404 NOT FOUND  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check y... [Truncated]
+2024-01-19 at 11:49:53 | INFO | Request: GET /api/healths
+2024-01-19 at 11:49:53 | INFO | Response: 404 404 NOT FOUND  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2024-01-19 at 11:50:30 | INFO | Request: GET /api/healths
+2024-01-19 at 11:50:30 | INFO | Response: 404 404 NOT FOUND  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2024-01-19 at 11:51:52 | INFO | Request: GET /api/healths
+2024-01-19 at 11:51:52 | INFO | Response: 404 404 NOT FOUND  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2024-01-19 at 11:52:27 | INFO | Request: GET /api/healths
+2024-01-19 at 11:52:27 | INFO | Response: 404 404 NOT FOUND  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2024-01-19 at 11:56:05 | INFO | Request: GET /api/healths
+2024-01-19 at 11:56:05 | INFO | Response: 404 404 NOT FOUND  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2024-01-19 at 12:01:05 | INFO | Request: GET /api/healths
+2024-01-19 at 12:01:05 | INFO | Response: 404 404 NOT FOUND  {
+  "error": "Not Found", 
+  "status": "client error"
+}
+
+2024-01-19 at 12:12:23 | INFO | Request: GET /api/healths
+2024-01-19 at 12:12:23 | INFO | Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 at 12:14:38 | INFO | Request: GET /api/healths
+2024-01-19 at 12:15:30 | INFO | Request: GET /api/healths
+2024-01-19 at 12:24:47 | INFO | Request: GET /api/healths
+2024-01-19 at 12:25:43 | INFO | Request: GET /api/healths

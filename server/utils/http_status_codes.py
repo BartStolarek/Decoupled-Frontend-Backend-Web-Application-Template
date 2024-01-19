@@ -1,3 +1,5 @@
+from flask import jsonify, current_app
+
 HTTP_STATUS_CODES = {
     # 1xx: Informational
     100: {"status": "informational", "message": "Continue"},
@@ -27,34 +29,34 @@ HTTP_STATUS_CODES = {
     308: {"status": "redirection", "message": "Permanent Redirect"},
 
     # 4xx: Client Error
-    400: {"status": "client error", "message": "Bad Request"},
-    401: {"status": "client error", "message": "Unauthorized"},
-    402: {"status": "client error", "message": "Payment Required"},
-    403: {"status": "client error", "message": "Forbidden"},
-    404: {"status": "client error", "message": "Not Found"},
-    405: {"status": "client error", "message": "Method Not Allowed"},
-    406: {"status": "client error", "message": "Not Acceptable"},
-    407: {"status": "client error", "message": "Proxy Authentication Required"},
-    408: {"status": "client error", "message": "Request Timeout"},
-    409: {"status": "client error", "message": "Conflict"},
-    410: {"status": "client error", "message": "Gone"},
-    411: {"status": "client error", "message": "Length Required"},
-    412: {"status": "client error", "message": "Precondition Failed"},
-    413: {"status": "client error", "message": "Payload Too Large"},
-    414: {"status": "client error", "message": "URI Too Long"},
-    415: {"status": "client error", "message": "Unsupported Media Type"},
-    416: {"status": "client error", "message": "Range Not Satisfiable"},
-    417: {"status": "client error", "message": "Expectation Failed"},
-    418: {"status": "client error", "message": "I'm a teapot"},  # April Fools' joke
-    421: {"status": "client error", "message": "Misdirected Request"},
-    422: {"status": "client error", "message": "Unprocessable Entity"},
-    423: {"status": "client error", "message": "Locked"},
-    424: {"status": "client error", "message": "Failed Dependency"},
-    426: {"status": "client error", "message": "Upgrade Required"},
-    428: {"status": "client error", "message": "Precondition Required"},
-    429: {"status": "client error", "message": "Too Many Requests"},
-    431: {"status": "client error", "message": "Request Header Fields Too Large"},
-    451: {"status": "client error", "message": "Unavailable For Legal Reasons"},
+    400: {"status": "Client Error", "message": "Bad Request"},
+    401: {"status": "Client Error", "message": "Unauthorized"},
+    402: {"status": "Client Error", "message": "Payment Required"},
+    403: {"status": "Client Error", "message": "Forbidden"},
+    404: {"status": "Client Error", "message": "Not Found"},
+    405: {"status": "Client Error", "message": "Method Not Allowed"},
+    406: {"status": "Client Error", "message": "Not Acceptable"},
+    407: {"status": "Client Error", "message": "Proxy Authentication Required"},
+    408: {"status": "Client Error", "message": "Request Timeout"},
+    409: {"status": "Client Error", "message": "Conflict"},
+    410: {"status": "Client Error", "message": "Gone"},
+    411: {"status": "Client Error", "message": "Length Required"},
+    412: {"status": "Client Error", "message": "Precondition Failed"},
+    413: {"status": "Client Error", "message": "Payload Too Large"},
+    414: {"status": "Client Error", "message": "URI Too Long"},
+    415: {"status": "Client Error", "message": "Unsupported Media Type"},
+    416: {"status": "Client Error", "message": "Range Not Satisfiable"},
+    417: {"status": "Client Error", "message": "Expectation Failed"},
+    418: {"status": "Client Error", "message": "I'm a teapot"},  # April Fools' joke
+    421: {"status": "Client Error", "message": "Misdirected Request"},
+    422: {"status": "Client Error", "message": "Unprocessable Entity"},
+    423: {"status": "Client Error", "message": "Locked"},
+    424: {"status": "Client Error", "message": "Failed Dependency"},
+    426: {"status": "Client Error", "message": "Upgrade Required"},
+    428: {"status": "Client Error", "message": "Precondition Required"},
+    429: {"status": "Client Error", "message": "Too Many Requests"},
+    431: {"status": "Client Error", "message": "Request Header Fields Too Large"},
+    451: {"status": "Client Error", "message": "Unavailable For Legal Reasons"},
 
 
     # 5xx: Server Error
@@ -71,3 +73,21 @@ HTTP_STATUS_CODES = {
     511: {"status": "server error", "message": "Network Authentication Required"},
 
 }
+
+
+def handle_status_code(code):
+    """ General error handler function for HTTP errors. """
+    status_info = HTTP_STATUS_CODES.get(code, {"status": "error", "message": "Unknown error"})
+
+    # Log the message based on the status code
+    if 400 <= code <= 599:
+        current_app.logger.error(f'{code} API Error: {status_info["message"]}')
+    else:
+        current_app.logger.info(f'{code} Status: {status_info["message"]}')
+
+    response = jsonify({
+        "message": status_info["message"],
+        "status": status_info["status"]
+    })
+    return response, code
+

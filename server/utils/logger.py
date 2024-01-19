@@ -15,8 +15,8 @@ def setup_logger():
     diagnose = False if environment == "production" else True
     logging_level = os.getenv("LOGGING_LEVEL", "stuff")
 
-   # Configure Loguru logger
-    logger_format = "<green>{time:YYYY-MM-DD at HH:mm:ss}</green> | <level>{level}</level> | {message}"
+    # Configure Loguru logger
+    logger_format = "<green>{time:YYYY-MM-DD at HH:mm:ss}</green> | <level>{level: <8}</level> | {message}"
     logger.add(sys.stderr, colorize=True, diagnose=diagnose, format=logger_format, level=logging_level)
     
     # Check if directory exists

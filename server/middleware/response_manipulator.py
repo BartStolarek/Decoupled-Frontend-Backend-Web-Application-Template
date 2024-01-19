@@ -17,7 +17,7 @@ def response_manipulator(response):
     """
     Manipulate the response before sending it to the client.
     """
-    print("print 1")
+    
     if hasattr(g, 'start_time'):
         response_time = f"{(time.time() - g.start_time) * 1000:.2f}ms"
     else:
@@ -28,9 +28,9 @@ def response_manipulator(response):
         'timestamp': datetime.datetime.utcnow().isoformat() + 'Z',
         'responseTime': response_time
     }
-    logger.debug("stuff here")
+    
     try:
-        print("print 2")
+        
         # response should be a jsonify object with the form:
         # jsonify({
         #   "status_code": 418,

@@ -12,6 +12,7 @@ from .middleware.api_logger import log_request, log_response
 from .middleware.response_manipulator import response_manipulator
 from .middleware.authorizer import authenticate
 from .utils.logger import setup_logger
+from .utils.http_status_codes import handle_status_code
 
 # Initialize Flask extensions
 db = SQLAlchemy()
@@ -53,21 +54,29 @@ def create_server(config_name=None):
         g.start_time = time.time()
     
     # Register middleware
+    print("register middleware")
     server.before_request(log_request)
+    print("before request log_request")
     #server.before_request(authenticate)
     server.after_request(response_manipulator)
+    print("after request response_manipulator")
     server.after_request(log_response)
+    print("after request log_response")
     
     # Register blueprints
     from .api import server as server_blueprint
     server.register_blueprint(server_blueprint, url_prefix='/api')
 
+    @server.errorhandler(404)
+    def page_not_found(e):
+        response, code = handle_status_code(404)
+        return response, code
+        
     @server.route('/test')
     def test_route():
         response = jsonify({"status_code": 200, "data": "Test data"})
         return response
 
-    
     return server
 
 
