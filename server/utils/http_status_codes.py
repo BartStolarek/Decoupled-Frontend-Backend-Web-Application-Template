@@ -1,4 +1,4 @@
-from flask import jsonify, current_app
+from flask import jsonify
 from loguru import logger
 
 HTTP_STATUS_CODES = {
@@ -76,21 +76,33 @@ HTTP_STATUS_CODES = {
 }
 
 
-def handle_status_code(code):
+def handle_status_code(code, data: dict = None):
     """ General error handler function for HTTP errors. """
     status_info = HTTP_STATUS_CODES.get(code, {"status": "error", "message": "Unknown error"})
 
+    response_dict = {}
+    
+    if data is not None and isinstance(data, dict):
+        response_dict["data"] = data
+    elif data is not None and not isinstance(data, dict):
+        code = 500
+        logger.error(f'{code} API Error: data provided must be a dictionary or None')
+    
+    status_info = HTTP_STATUS_CODES.get(code, {"status": "error", "message": "Unknown error"})
+        
     # Log the message based on the status code
     if 400 <= code <= 599:
         logger.error(f'{code} API Error: {status_info["message"]}')
     else:
         logger.info(f'{code} API Status: {status_info["message"]}')
-
-    response = jsonify({
+        
+    response_dict = {
         "status_code": code,
         "message": status_info["message"],
         "status": status_info["status"]
-    })
+    }
+
+    response = jsonify(response_dict)
     response.status_code = code  # Set the correct status code
     return response, code
 

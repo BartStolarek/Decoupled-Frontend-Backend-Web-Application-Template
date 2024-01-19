@@ -3,9 +3,10 @@ import datetime
 from flask import Blueprint, request, jsonify
 from server.models import User  # Your User model
 from server.schema import UserSchema  # Your User schema
-from server.services import user_service  # Your user service
+from server.services import register_user
 from server.handler import rate_limit
 from werkzeug.security import check_password_hash
+from server.utils.http_status_codes import handle_status_code
 
 # Assuming you have a SECRET_KEY defined in your config
 from flask import current_app
@@ -21,9 +22,10 @@ def register():
     user_schema = UserSchema()
     errors = user_schema.validate(request.json)
     if errors:
-        return jsonify(errors), 400
+        response, code = handle_status_code(400, data={"errors": errors})
+        return response, code
 
-    success, message = user_service.register_user(request.json)
+    success, message = register_user(request.json)
     
     return jsonify({"status": "ok" if success else "error", "message": message}), 200 if success else 400
 

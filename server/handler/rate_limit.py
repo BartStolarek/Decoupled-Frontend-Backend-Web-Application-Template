@@ -12,6 +12,9 @@ def rate_limit(max_requests, time_window):
     def decorator(f):
         @wraps(f)
         def wrapped(*args, **kwargs):
+            # Initialize g.rate_limit if it doesn't exist
+            if not hasattr(g, 'rate_limit'):
+                g.rate_limit = {}
             # Create a unique key for each endpoint and IP
             key = f"rate_limit:{request.endpoint}:{request.remote_addr}"
             if key not in g:

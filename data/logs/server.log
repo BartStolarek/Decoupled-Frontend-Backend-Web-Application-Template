@@ -203,3 +203,45 @@
   "status_code": 404
 }
 
+2024-01-19 15:59:15 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/health
+2024-01-19 15:59:15 | INFO     | server.middleware.api_logger:log_response:28 - Response: 200 OK  {
+  "status_code": 418
+}
+
+2024-01-19 21:27:15 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /api/register
+2024-01-19 21:27:15 | ERROR    | server.utils.http_status_codes:handle_status_code:95 - 404 API Error: API Endpoint Not Found
+2024-01-19 21:27:15 | INFO     | server.middleware.api_logger:log_response:28 - Response: 404 NOT FOUND  {
+  "message": "API Endpoint Not Found", 
+  "status": "Client Error", 
+  "status_code": 404
+}
+
+2024-01-19 21:27:43 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /api/user/register
+2024-01-19 21:27:43 | ERROR    | server.utils.http_status_codes:handle_status_code:95 - 404 API Error: API Endpoint Not Found
+2024-01-19 21:27:43 | INFO     | server.middleware.api_logger:log_response:28 - Response: 404 NOT FOUND  {
+  "message": "API Endpoint Not Found", 
+  "status": "Client Error", 
+  "status_code": 404
+}
+
+2024-01-19 21:48:14 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-19 22:00:43 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-19 22:05:58 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-19 22:05:58 | INFO     | server.middleware.api_logger:log_response:28 - Response: 200 OK  {
+  "message": "User registered successfully", 
+  "status": "ok"
+}
+
+2024-01-19 22:09:06 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-19 22:09:35 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-19 22:25:55 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-19 22:25:55 | ERROR    | server.utils.http_status_codes:handle_status_code:95 - 400 API Error: Bad Request
+2024-01-19 22:25:55 | INFO     | server.middleware.api_logger:log_response:28 - Response: 400 BAD REQUEST  {
+  "message": "Bad Request", 
+  "status": "Client Error", 
+  "status_code": 400
+}
+
+2024-01-19 22:27:41 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-19 22:28:36 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-19 22:29:29 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register

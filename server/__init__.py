@@ -65,8 +65,10 @@ def create_server(config_name=None):
     server.after_request(log_response)
     
     # Register blueprints
-    from .api import server as server_blueprint
-    server.register_blueprint(server_blueprint, url_prefix='/api')
+    from .api import server_blueprint as server_blueprint
+    server.register_blueprint(server_blueprint, url_prefix='/server')
+    from .api import user_blueprint as user_blueprint
+    server.register_blueprint(user_blueprint, url_prefix='/user')
 
     
         

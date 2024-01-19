@@ -22,11 +22,31 @@ else:
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'your-secret-key')
+    APP_NAME = os.environ.get('APP_NAME', 'Flask API Boilerplate')
+    if os.environ.get('SECRET_KEY'):
+        SECRET_KEY = os.environ.get('SECRET_KEY')
+    else:
+        SECRET_KEY = 'SECRET_KEY_ENV_VAR_NOT_SET'
+        print('SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUCTION')
+    
+    
+    
+    # Flask Config
+    FLASK_CONFIG = os.environ.get('FLASK_CONFIG', 'default')
+    
+    # SQLAlchemy Config
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-    LOGGING_LEVEL = os.environ.get('LOGGING_LEVEL', 'INFO')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    
+    # Log Level
+    LOGGING_LEVEL = os.environ.get('LOGGING_LEVEL', 'INFO')
+
+    # Admin and Fake user
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'noemail@domain.com')
+    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+    FAKE_EMAIL = os.environ.get('FAKE_EMAIL')
+    FAKE_PASSWORD = os.environ.get('FAKE_PASSWORD')
 
     @staticmethod
     def init_app(app):
