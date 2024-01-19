@@ -17,6 +17,7 @@
             "args": [
                 "runserver"
             ],
+            "justMyCode": false
         }
     ]
 }

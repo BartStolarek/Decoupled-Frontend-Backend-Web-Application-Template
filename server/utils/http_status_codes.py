@@ -1,4 +1,5 @@
 from flask import jsonify, current_app
+from loguru import logger
 
 HTTP_STATUS_CODES = {
     # 1xx: Informational
@@ -33,7 +34,7 @@ HTTP_STATUS_CODES = {
     401: {"status": "Client Error", "message": "Unauthorized"},
     402: {"status": "Client Error", "message": "Payment Required"},
     403: {"status": "Client Error", "message": "Forbidden"},
-    404: {"status": "Client Error", "message": "Not Found"},
+    404: {"status": "Client Error", "message": "API Endpoint Not Found"},
     405: {"status": "Client Error", "message": "Method Not Allowed"},
     406: {"status": "Client Error", "message": "Not Acceptable"},
     407: {"status": "Client Error", "message": "Proxy Authentication Required"},
@@ -81,13 +82,15 @@ def handle_status_code(code):
 
     # Log the message based on the status code
     if 400 <= code <= 599:
-        current_app.logger.error(f'{code} API Error: {status_info["message"]}')
+        logger.error(f'{code} API Error: {status_info["message"]}')
     else:
-        current_app.logger.info(f'{code} Status: {status_info["message"]}')
+        logger.info(f'{code} API Status: {status_info["message"]}')
 
     response = jsonify({
+        "status_code": code,
         "message": status_info["message"],
         "status": status_info["status"]
     })
+    response.status_code = code  # Set the correct status code
     return response, code
 

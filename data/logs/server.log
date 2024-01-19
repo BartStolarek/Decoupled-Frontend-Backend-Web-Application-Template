@@ -85,3 +85,121 @@
 2024-01-19 at 12:15:30 | INFO | Request: GET /api/healths
 2024-01-19 at 12:24:47 | INFO | Request: GET /api/healths
 2024-01-19 at 12:25:43 | INFO | Request: GET /api/healths
+2024-01-19 at 13:32:26 | INFO     | Request: GET /api/healths
+2024-01-19 at 13:36:14 | INFO     | Request: GET /api/healths
+2024-01-19 at 14:31:38 | INFO     | Request: GET /api/healths
+2024-01-19 at 14:31:38 | ERROR    | 404 API Error: Not Found
+2024-01-19 at 14:31:38 | INFO     | Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 at 14:32:38 | INFO     | Request: GET /api/healths
+2024-01-19 at 14:32:50 | ERROR    | 404 API Error: Not Found
+2024-01-19 at 14:33:08 | INFO     | Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 at 14:33:27 | INFO     | Request: GET /api/healths
+2024-01-19 at 14:33:31 | ERROR    | 404 API Error: Not Found
+2024-01-19 at 14:33:31 | INFO     | Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 at 14:34:18 | INFO     | Request: GET /api/healths
+2024-01-19 at 14:34:30 | ERROR    | 404 API Error: Not Found
+2024-01-19 at 14:34:30 | INFO     | Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 at 14:36:38 | INFO     | Request: GET /api/healths
+2024-01-19 at 14:36:38 | ERROR    | 404 API Error: Not Found
+2024-01-19 at 14:36:38 | INFO     | Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 at 14:36:53 | INFO     | Request: GET /api/healths
+2024-01-19 at 14:36:53 | ERROR    | 404 API Error: Not Found
+2024-01-19 at 14:36:53 | INFO     | Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 14:40:02 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 14:40:02 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: Not Found
+2024-01-19 14:40:02 | INFO     | server.middleware.api_logger:log_response:28 - Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 14:42:33 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 14:42:51 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: Not Found
+2024-01-19 14:44:06 | INFO     | server.middleware.api_logger:log_response:28 - Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 14:44:21 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 14:44:56 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: Not Found
+2024-01-19 15:13:34 | INFO     | server.middleware.api_logger:log_response:28 - Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 15:13:46 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 15:13:46 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: Not Found
+2024-01-19 15:13:46 | INFO     | server.middleware.api_logger:log_response:28 - Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 15:16:27 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 15:16:46 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: Not Found
+2024-01-19 15:18:38 | INFO     | server.middleware.api_logger:log_response:28 - Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 15:18:49 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 15:19:11 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: Not Found
+2024-01-19 15:23:31 | INFO     | server.middleware.api_logger:log_response:28 - Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error"
+}
+
+2024-01-19 15:23:44 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 15:23:54 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: Not Found
+2024-01-19 15:25:40 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 15:25:48 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: Not Found
+2024-01-19 15:27:05 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 15:27:05 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: Not Found
+2024-01-19 15:30:45 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 15:30:45 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: Not Found
+2024-01-19 15:33:15 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 15:33:15 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: Not Found
+2024-01-19 15:33:15 | INFO     | server.middleware.api_logger:log_response:28 - Response: 404 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error", 
+  "status_code": 404
+}
+
+2024-01-19 15:33:55 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 15:33:55 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: Not Found
+2024-01-19 15:33:55 | INFO     | server.middleware.api_logger:log_response:28 - Response: 404 NOT FOUND  {
+  "message": "Not Found", 
+  "status": "Client Error", 
+  "status_code": 404
+}
+
+2024-01-19 15:34:26 | INFO     | server.middleware.api_logger:log_request:12 - Request: GET /api/healths
+2024-01-19 15:34:26 | ERROR    | server.utils.http_status_codes:handle_status_code:85 - 404 API Error: API Endpoint Not Found
+2024-01-19 15:34:26 | INFO     | server.middleware.api_logger:log_response:28 - Response: 404 NOT FOUND  {
+  "message": "API Endpoint Not Found", 
+  "status": "Client Error", 
+  "status_code": 404
+}
+

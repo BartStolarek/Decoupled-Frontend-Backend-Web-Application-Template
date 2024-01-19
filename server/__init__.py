@@ -53,24 +53,22 @@ def create_server(config_name=None):
         # Store the start time in Flask's global `g` object
         g.start_time = time.time()
     
+    @server.errorhandler(404)
+    def page_not_found(e):
+        response, code = handle_status_code(404)
+        return response, code
+    
     # Register middleware
-    print("register middleware")
     server.before_request(log_request)
-    print("before request log_request")
     #server.before_request(authenticate)
     server.after_request(response_manipulator)
-    print("after request response_manipulator")
     server.after_request(log_response)
-    print("after request log_response")
     
     # Register blueprints
     from .api import server as server_blueprint
     server.register_blueprint(server_blueprint, url_prefix='/api')
 
-    @server.errorhandler(404)
-    def page_not_found(e):
-        response, code = handle_status_code(404)
-        return response, code
+    
         
     @server.route('/test')
     def test_route():

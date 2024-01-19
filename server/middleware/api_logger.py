@@ -25,9 +25,9 @@ def log_response(response):
         # Decode the bytes to a string, assuming UTF-8 encoding. Adjust the encoding if needed.
         decoded_data = truncated_data.decode('utf-8', errors='replace')
         
-        #logger.info(f"Response: {response.status_code} {response.status} {response.message if hasattr(response, 'message') else ''} {decoded_data}")
+        logger.info(f"Response: {response.status} {response.message if hasattr(response, 'message') else ''} {decoded_data}")
         return response
     else:
-        #logger.info(f"Response: {response.status_code}  {response.status} {response.message if hasattr(response, 'message') else ''}")
+        logger.info(f"Response: {response.status} {response.message if hasattr(response, 'message') else ''}")
         return response
         
