@@ -1,10 +1,10 @@
 import pytest
-from server import create_app, db
 from flask import current_app
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database, drop_database
 from sqlalchemy.orm import sessionmaker
 
+from server import create_app, db
 
 @pytest.fixture(scope='function')
 def test_client():
