@@ -228,7 +228,7 @@ def test(filename=None, coverage_console=False):
             return 1
     else:
         test_path = "tests/"
-
+    
     # Check if the data/tests directory exists, if not, create it
     if not os.path.exists('data/tests'):
         os.makedirs('data/tests')

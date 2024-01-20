@@ -245,3 +245,259 @@
 2024-01-19 22:27:41 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
 2024-01-19 22:28:36 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
 2024-01-19 22:29:29 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 18:28:56 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 18:28:56 | INFO     | server.services.user:register_user:18 - User test1@fake.com saved to database
+2024-01-20 18:28:56 | INFO     | server.middleware.api_logger:log_response:28 - Response: 200 OK  {
+  "message": "User registered successfully", 
+  "status": "ok"
+}
+
+2024-01-20 18:29:13 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 18:35:12 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 18:35:12 | ERROR    | server.services.user:register_user:25 - Databse Integrity Error: (sqlite3.IntegrityError) UNIQUE constraint failed: users.email
+[SQL: INSERT INTO users (confirmed, first_name, last_name, email, password_hash, role_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (0, 'John', 'Smith', 'test1@fake.com', 'pbkdf2:sha256:150000$cIgON00U$1b373c875bba7a0f32a6cafce13aa66ab430a8393d5f6e053b8c3834893a4628', 1)]
+(Background on this error at: http://sqlalche.me/e/gkpj)
+2024-01-20 18:35:12 | INFO     | server.middleware.api_logger:log_response:28 - Response: 400 BAD REQUEST  {
+  "message": "Integrity Error: Could not register user", 
+  "status": "error"
+}
+
+2024-01-20 18:36:51 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 18:36:52 | INFO     | server.services.user:register_user:21 - User test2@fake.com saved to database
+2024-01-20 18:36:52 | INFO     | server.middleware.api_logger:log_response:28 - Response: 200 OK  {
+  "message": "User registered successfully", 
+  "status": "ok"
+}
+
+2024-01-20 18:45:52 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 18:45:52 | ERROR    | server.services.user:register_user:34 - Databse Integrity Error: (sqlite3.IntegrityError) UNIQUE constraint failed: users.email
+[SQL: INSERT INTO users (confirmed, first_name, last_name, email, password_hash, role_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (0, 'Barry', 'White', 'test2@fake.com', 'pbkdf2:sha256:150000$Ewki9ZIS$b92b0ca24355c5364147941f57e3f6b70e04624399b230b4e2f623f58de73a5b', 1)]
+(Background on this error at: http://sqlalche.me/e/gkpj)
+2024-01-20 18:45:52 | ERROR    | server.utils.http_status_codes:handle_status_code:95 - 500 API Error: Internal Server Error
+2024-01-20 18:45:52 | INFO     | server.middleware.api_logger:log_response:28 - Response: 500 INTERNAL SERVER ERROR  {
+  "message": "Internal Server Error", 
+  "status": "server error", 
+  "status_code": 500
+}
+
+2024-01-20 18:47:10 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 18:47:10 | ERROR    | server.services.user:register_user:34 - Databse Integrity Error: (sqlite3.IntegrityError) UNIQUE constraint failed: users.email
+[SQL: INSERT INTO users (confirmed, first_name, last_name, email, password_hash, role_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (0, 'Barry', 'White', 'test2@fake.com', 'pbkdf2:sha256:150000$JakQ88vq$db18b7f042b6adc239c1035dfc4b5d7203827062fe41a8d0ee1ea6cf9ea60549', 1)]
+(Background on this error at: http://sqlalche.me/e/gkpj)
+2024-01-20 18:47:10 | ERROR    | server.utils.http_status_codes:handle_status_code:95 - 500 API Error: Internal Server Error
+2024-01-20 18:47:10 | INFO     | server.middleware.api_logger:log_response:28 - Response: 500 INTERNAL SERVER ERROR  {
+  "message": "Internal Server Error", 
+  "status": "server error", 
+  "status_code": 500
+}
+
+2024-01-20 18:54:34 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 18:54:35 | ERROR    | server.services.user:register_user:34 - Integrity Error: (sqlite3.IntegrityError) UNIQUE constraint failed: users.email
+[SQL: INSERT INTO users (confirmed, first_name, last_name, email, password_hash, role_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (0, 'Barry', 'White', 'test2@fake.com', 'pbkdf2:sha256:150000$BHY6LiYz$9b8b840ab018da9a65d1bf21b361928b2ea99ce1d58260d05ee5029ccecc7fa2', 1)]
+(Background on this error at: http://sqlalche.me/e/gkpj)
+2024-01-20 18:54:35 | ERROR    | server.utils.http_status_codes:handle_status_code:95 - 500 API Error: Internal Server Error
+2024-01-20 18:54:35 | INFO     | server.middleware.api_logger:log_response:28 - Response: 500 INTERNAL SERVER ERROR  {
+  "message": "Internal Server Error", 
+  "status": "server error", 
+  "status_code": 500
+}
+
+2024-01-20 18:55:06 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 18:55:06 | ERROR    | server.services.user:register_user:34 - Integrity Error: (sqlite3.IntegrityError) UNIQUE constraint failed: users.email
+[SQL: INSERT INTO users (confirmed, first_name, last_name, email, password_hash, role_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (0, 'Barry', 'White', 'test2@fake.com', 'pbkdf2:sha256:150000$gSX2aQfK$1176b3a5e2c314f1f2095890c3f0a9e17ce9db1fcb7a4c9d01423e44a035f67f', 1)]
+(Background on this error at: http://sqlalche.me/e/gkpj)
+2024-01-20 18:55:06 | ERROR    | server.utils.http_status_codes:handle_status_code:95 - 500 API Error: Internal Server Error
+2024-01-20 18:55:06 | INFO     | server.middleware.api_logger:log_response:28 - Response: 500 INTERNAL SERVER ERROR  {
+  "message": "Internal Server Error", 
+  "status": "server error", 
+  "status_code": 500
+}
+
+2024-01-20 18:57:10 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 18:57:11 | ERROR    | server.services.user:register_user:34 - Integrity Error: (sqlite3.IntegrityError) UNIQUE constraint failed: users.email
+[SQL: INSERT INTO users (confirmed, first_name, last_name, email, password_hash, role_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (0, 'Barry', 'White', 'test2@fake.com', 'pbkdf2:sha256:150000$DKJLlaeN$91230af3e58d5fc6a3a97f51a893fcdda1669db2e8e38fe8a8bfd289cf720bd1', 1)]
+(Background on this error at: http://sqlalche.me/e/gkpj)
+2024-01-20 18:57:11 | ERROR    | server.utils.http_status_codes:handle_status_code:95 - 409 API Error: Conflict
+2024-01-20 18:57:11 | INFO     | server.middleware.api_logger:log_response:28 - Response: 409 CONFLICT  {
+  "message": "Conflict", 
+  "status": "Client Error", 
+  "status_code": 409
+}
+
+2024-01-20 19:00:19 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 19:00:19 | ERROR    | server.services.user:register_user:34 - Integrity Error: (sqlite3.IntegrityError) UNIQUE constraint failed: users.email
+[SQL: INSERT INTO users (confirmed, first_name, last_name, email, password_hash, role_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (0, 'Barry', 'White', 'test2@fake.com', 'pbkdf2:sha256:150000$BDTaZA4L$b5e84df8a6c91f38e7a31baaa7274b310b665c484530c9eea531146b076df0ef', 1)]
+(Background on this error at: http://sqlalche.me/e/gkpj)
+2024-01-20 19:00:19 | ERROR    | server.utils.http_status_codes:handle_status_code:114 - 409 API Error: Conflict
+2024-01-20 19:01:56 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 19:01:56 | ERROR    | server.services.user:register_user:34 - Integrity Error: (sqlite3.IntegrityError) UNIQUE constraint failed: users.email
+[SQL: INSERT INTO users (confirmed, first_name, last_name, email, password_hash, role_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (0, 'Barry', 'White', 'test2@fake.com', 'pbkdf2:sha256:150000$SWf1jaXZ$c499b3de5eecaec4813e2ca9924654401265b71da6b174c7f3bc9292dd66c652', 1)]
+(Background on this error at: http://sqlalche.me/e/gkpj)
+2024-01-20 19:01:56 | ERROR    | server.utils.http_status_codes:handle_status_code:114 - 409 API Error: Conflict
+2024-01-20 19:01:56 | INFO     | server.middleware.api_logger:log_response:28 - Response: 409 CONFLICT  {
+  "data": {
+    "data": "Integrity Error: User with that email already exists"
+  }, 
+  "message": "Conflict", 
+  "status": "Client Error", 
+  "status_code": 409
+}
+
+2024-01-20 19:02:52 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 19:02:52 | ERROR    | server.services.user:register_user:34 - Integrity Error: (sqlite3.IntegrityError) UNIQUE constraint failed: users.email
+[SQL: INSERT INTO users (confirmed, first_name, last_name, email, password_hash, role_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (0, 'Barry', 'White', 'test2@fake.com', 'pbkdf2:sha256:150000$zPZp8K3x$a44e193969986cc97bf8073a5012a8189061c1b0afdee9efa0fe7b7f97ccd49f', 1)]
+(Background on this error at: http://sqlalche.me/e/gkpj)
+2024-01-20 19:02:52 | ERROR    | server.utils.http_status_codes:handle_status_code:114 - 409 API Error: Conflict
+2024-01-20 19:02:52 | INFO     | server.middleware.api_logger:log_response:28 - Response: 409 CONFLICT  {
+  "data": {
+    "error_info": "Integrity Error: User with that email already exists"
+  }, 
+  "message": "Conflict", 
+  "status": "Client Error", 
+  "status_code": 409
+}
+
+2024-01-20 19:09:02 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/delete
+2024-01-20 19:09:02 | INFO     | server.middleware.api_logger:log_response:28 - Response: 400 BAD REQUEST  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<title>400 Bad Request</title>
+<h1>Bad Request</h1>
+<p>Failed to decode JSON object: Expecting property name enclosed in double quotes: line 3 column 1 (char 33)</p>
+
+2024-01-20 19:09:17 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/delete
+2024-01-20 19:09:51 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 19:09:51 | ERROR    | server.services.user:register_user:34 - Integrity Error: (sqlite3.IntegrityError) UNIQUE constraint failed: users.email
+[SQL: INSERT INTO users (confirmed, first_name, last_name, email, password_hash, role_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (0, 'Barry', 'White', 'test2@fake.com', 'pbkdf2:sha256:150000$Q0iqN0Rx$dda1389e3158150a6e758d6848441bd3eeb80e14fba50f3869dfe9e89b9ead95', 1)]
+(Background on this error at: http://sqlalche.me/e/gkpj)
+2024-01-20 19:09:51 | ERROR    | server.utils.http_status_codes:handle_status_code:114 - 409 API Error: Conflict
+2024-01-20 19:09:51 | INFO     | server.middleware.api_logger:log_response:28 - Response: 409 CONFLICT  {
+  "data": {
+    "error_info": "Integrity Error: User with that email already exists"
+  }, 
+  "message": "Conflict", 
+  "status": "Client Error", 
+  "status_code": 409
+}
+
+2024-01-20 19:10:23 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/delete
+2024-01-20 19:12:55 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/delete
+2024-01-20 19:12:55 | INFO     | server.services.user:delete_user:64 - User test2@fake.com deleted from database
+2024-01-20 19:12:55 | INFO     | server.utils.http_status_codes:handle_status_code:116 - 201 API Status: Created
+2024-01-20 19:12:55 | INFO     | server.middleware.api_logger:log_response:28 - Response: 201 CREATED  {
+  "data": {
+    "info": "User deleted successfully"
+  }, 
+  "message": "Created", 
+  "status": "success", 
+  "status_code": 201
+}
+
+2024-01-20 19:13:00 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/delete
+2024-01-20 19:13:00 | ERROR    | server.utils.http_status_codes:handle_status_code:114 - 409 API Error: Conflict
+2024-01-20 19:13:00 | INFO     | server.middleware.api_logger:log_response:28 - Response: 409 CONFLICT  {
+  "data": {
+    "error_info": "User does not exist"
+  }, 
+  "message": "Conflict", 
+  "status": "Client Error", 
+  "status_code": 409
+}
+
+2024-01-20 19:47:41 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/delete
+2024-01-20 19:47:41 | ERROR    | server.utils.http_status_codes:handle_status_code:114 - 409 API Error: Conflict
+2024-01-20 19:47:41 | INFO     | server.middleware.api_logger:log_response:28 - Response: 409 CONFLICT  {
+  "data": {
+    "error_info": "User does not exist"
+  }, 
+  "message": "Conflict", 
+  "status": "Client Error", 
+  "status_code": 409
+}
+
+2024-01-20 19:47:46 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 19:47:46 | INFO     | server.services.user:register_user:30 - User test2@fake.com saved to database
+2024-01-20 19:47:46 | INFO     | server.utils.http_status_codes:handle_status_code:116 - 201 API Status: Created
+2024-01-20 19:47:46 | INFO     | server.middleware.api_logger:log_response:28 - Response: 201 CREATED  {
+  "data": {
+    "info": "User registered successfully"
+  }, 
+  "message": "Created", 
+  "status": "success", 
+  "status_code": 201
+}
+
+2024-01-20 19:47:51 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/delete
+2024-01-20 19:47:51 | INFO     | server.services.user:delete_user:64 - User test2@fake.com deleted from database
+2024-01-20 19:47:51 | INFO     | server.utils.http_status_codes:handle_status_code:116 - 201 API Status: Created
+2024-01-20 19:47:51 | INFO     | server.middleware.api_logger:log_response:28 - Response: 201 CREATED  {
+  "data": {
+    "info": "User deleted successfully"
+  }, 
+  "message": "Created", 
+  "status": "success", 
+  "status_code": 201
+}
+
+2024-01-20 19:48:04 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 19:48:04 | ERROR    | server.services.user:register_user:34 - Integrity Error: (sqlite3.IntegrityError) UNIQUE constraint failed: users.email
+[SQL: INSERT INTO users (confirmed, first_name, last_name, email, password_hash, role_id) VALUES (?, ?, ?, ?, ?, ?)]
+[parameters: (0, 'Barry', 'White', 'test1@fake.com', 'pbkdf2:sha256:150000$S9KfkXkG$ac1220f806365b4a0dd77f04cb65f7cbd611e0a83a32411feaedbab267ebafae', 1)]
+(Background on this error at: http://sqlalche.me/e/gkpj)
+2024-01-20 19:48:04 | ERROR    | server.utils.http_status_codes:handle_status_code:114 - 409 API Error: Conflict
+2024-01-20 19:48:04 | INFO     | server.middleware.api_logger:log_response:28 - Response: 409 CONFLICT  {
+  "data": {
+    "error_info": "Integrity Error: User with that email already exists"
+  }, 
+  "message": "Conflict", 
+  "status": "Client Error", 
+  "status_code": 409
+}
+
+2024-01-20 19:48:11 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/register
+2024-01-20 19:48:11 | INFO     | server.services.user:register_user:30 - User test3@fake.com saved to database
+2024-01-20 19:48:11 | INFO     | server.utils.http_status_codes:handle_status_code:116 - 201 API Status: Created
+2024-01-20 19:48:11 | INFO     | server.middleware.api_logger:log_response:28 - Response: 201 CREATED  {
+  "data": {
+    "info": "User registered successfully"
+  }, 
+  "message": "Created", 
+  "status": "success", 
+  "status_code": 201
+}
+
+2024-01-20 19:48:52 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/update
+2024-01-20 19:48:52 | ERROR    | server.services.user:update_user:98 - Integrity Error: (sqlite3.IntegrityError) UNIQUE constraint failed: users.email
+[SQL: UPDATE users SET email=? WHERE users.id = ?]
+[parameters: ('test1@fake.com', 4)]
+(Background on this error at: http://sqlalche.me/e/gkpj)
+2024-01-20 19:48:52 | ERROR    | server.utils.http_status_codes:handle_status_code:114 - 409 API Error: Conflict
+2024-01-20 19:48:52 | INFO     | server.middleware.api_logger:log_response:28 - Response: 409 CONFLICT  {
+  "data": {
+    "error_info": "Integrity Error: User with that email already exists"
+  }, 
+  "message": "Conflict", 
+  "status": "Client Error", 
+  "status_code": 409
+}
+
+2024-01-20 19:48:59 | INFO     | server.middleware.api_logger:log_request:12 - Request: POST /user/update
+2024-01-20 19:48:59 | INFO     | server.services.user:update_user:95 - User test3@fake.com updated in database
+2024-01-20 19:48:59 | INFO     | server.utils.http_status_codes:handle_status_code:116 - 201 API Status: Created
+2024-01-20 19:48:59 | INFO     | server.middleware.api_logger:log_response:28 - Response: 201 CREATED  {
+  "data": {
+    "info": "User updated successfully"
+  }, 
+  "message": "Created", 
+  "status": "success", 
+  "status_code": 201
+}
+

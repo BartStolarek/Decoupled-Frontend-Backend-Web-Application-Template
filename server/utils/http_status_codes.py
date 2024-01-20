@@ -76,33 +76,45 @@ HTTP_STATUS_CODES = {
 }
 
 
-def handle_status_code(code, data: dict = None):
-    """ General error handler function for HTTP errors. """
+def handle_status_code(code: int, data: dict = None):
+    """Return a response object with the appropriate status code and message
+
+    Args:
+        code (int): The HTTP status code
+        data (dict, optional): A dict of additional information. Defaults to None.
+
+    Returns:
+        json: A json response object
+    """
     status_info = HTTP_STATUS_CODES.get(code, {"status": "error", "message": "Unknown error"})
 
-    response_dict = {}
-    
-    if data is not None and isinstance(data, dict):
-        response_dict["data"] = data
-    elif data is not None and not isinstance(data, dict):
-        code = 500
-        logger.error(f'{code} API Error: data provided must be a dictionary or None')
-    
-    status_info = HTTP_STATUS_CODES.get(code, {"status": "error", "message": "Unknown error"})
-        
-    # Log the message based on the status code
-    if 400 <= code <= 599:
-        logger.error(f'{code} API Error: {status_info["message"]}')
-    else:
-        logger.info(f'{code} API Status: {status_info["message"]}')
-        
+    # Initialize the response dictionary
     response_dict = {
         "status_code": code,
         "message": status_info["message"],
         "status": status_info["status"]
     }
 
+    # Add data to the response dictionary if provided
+    if data is not None and isinstance(data, dict):
+        response_dict["data"] = data
+    elif data is not None and not isinstance(data, dict):
+        code = 500
+        logger.error(f'{code} API Error: data provided must be a dictionary or None')
+        # Update status_info for the new code
+        status_info = HTTP_STATUS_CODES.get(code, {"status": "error", "message": "Unknown error"})
+        response_dict.update({
+            "status_code": code,
+            "message": status_info["message"],
+            "status": status_info["status"]
+        })
+    
+    # Log the message based on the status code
+    if 400 <= code <= 599:
+        logger.error(f'{code} API Error: {status_info["message"]}')
+    else:
+        logger.info(f'{code} API Status: {status_info["message"]}')
+
     response = jsonify(response_dict)
     response.status_code = code  # Set the correct status code
-    return response, code
-
+    return response
