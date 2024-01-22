@@ -220,14 +220,17 @@ def update_user(email, attribute, value):
 @manager.option('-c', '--coverage', dest='coverage_console', default=False, help='Whether to run coverage or not')
 def test(filename=None, coverage_console=False):
     """Run the unit tests."""
-    # If a filename is provided, find its path
+    # Define the base directory for tests
+    base_test_dir = os.path.abspath("tests/")
+
     if filename:
-        test_path = next((f for f in glob.iglob(f"tests/**/{filename}.py", recursive=True)), None)
+        # Search for the file within the base_test_dir
+        test_path = next((os.path.join(base_test_dir, f) for f in glob.iglob(f"**/{filename}.py", recursive=True)), None)
         if not test_path:
-            print(f"Test file {filename}.py not found!")
+            print(f"Test file {filename}.py not found in {base_test_dir}!")
             return 1
     else:
-        test_path = "tests/"
+        test_path = base_test_dir
     
     # Check if the data/tests directory exists, if not, create it
     if not os.path.exists('data/tests'):

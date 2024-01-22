@@ -4,12 +4,12 @@ from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database, drop_database
 from sqlalchemy.orm import sessionmaker
 
-from server import create_app, db
+from server import create_server, db
 
 @pytest.fixture(scope='function')
 def test_client():
     # Configure your app for testing
-    app = create_app('unittesting')
+    app = create_server('unittesting')
     app.config['TESTING'] = True
     app_context = app.app_context()
     app_context.push()

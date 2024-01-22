@@ -70,30 +70,36 @@ def delete_user(user_dict: dict):
     
 
 def update_user(user_dict: dict):
-    """Update a user in the database
+    """Update a user in the database.
 
     Args:
-        user_data (dict): A dict of user data to be used to update a user in the database
+        user_dict (dict): A dict of user data to be used to update a user in the database.
 
     Returns:
-        bool: whether or not the user was successfully updated
-        str: a message indicating the result of the update
+        bool: whether or not the user was successfully updated.
+        str: a message indicating the result of the update.
     """
     try:
+        # Check if user exists
         user_email = user_dict.get('email')
-        user = User.query.filter_by(email=user_email).first()
-        if user is None:
+        existing_user = User.query.filter_by(email=user_email).first()
+        if existing_user is None:
             return False, 'User does not exist'
-        
-        for key, value in user_dict.items():
-            setattr(user, key, value)
 
-        if "new_email" in user_dict:
-            user.email = user_dict.get("new_email")
-            
+        # Update the email if new_email is provided
+        if 'new_email' in user_dict:
+            user_dict['email'] = user_dict.pop('new_email')
+
+        # Create a new User instance with updated data
+        updated_user = User(**user_dict)
+
+        # Merge the new instance with the existing one in the session
+        db.session.merge(updated_user)
         db.session.commit()
+
         logger.info(f"User {user_email} updated in database")
         return True, 'User updated successfully'
+
     except IntegrityError as e:
         logger.error(f"Integrity Error: {e}")
         db.session.rollback()
@@ -101,6 +107,7 @@ def update_user(user_dict: dict):
         if 'UNIQUE constraint failed: users.email' in error_info:
             return False, 'Integrity Error: User with that email already exists'
         return False, 'Integrity Error: Could not update user'
+
     except Exception as e:
         logger.error(f"Unexpected Error: {e}")
         db.session.rollback()
