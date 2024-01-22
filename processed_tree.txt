@@ -1,8 +1,44 @@
 ├── .gitignore
 ├── README.md
 ├── data
+│   └── tests
+│       └── htmlcov
+│           ├── .gitignore
+│           ├── coverage_html.js
+│           ├── d_027c9143103f9991___init___py.html
+│           ├── d_027c9143103f9991_user_py.html
+│           ├── d_07bb103109d08c42___init___py.html
+│           ├── d_07bb103109d08c42_user_py.html
+│           ├── d_21a368611dbe9d4d___init___py.html
+│           ├── d_21a368611dbe9d4d_user_py.html
+│           ├── d_4c02bab565f2aeb8___init___py.html
+│           ├── d_4c02bab565f2aeb8_http_status_codes_py.html
+│           ├── d_4c02bab565f2aeb8_logger_py.html
+│           ├── d_595c87c3ac62eb2b___init___py.html
+│           ├── d_595c87c3ac62eb2b_server_py.html
+│           ├── d_595c87c3ac62eb2b_user_py.html
+│           ├── d_83b3256ec737198e_test_services_user_py.html
+│           ├── d_8a958f2b08d772f6___init___py.html
+│           ├── d_8a958f2b08d772f6_rate_limit_py.html
+│           ├── d_a44f0ac069e85531_test_basics_py.html
+│           ├── d_cc40668161650c3a___init___py.html
+│           ├── d_cc40668161650c3a_api_logger_py.html
+│           ├── d_cc40668161650c3a_authorizer_py.html
+│           ├── d_cc40668161650c3a_response_manipulator_py.html
+│           ├── d_d19778d2e34a1e3d___init___py.html
+│           ├── d_d19778d2e34a1e3d_config_py.html
+│           ├── d_e48c60709a2fe1bb_test_api_user_py.html
+│           ├── d_e48c60709a2fe1bb_test_user_py.html
+│           ├── favicon_32.png
+│           ├── index.html
+│           ├── keybd_closed.png
+│           ├── keybd_open.png
+│           ├── status.json
+│           └── style.css
+├── data-dev.sqlite
+├── data-test.sqlite
+├── data-unittest.sqlite
 ├── manage.py
-├── migrations
 ├── requirements.txt
 ├── scripts
 ├── server
@@ -19,8 +55,8 @@
 │   │   └── session_management.py
 │   ├── middleware
 │   │   ├── __init__.py
+│   │   ├── api_logger.py
 │   │   ├── authorizer.py
-│   │   ├── logger.py
 │   │   └── response_manipulator.py
 │   ├── models
 │   │   ├── __init__.py
@@ -34,11 +70,16 @@
 │   ├── static
 │   │   └── __init__.py
 │   ├── templates
-│   │   ├── __init__ copy.py
 │   │   └── __init__.py
 │   ├── types
 │   │   └── __init__.py
 │   └── utils
-│       └── __init__.py
+│       ├── __init__.py
+│       ├── http_status_codes.py
+│       └── logger.py
 ├── tests
-│   └── test_basics.py
+│   ├── test_api
+│   │   └── test_api_user.py
+│   ├── test_basics.py
+│   └── test_services
+│       └── test_services_user.py

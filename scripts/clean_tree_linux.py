@@ -107,10 +107,8 @@ leave_this_but_ignore_children = [
     "images",
     "styles",
     "webassets-external",
-    "node_modules"
-
-
-    
+    "node_modules",
+    "htmlcov"  
 ]
 
 
