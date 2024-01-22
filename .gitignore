@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+*.env
 env/
 build/
 develop-eggs/
@@ -101,6 +102,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+*.env
 
 # Spyder project settings
 .spyderproject
@@ -165,3 +167,6 @@ $RECYCLE.BIN/
 
 # npm
 node_modules/
+
+# Databases
+*.sqlite
