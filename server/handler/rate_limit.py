@@ -1,6 +1,8 @@
-from flask import g, request, abort
 from functools import wraps
 from time import time
+
+from flask import abort, g, request
+
 
 def rate_limit(max_requests, time_window):
     """Rate limiter decorator with default values that can be overridden.
@@ -9,7 +11,9 @@ def rate_limit(max_requests, time_window):
         max_requests (int, optional): The maximum amount of requests allowed. Defaults to 100.
         time_window (int, optional): The time window in seconds which the max requests is applied to. Defaults to 60.
     """
+
     def decorator(f):
+
         @wraps(f)
         def wrapped(*args, **kwargs):
             # Initialize g.rate_limit if it doesn't exist
@@ -31,5 +35,7 @@ def rate_limit(max_requests, time_window):
                 g.rate_limit[key] = (requests + 1, last_checked)
 
             return f(*args, **kwargs)
+
         return wrapped
+
     return decorator

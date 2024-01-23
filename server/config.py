@@ -1,7 +1,6 @@
 import os
 import sys
 
-
 serverdir = os.path.abspath(os.path.dirname(__file__))
 
 check_dir = serverdir
@@ -18,7 +17,9 @@ if os.path.exists(config_env_path):
         if len(var) == 2:
             os.environ[var[0]] = var[1].replace("\"", "")
 else:
-    print('config.env file not found, please read README.md for config.env file structure')
+    print(
+        'config.env file not found, please read README.md for config.env file structure'
+    )
 
 
 class Config:
@@ -28,17 +29,15 @@ class Config:
     else:
         SECRET_KEY = 'SECRET_KEY_ENV_VAR_NOT_SET'
         print('SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUCTION')
-    
-    
-    
+
     # Flask Config
     FLASK_CONFIG = os.environ.get('FLASK_CONFIG', 'default')
-    
+
     # SQLAlchemy Config
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
-    
+
     # Log Level
     LOGGING_LEVEL = os.environ.get('LOGGING_LEVEL', 'INFO')
 
@@ -57,7 +56,8 @@ class DevelopmentConfig(Config):
     ENV = 'development'
     DEBUG = True
     LOGGING_LEVEL = os.environ.get('LOGGING_LEVEL', 'DEBUG')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL',
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DEV_DATABASE_URL',
         'sqlite:///' + os.path.join(root_project_dir, 'data-dev.sqlite'))
 
     @classmethod
@@ -69,7 +69,8 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     ENV = 'testing'
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL',
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'TEST_DATABASE_URL',
         'sqlite:///' + os.path.join(root_project_dir, 'data-test.sqlite'))
 
     @classmethod
@@ -81,7 +82,8 @@ class TestingConfig(Config):
 class UnitTestingConfig(Config):
     ENV = 'unittesting'
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('UNITTEST_DATABASE_URL',
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'UNITTEST_DATABASE_URL',
         'sqlite:///' + os.path.join(root_project_dir, 'data-unittest.sqlite'))
     WTF_CSRF_ENABLED = False
 
@@ -94,7 +96,8 @@ class UnitTestingConfig(Config):
 class ProductionConfig(Config):
     ENV = 'production'
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL',
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL',
         'sqlite:///' + os.path.join(root_project_dir, 'data.sqlite'))
 
     @classmethod

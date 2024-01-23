@@ -1,17 +1,18 @@
-import jwt
 import datetime
-from flask import Blueprint, request, jsonify
+
+import jwt
+# Assuming you have a SECRET_KEY defined in your config
+from flask import Blueprint, current_app, jsonify, request
+from werkzeug.security import check_password_hash
+
+from server.handler import rate_limit
 from server.models import User  # Your User model
 from server.schema import UserSchema  # Your User schema
-from server.services import register_user, delete_user, update_user
-from server.handler import rate_limit
-from werkzeug.security import check_password_hash
+from server.services import delete_user, register_user, update_user
 from server.utils.http_status_codes import handle_status_code
 
-# Assuming you have a SECRET_KEY defined in your config
-from flask import current_app
-
 user_blueprint = Blueprint('user', __name__)
+
 
 @user_blueprint.route('/register', methods=['POST'])
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
@@ -37,8 +38,9 @@ def register():
         else:
             code = 500
             response = handle_status_code(code, data={"error_info": message})
-    
+
     return response, code
+
 
 @user_blueprint.route('/delete', methods=['POST'])
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
@@ -64,6 +66,7 @@ def delete():
         response = handle_status_code(code, data={"error_info": message})
     return response, code
 
+
 @user_blueprint.route('/update', methods=['POST'])
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
 def update():
@@ -88,8 +91,9 @@ def update():
         else:
             code = 500
             response = handle_status_code(code, data={"error_info": message})
-    
+
     return response, code
+
 
 @user_blueprint.route('/authorize', methods=['POST'])
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
@@ -107,10 +111,13 @@ def authorize():
     user = User.query.filter_by(email=email).first()
     if user and check_password_hash(user.password_hash, password):
         # Generate JWT token
-        token = jwt.encode({
-            'user_id': user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
-        }, current_app.config['SECRET_KEY'], algorithm='HS256')
+        token = jwt.encode(
+            {
+                'user_id': user.id,
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+            },
+            current_app.config['SECRET_KEY'],
+            algorithm='HS256')
 
         return jsonify({'token': token.decode('UTF-8')}), 200
 

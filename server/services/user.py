@@ -1,7 +1,8 @@
-from server.models.user import User
 from loguru import logger
-from server import db
 from sqlalchemy.exc import IntegrityError
+
+from server import db
+from server.models.user import User
 
 
 def register_user(user_dict: dict):
@@ -29,7 +30,7 @@ def register_user(user_dict: dict):
 
         logger.info(f"User {user.email} saved to database")
         return True, 'User registered successfully'
-    
+
     except IntegrityError as e:
         logger.error(f"Integrity Error: {e}")
         db.session.rollback()
@@ -37,7 +38,7 @@ def register_user(user_dict: dict):
         if 'UNIQUE constraint failed: users.email' in error_info:
             return False, 'Integrity Error: User with that email already exists'
         return False, 'Integrity Error: Could not register user'
-    
+
     except Exception as e:
         logger.error(f"Unexpected Error: {e}")
         db.session.rollback()
@@ -67,7 +68,7 @@ def delete_user(user_dict: dict):
         logger.error(f"Unexpected Error: {e}")
         db.session.rollback()
         return False, 'Unexpected error occured. Could not delete user'
-    
+
 
 def update_user(user_dict: dict):
     """Update a user in the database.

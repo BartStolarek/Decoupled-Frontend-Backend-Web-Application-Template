@@ -1,7 +1,7 @@
 from flask import current_app
 from flask_login import AnonymousUserMixin, UserMixin
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import BadSignature, SignatureExpired
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from .. import db
@@ -153,23 +153,23 @@ class User(UserMixin, db.Model):
     @staticmethod
     def generate_fake(count=100, **kwargs):
         """Generate a number of fake users for testing."""
-        from sqlalchemy.exc import IntegrityError
-        from random import seed, choice
+        from random import choice, seed
+
         from faker import Faker
+        from sqlalchemy.exc import IntegrityError
 
         fake = Faker()
         roles = Role.query.all()
 
         seed()
         for i in range(count):
-            u = User(
-                first_name=fake.first_name(),
-                last_name=fake.last_name(),
-                email=fake.email(),
-                password='password',
-                confirmed=True,
-                role=choice(roles),
-                **kwargs)
+            u = User(first_name=fake.first_name(),
+                     last_name=fake.last_name(),
+                     email=fake.email(),
+                     password='password',
+                     confirmed=True,
+                     role=choice(roles),
+                     **kwargs)
             db.session.add(u)
             try:
                 db.session.commit()
@@ -178,5 +178,3 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User \'%s\'>' % self.full_name()
-
-
