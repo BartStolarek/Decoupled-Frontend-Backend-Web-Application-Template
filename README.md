@@ -21,6 +21,10 @@ This project is a template for a Python Flask server, designed to expedite the s
 - Delete: Enables users to remove their account.
 - Update: Provides functionality for users to update their account details.
 
+To see API documentation, run the server and navigate to 
+`http://localhost:5000/apispec_1.json` 
+or whatever port you are running the server on.
+
 ### How To Use:
 
 This section guides you through setting up and managing your server. Follow the instructions below to get started.

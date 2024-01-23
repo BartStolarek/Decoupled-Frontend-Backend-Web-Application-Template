@@ -17,33 +17,46 @@ user_blueprint = Blueprint('user', __name__)
 @user_blueprint.route('/register', methods=['POST'])
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
 def register():
-    @user_blueprint.route('/register', methods=['POST'])
-@rate_limit(50, 30)  # Applying custom rate limit as decorator
-def register():
     """
-    
-    Registers a new user with the provided first name, last name, email, and password.
-    
-    - **URL**: `/user/register`
-    - **Method**: `POST`
-    - **Payload**:
-        - `first_name`: User's first name (required)
-        - `last_name`: User's last name (required)
-        - `email`: User's email address (required)
-        - `password`: User's password (required)
-    - **Success Response**:
-        - **Code**: 201 CREATED
-        - **Content**: `{ "info": "User registered successfully" }`
-    - **Error Response**:
-        - **Code**: 400 BAD REQUEST
-        - **Content**: `{ "error_info": "<validation error message>" }`
-          - Occurs if the payload data does not pass the schema validation.
-        - **Code**: 409 CONFLICT
-        - **Content**: `{ "error_info": "<Integrity error message>" }`
-          - Occurs if there is an integrity error, such as a duplicate email.
-        - **Code**: 500 INTERNAL SERVER ERROR
-        - **Content**: `{ "error_info": "<server error message>" }`
-          - Indicates a server error.
+    Registers a new user
+    ---
+    tags:
+      - user
+    description: Register a new user with the provided first name, last name, email, and password.
+    parameters:
+      - in: body
+        name: body
+        description: User's details
+        required: true
+        schema:
+          type: object
+          required:
+            - first_name
+            - last_name
+            - email
+            - password
+          properties:
+            first_name:
+              type: string
+              description: First name of the user
+            last_name:
+              type: string
+              description: Last name of the user
+            email:
+              type: string
+              description: Email address of the user
+            password:
+              type: string
+              description: Password for the user's account
+    responses:
+      201:
+        description: User registered successfully
+      400:
+        description: Validation error
+      409:
+        description: User already exists
+      500:
+        description: Internal server error
     """
     # Function implementation
 
@@ -74,18 +87,30 @@ def register():
 def delete():
     """
     Delete a user from the database.
-    
-    - **URL**: `/user/delete`
-    - **Method**: `POST`
-    - **Payload**:
-        - `email`: Email address of the user to be deleted (required)
-    - **Success Response**:
-        - **Code**: 201 CREATED
-        - **Content**: `{ "info": "User deleted successfully" }`
-    - **Error Response**:
-        - **Code**: 400 BAD REQUEST / 409 CONFLICT
-        - **Content**: `{ "error_info": "<error message>" }`
-          - Occurs if there is an issue with the payload or user does not exist.
+    ---
+    tags:
+      - user
+    description: Deletes a user with the given email from the database.
+    parameters:
+      - in: body
+        name: body
+        description: Email of the user to delete.
+        required: true
+        schema:
+          type: object
+          required:
+            - email
+          properties:
+            email:
+              type: string
+              description: Email address of the user to be deleted.
+    responses:
+      201:
+        description: User deleted successfully.
+      400:
+        description: Validation error or user does not exist.
+      409:
+        description: Conflict error if deletion conditions are not met.
     """
     user_schema = UserSchema(only=["email"])
     errors = user_schema.validate(request.json)
@@ -109,18 +134,36 @@ def delete():
 def update():
     """
     Update user details.
-    
-    - **URL**: `/user/update`
-    - **Method**: `POST`
-    - **Payload**:
-        - User details to update (e.g., `first_name`, `last_name`, `email`). At least one is required.
-    - **Success Response**:
-        - **Code**: 201 CREATED
-        - **Content**: `{ "info": "User updated successfully" }`
-    - **Error Response**:
-        - **Code**: 400 BAD REQUEST / 409 CONFLICT / 500 INTERNAL SERVER ERROR
-        - **Content**: `{ "error_info": "<error message>" }`
-          - Occurs if the payload data does not pass the schema validation or user does not exist.
+    ---
+    tags:
+      - user
+    description: Updates details of an existing user.
+    parameters:
+      - in: body
+        name: body
+        description: User details to update.
+        required: true
+        schema:
+          type: object
+          properties:
+            first_name:
+              type: string
+              description: New first name of the user.
+            last_name:
+              type: string
+              description: New last name of the user.
+            email:
+              type: string
+              description: New email address of the user.
+    responses:
+      201:
+        description: User updated successfully.
+      400:
+        description: Validation error or user does not exist.
+      409:
+        description: Conflict error if update conditions are not met.
+      500:
+        description: Internal server error.
     """
     user_schema = UserSchema(partial=True)
     errors = user_schema.validate(request.json)
@@ -149,19 +192,34 @@ def update():
 def authorize():
     """
     Authorize a user and return a JWT token.
-    
-    - **URL**: `/user/authorize`
-    - **Method**: `POST`
-    - **Payload**:
-        - `email`: User's email address (required)
-        - `password`: User's password (required)
-    - **Success Response**:
-        - **Code**: 200 OK
-        - **Content**: `{ "token": "<JWT token>" }`
-    - **Error Response**:
-        - **Code**: 400 BAD REQUEST / 401 UNAUTHORIZED
-        - **Content**: `{ "error": "Invalid credentials" }`
-          - Occurs if email and password are not provided or credentials are incorrect.
+    ---
+    tags:
+      - user
+    description: Authorizes a user and returns a JWT token upon successful authentication.
+    parameters:
+      - in: body
+        name: body
+        description: User's login credentials.
+        required: true
+        schema:
+          type: object
+          required:
+            - email
+            - password
+          properties:
+            email:
+              type: string
+              description: Email address of the user.
+            password:
+              type: string
+              description: Password of the user.
+    responses:
+      200:
+        description: Successfully authenticated and token returned.
+      400:
+        description: Validation error, email and password are required.
+      401:
+        description: Unauthorized, invalid credentials provided.
     """
     data = request.json
     email = data.get('email')

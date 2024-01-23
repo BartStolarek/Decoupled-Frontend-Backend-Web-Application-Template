@@ -8,6 +8,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_rq import RQ
 from flask_sqlalchemy import SQLAlchemy
+from flasgger import Swagger
 
 from server.config import config as Config
 
@@ -27,6 +28,7 @@ def create_server(config_name=None):
     print('Starting initialisation of server')
     load_dotenv('config.env')
     server = Flask(__name__)
+    swagger = Swagger(server)
 
     if not config_name:
         config_name = os.getenv('FLASK_CONFIG', 'default')
@@ -74,6 +76,11 @@ def create_server(config_name=None):
     from .api import user_blueprint as user_blueprint
     server.register_blueprint(user_blueprint, url_prefix='/user')
 
+    @server.route('/favicon.ico')
+    def favicon():
+        return server.send_static_file('server/static/favicon.ico')
+
+    
     @server.route('/test')
     def test_route():
         response = jsonify({"status_code": 200, "data": "Test data"})
