@@ -20,7 +20,7 @@ migrate = Migrate(app, db)
 
 ####################################################################################
 #
-#         Development Functions
+#         Project Formatting Functions
 #
 ####################################################################################
 
@@ -153,7 +153,7 @@ def add_fake_data(number_users):
                 dest='role_id',
                 default=1,
                 help='The role_id to be set')
-def add_user(email, first_name, last_name, password, role_id, arb_email_alerts,
+def register_user(email, first_name, last_name, password, role_id, arb_email_alerts,
              posEV_email_alerts):
 
     with app.app_context():
