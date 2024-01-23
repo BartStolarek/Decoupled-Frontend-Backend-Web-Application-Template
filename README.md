@@ -98,3 +98,12 @@ For serving static files like images, CSS, and JavaScript (if your backend serve
 
 Templates (templates/):
 If your application renders HTML on the server side, this directory would contain HTML templates.
+
+# For migration use:
+# - make changes to models
+# - make sure env* is removed from gitignore
+# - python manage.py db migrate -m "added positive EV table"
+# - git add .
+# - git commit -m ""
+# - git push && git push heroku master
+# - heroku run python manage.py db upgrade

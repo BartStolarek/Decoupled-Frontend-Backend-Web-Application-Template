@@ -19,14 +19,7 @@ from server.config import Config
 app = create_server(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
-# For migration use:
-# - make changes to models
-# - make sure env* is removed from gitignore
-# - python manage.py db migrate -m "added positive EV table"
-# - git add .
-# - git commit -m ""
-# - git push && git push heroku master
-# - heroku run python manage.py db upgrade
+
 
 ####################################################################################
 #
