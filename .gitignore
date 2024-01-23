@@ -174,3 +174,7 @@ node_modules/
 # Local Data Files
 /data/
 
+# Directory Structure
+processed_tree.txt
+tree.txt
+
