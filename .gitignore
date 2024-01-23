@@ -170,3 +170,7 @@ node_modules/
 
 # Databases
 *.sqlite
+
+# Local Data Files
+/data/
+
