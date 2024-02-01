@@ -9,7 +9,7 @@ Click==7.0
 coverage==7.4.0
 exceptiongroup==1.2.0
 Faker==2.0.1
-flasgger==0.9.7.1
+flasgger==0.9.7b2
 Flask==1.1.1
 Flask-Assets==0.12
 Flask-Compress==1.4.0

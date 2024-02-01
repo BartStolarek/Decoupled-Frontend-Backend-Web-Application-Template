@@ -28,6 +28,18 @@ def create_server(config_name=None):
     print('Starting initialisation of server')
     load_dotenv('config.env')
     server = Flask(__name__)
+    
+    # Configuration for Flasgger before initializing it
+    server.config['SWAGGER'] = {
+        'title': 'AI Trainer API Documentation',
+        'uiversion': 3,
+        'swagger_ui': True,
+        'specs_route': '/apidocs/',
+        'favicon': '/static/favicon.ico',
+        # 'base_url': '/api/v1', Include if you want to set a base URL for the API
+        'validate': False,
+    }
+
     swagger = Swagger(server)
 
     if not config_name:
@@ -66,7 +78,7 @@ def create_server(config_name=None):
 
     # Register middleware
     server.before_request(log_request)
-    #server.before_request(authenticate)
+    # server.before_request(authenticate)
     server.after_request(response_manipulator)
     server.after_request(log_response)
 
@@ -76,11 +88,10 @@ def create_server(config_name=None):
     from .api import user_blueprint as user_blueprint
     server.register_blueprint(user_blueprint, url_prefix='/user')
 
-    @server.route('/favicon.ico')
-    def favicon():
-        return server.send_static_file('server/static/favicon.ico')
+    # @server.route('/favicon.ico')
+    # def favicon():
+    #     return server.send_static_file('favicon.ico')
 
-    
     @server.route('/test')
     def test_route():
         response = jsonify({"status_code": 200, "data": "Test data"})
