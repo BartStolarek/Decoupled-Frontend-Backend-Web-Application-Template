@@ -30,17 +30,23 @@ def create_server(config_name=None):
     server = Flask(__name__)
     
     # Configuration for Flasgger before initializing it
-    server.config['SWAGGER'] = {
-        'title': 'AI Trainer API Documentation',
-        'uiversion': 3,
-        'swagger_ui': True,
-        'specs_route': '/apidocs/',
-        'favicon': '/static/favicon.ico',
-        # 'base_url': '/api/v1', Include if you want to set a base URL for the API
-        'validate': False,
-    }
-
-    swagger = Swagger(server)
+    swagger_config = Swagger.DEFAULT_CONFIG
+    
+    # Trying to externally load static files
+    swagger_config['swagger_ui_bundle_js'] = '//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js'
+    swagger_config['swagger_ui_standalone_preset_js'] = '//unpkg.com/swagger-ui-dist@3/swagger-ui-standalone-preset.js'
+    swagger_config['jquery_js'] = '//unpkg.com/jquery@2.2.4/dist/jquery.min.js'
+    swagger_config['swagger_ui_css'] = '//unpkg.com/swagger-ui-dist@3/swagger-ui.css'
+    # Set swagger configuration
+    swagger_config['title'] = 'AI Trainer API Documentation'
+    swagger_config['uiversion'] = 3
+    swagger_config['swagger_ui'] = True
+    swagger_config['specs_route'] = '/apidocs/'
+    swagger_config['favicon'] = '/static/favicon.ico'
+    # swagger_config['base_url'] = '/api/v1' Include if you want to set a base URL for the API
+    swagger_config['validate'] = False
+    
+    swagger = Swagger(server, config=swagger_config)
 
     if not config_name:
         config_name = os.getenv('FLASK_CONFIG', 'default')
