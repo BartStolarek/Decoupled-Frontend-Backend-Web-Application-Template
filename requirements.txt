@@ -13,6 +13,7 @@ flasgger==0.9.7b2
 Flask==1.1.1
 Flask-Assets==0.12
 Flask-Compress==1.4.0
+Flask-Cors==4.0.0
 Flask-Login==0.4.1
 Flask-Mail==0.9.1
 Flask-Migrate==2.5.2

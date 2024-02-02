@@ -213,13 +213,11 @@ Execute `python manage.py runserver` to start the server.
 
 To see API documentation, run the server and navigate to
 
-`http://localhost:5000/apispec_1.json`
+`http://localhost:5000//apidocs`
 
 or whatever port you are running the server on.
 
 This uses flasgger to generate the documentation.
-
-Note: The endpoint /apidocs for flasgger doesn't work with the current setup because there is no
 
 ### To format all of your projects files (imports, whitespace, etc.) run the following command
 

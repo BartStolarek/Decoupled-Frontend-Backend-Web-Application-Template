@@ -4,6 +4,7 @@ import time
 from dotenv import load_dotenv
 from flask import Flask, g, jsonify
 from flask_compress import Compress
+from flask_cors import CORS
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_rq import RQ
@@ -16,6 +17,7 @@ from .middleware.api_logger import log_request, log_response
 from .middleware.response_manipulator import response_manipulator
 from .utils.http_status_codes import handle_status_code
 from .utils.logger import setup_logger
+from .utils.flasgger import setup_flasgger
 
 # Initialize Flask extensions
 db = SQLAlchemy()
@@ -28,26 +30,10 @@ def create_server(config_name=None):
     print('Starting initialisation of server')
     load_dotenv('config.env')
     server = Flask(__name__)
+    CORS(server)
     
-    # Configuration for Flasgger before initializing it
-    swagger_config = Swagger.DEFAULT_CONFIG
+    swagger = setup_flasgger(server) 
     
-    # Trying to externally load static files
-    swagger_config['swagger_ui_bundle_js'] = '//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js'
-    swagger_config['swagger_ui_standalone_preset_js'] = '//unpkg.com/swagger-ui-dist@3/swagger-ui-standalone-preset.js'
-    swagger_config['jquery_js'] = '//unpkg.com/jquery@2.2.4/dist/jquery.min.js'
-    swagger_config['swagger_ui_css'] = '//unpkg.com/swagger-ui-dist@3/swagger-ui.css'
-    # Set swagger configuration
-    swagger_config['title'] = 'AI Trainer API Documentation'
-    swagger_config['uiversion'] = 3
-    swagger_config['swagger_ui'] = True
-    swagger_config['specs_route'] = '/apidocs/'
-    swagger_config['favicon'] = '/static/favicon.ico'
-    # swagger_config['base_url'] = '/api/v1' Include if you want to set a base URL for the API
-    swagger_config['validate'] = False
-    
-    swagger = Swagger(server, config=swagger_config)
-
     if not config_name:
         config_name = os.getenv('FLASK_CONFIG', 'default')
 
@@ -98,6 +84,13 @@ def create_server(config_name=None):
     # def favicon():
     #     return server.send_static_file('favicon.ico')
 
+    @server.route('/', methods=['GET'])
+    def index():
+        """
+        Index endpoint for the server.
+        """
+        return "Welcome to the Flask Server!"
+    
     @server.route('/test')
     def test_route():
         response = jsonify({"status_code": 200, "data": "Test data"})
