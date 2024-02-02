@@ -191,7 +191,7 @@ def update():
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
 def authorize():
     """
-    Authorize a user and return a JWT token.
+    NOT IMPLEMENTED - Authorize a user and return a JWT token.
     ---
     tags:
       - user
