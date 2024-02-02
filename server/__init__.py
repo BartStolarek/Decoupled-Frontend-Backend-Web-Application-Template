@@ -80,9 +80,9 @@ def create_server(config_name=None):
     from .api import user_blueprint as user_blueprint
     server.register_blueprint(user_blueprint, url_prefix='/user')
 
-    # @server.route('/favicon.ico')
-    # def favicon():
-    #     return server.send_static_file('favicon.ico')
+    @server.route('/favicon.ico')
+    def favicon():
+        return server.send_static_file('favicon.ico')
 
     @server.route('/', methods=['GET'])
     def index():

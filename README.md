@@ -189,6 +189,29 @@ This section covers running the server and updating the database schema.
 
 Execute `python manage.py runserver` to start the server.
 
+### Expose the localhost server to the internet
+
+Using ngrok you can expose your localhost server to the internet. This is useful for testing your server on different devices or connecting to a webflow website. 
+
+1. Download ngrok from the following link: https://ngrok.com/download or for linux execute:
+
+`curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && sudo apt install ngrok`
+
+2. Sign up and get your token
+
+3. Authenticate your ngrok agent. You only have to do this once. The Authtoken is saved in the default configuration file. Run this code in your terminal
+`ngrok config add-authtoken <token>`
+
+4. Run the following command in your terminal to expose your localhost server to the internet
+
+`ngrok http <your port>`
+
+5. Obtain your ngrok url and use it to connect to your server from any device. It is found under the "Forwarding" section of the ngrok terminal.
+
+6. Remove the visit page warning in your request header by adding the following code in to your request header
+
+`'ngrok-skip-browser-warning': 'true'`
+
 ### Make updates to database using flask migrate
 
 1. Make changes to your code that need to be reflected in to database

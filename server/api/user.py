@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta
 
 import jwt
 # Assuming you have a SECRET_KEY defined in your config
@@ -191,7 +191,7 @@ def update():
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
 def authorize():
     """
-    NOT IMPLEMENTED - Authorize a user and return a JWT token.
+    Authorize a user and return a JWT token.
     ---
     tags:
       - user
@@ -231,14 +231,11 @@ def authorize():
     user = User.query.filter_by(email=email).first()
     if user and check_password_hash(user.password_hash, password):
         # Generate JWT token
-        token = jwt.encode(
-            {
-                'user_id': user.id,
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
-            },
-            current_app.config['SECRET_KEY'],
-            algorithm='HS256')
+        token = jwt.encode({
+            'user_id': user.id,
+            'exp': datetime.utcnow() + timedelta(hours=1)
+        }, current_app.config['SECRET_KEY'], algorithm='HS256')
 
-        return jsonify({'token': token.decode('UTF-8')}), 200
+        return jsonify({'token': token}), 200  # No need to decode
 
     return jsonify({'error': 'Invalid credentials'}), 401

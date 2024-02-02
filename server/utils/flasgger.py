@@ -5,6 +5,7 @@ from flask import request
 def setup_flasgger(server):
     server.json_encoder = LazyJSONEncoder
 
+    # Define the Swagger UI template
     template = {
         "swagger": "2.0",
         "info": {
@@ -25,25 +26,30 @@ def setup_flasgger(server):
             "http",
             "https"
         ],
-        "operationId": "getmyData"
+        "operationId": "getmyData",
+        "externalDocs": {
+            "description": "Find more info here",
+            "url": "https://www.example.com/externalDocs"
+        },
+        # Add favicon to the template
+        "favicon": "/static/favicon.ico",
     }
 
-    # Configuration for Flasgger before initializing it
-    swagger_config = Swagger.DEFAULT_CONFIG
-    
-    # Trying to externally load static files
-    swagger_config['swagger_ui_bundle_js'] = 'https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js'
-    swagger_config['swagger_ui_standalone_preset_js'] = 'https://unpkg.com/swagger-ui-dist@3/swagger-ui-standalone-preset.js'
-    swagger_config['jquery_js'] = 'https://unpkg.com/jquery@2.2.4/dist/jquery.min.js'
-    swagger_config['swagger_ui_css'] = 'https://unpkg.com/swagger-ui-dist@3/swagger-ui.css'
+    # Define the Flasgger configuration
+    swagger_config = {
+        'headers': [],
+        'specs': [
+            {
+                'endpoint': 'apispec_1',
+                'route': '/apispec_1.json',
+                'rule_filter': lambda rule: True,  # all in
+                'model_filter': lambda tag: True,  # all in
+            }
+        ],
+        'static_url_path': '/flasgger_static',
+        'swagger_ui': True,
+        'specs_route': '/apidocs/'
+    }
 
-    # Set swagger configuration
-    swagger_config['title'] = 'AI Trainer API Documentation'
-    swagger_config['uiversion'] = 3
-    swagger_config['swagger_ui'] = True
-    swagger_config['specs_route'] = '/apidocs/'
-    swagger_config['favicon'] = '/static/favicon.ico'
-    # swagger_config['base_url'] = '/api/v1' Include if you want to set a base URL for the API
-    swagger_config['validate'] = False
-
+    # Initialize Flasgger with the server, template, and configuration
     return Swagger(server, template=template, config=swagger_config)
