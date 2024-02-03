@@ -212,6 +212,14 @@ Using ngrok you can expose your localhost server to the internet. This is useful
 
 `'ngrok-skip-browser-warning': 'true'`
 
+Note: If you find that your ngrok has a authentication failed error because of a limit of 1 agent sessions. You can run:
+
+`pgrep ngrok`
+
+Take the process id and run:
+
+`kill -9 <process id>`
+
 ### Make updates to database using flask migrate
 
 1. Make changes to your code that need to be reflected in to database
