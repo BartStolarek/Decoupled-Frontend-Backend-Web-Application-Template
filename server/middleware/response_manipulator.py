@@ -10,45 +10,46 @@ from werkzeug.exceptions import BadRequest
 # Assuming HTTP_STATUS_CODES is a dictionary mapping status codes to messages
 from server.utils.http_status_codes import HTTP_STATUS_CODES
 
+def calculate_response_time():
+    if hasattr(g, 'start_time'):
+        return f"{(time.time() - g.start_time) * 1000:.2f}ms"
+    return "Unavailable"
+
+def append_metadata(response, metadata):
+    # Add metadata to response headers or body as needed
+    response.headers['X-Response-Time'] = metadata['responseTime']
+    response.headers['X-Timestamp'] = metadata['timestamp']
+
+def handle_cors_headers(response, cors_headers):
+    for header in cors_headers:
+        if header in response.headers:
+            response.headers[header] = response.headers.get(header)
+
+def create_error_response(status_code, message, metadata):
+    response = jsonify({
+        'status': status_code,
+        'message': message,
+        'metadata': metadata
+    })
+    response.status_code = status_code
+    return response
+
 def response_manipulator(response):
-    if response.content_type == 'application/json':
-        if hasattr(g, 'start_time'):
-            response_time = f"{(time.time() - g.start_time) * 1000:.2f}ms"
-        else:
-            response_time = "Unavailable"
+    metadata = {
+        'timestamp': datetime.datetime.utcnow().isoformat() + 'Z',
+        'responseTime': calculate_response_time()
+    }
 
-        metadata = {
-            'timestamp': datetime.datetime.utcnow().isoformat() + 'Z',
-            'responseTime': response_time
-        }
+    try:
+        cors_headers = [
+            'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials',
+            'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods',
+            'Access-Control-Expose-Headers'
+        ]
+        append_metadata(response, metadata)
+        handle_cors_headers(response, cors_headers)
+    except Exception as e:
+        logger.error(f"Error manipulating response: {e}")
+        return create_error_response(500, "Internal Server Error", metadata)
 
-        try:
-            if not isinstance(response, Response):
-                raise BadRequest("Expected a Flask `Response` object.")
-
-            # Ensure response status and message are set based on HTTP_STATUS_CODES
-            status_code = response.status_code
-            if status_code in HTTP_STATUS_CODES:
-                status_detail = HTTP_STATUS_CODES[status_code]
-                # Inject status and message into the response JSON if necessary
-                # This step depends on how you structure your JSON responses
-                # Example: Modify response.json to include status and message
-            response.headers['Content-Type'] = 'application/json'
-            response.headers['X-Custom-Header'] = 'Custom Value'
-            return response
-        except Exception as e:
-            logger.error(f"Error manipulating response: {e}")
-            # Fallback for errors during manipulation
-            status_code = 500
-            status_detail = HTTP_STATUS_CODES.get(status_code, {"message": "Internal Server Error"})
-            error_response = jsonify({
-                'status': status_code,
-                'message': status_detail["message"],
-                'metadata': metadata
-            })
-            error_response.status_code = status_code
-            error_response.headers['Content-Type'] = 'application/json'
-            error_response.headers['X-Custom-Header'] = 'Custom Value'
-            return error_response
-    else:
-        return response
+    return response

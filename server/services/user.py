@@ -1,7 +1,8 @@
 from loguru import logger
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import text
 
-from server import db
+from server.extensions import db
 from server.models.user import User
 
 
@@ -19,6 +20,10 @@ def register_user(user_dict: dict):
         user = User(
             first_name=user_dict.get("first_name"),
             last_name=user_dict.get("last_name"),
+            date_of_birth=user_dict.get("date_of_birth"),
+            height_cm=user_dict.get("height"),
+            weight_kg=user_dict.get("weight"),
+            gender=user_dict.get("gender"),
             email=user_dict.get("email"),
             # Set the password using the password setter
         )
@@ -113,3 +118,45 @@ def update_user(user_dict: dict):
         logger.error(f"Unexpected Error: {e}")
         db.session.rollback()
         return False, 'Unexpected error occurred. Could not update user'
+
+
+
+def get_users(search_column: str, search_value: str) -> list[User]:
+    """Get a list of users that match search parameter
+
+    Args:
+        search_column (str): The column to search for the user
+        search_value (str): The value to search for in the column
+
+    Returns:
+        list[User]: list of users that were found matching those search parameters
+    """
+    try:
+        return User.query.filter(text(f"{search_column}=:value")).params(value=search_value).all()
+    except Exception as e:
+        logger.error(f"Unexpected Error trying to find users: {e}")
+        return []
+
+    
+def get_user_details(user_id: int) -> tuple[bool, str, dict]:
+    """Get user details from the database. This function obtains the details dynamically. 
+
+    Args:
+        user_id (int): The unique id of the user being retrieved
+
+    Returns:
+        bool: whether or not the user was successfully retrieved
+        str: a message indicating the result of the retrieval
+        dict: a dict containing the user's details
+    """
+    try:
+        user = User.query.filter_by(id=user_id).first()
+        if user is None:
+            return False, 'User does not exist', {}
+        
+        user_dict = user.to_dict()
+        
+        return True, "Success", user_dict
+    except Exception as e:
+        logger.error(f"Unexpected Error trying to find user: {e}")
+        return False, 'Unexpected error occurred', {}

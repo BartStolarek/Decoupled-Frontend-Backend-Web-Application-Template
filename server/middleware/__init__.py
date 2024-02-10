@@ -1,2 +1,3 @@
-from server.middleware.api_logger import *
-from server.middleware.response_manipulator import *
+from server.middleware.api_logger import * # noqa
+from server.middleware.response_manipulator import * # noqa
+from server.middleware.authorizer import * # noqa

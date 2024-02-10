@@ -254,7 +254,7 @@ HTTP_STATUS_CODES = {
 }
 
 
-def handle_status_code(code: int, data: dict = None):
+def handle_status_code(code: int, data: dict = None) -> jsonify:
     """Return a response object with the appropriate status code and message
 
     Args:

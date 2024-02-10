@@ -49,11 +49,15 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     confirmed = db.Column(db.Boolean, default=False)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     first_name = db.Column(db.String(64), index=True)
     last_name = db.Column(db.String(64), index=True)
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    date_of_birth = db.Column(db.Date)
+    weight_kg = db.Column(db.Float)
+    height_cm = db.Column(db.Float)
+    gender = db.Column(db.String(6))
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -64,6 +68,24 @@ class User(UserMixin, db.Model):
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
 
+    def to_dict(self, include_sensitive=False) -> dict:
+        """Return a dictionary representation of the user.
+
+        Args:
+            include_sensitive (bool, optional): Determine whether sensitive data like password, role_id and confirmed is included. Defaults to False.
+
+        Returns:
+            dict: A dictionary representation of the user
+        """
+        user_dict = {column.name: getattr(self, column.name) for column in self.__table__.columns}
+        
+        if not include_sensitive:
+            user_dict.pop('password_hash')
+            user_dict.pop('confirmed')
+            user_dict.pop('role_id')
+        
+        return user_dict
+    
     def full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
 

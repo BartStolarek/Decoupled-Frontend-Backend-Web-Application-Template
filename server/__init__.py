@@ -1,99 +1,115 @@
 import os
-import time
+import sys
 
-from dotenv import load_dotenv
-from flask import Flask, g, jsonify
-from flask_compress import Compress
-from flask_cors import CORS
-from flask_login import LoginManager
-from flask_mail import Mail
-from flask_rq import RQ
-from flask_sqlalchemy import SQLAlchemy
-from flasgger import Swagger
+serverdir = os.path.abspath(os.path.dirname(__file__))
 
-from server.config import config as Config
+check_dir = serverdir
+while not os.path.exists(os.path.join(check_dir, 'server')):
+    check_dir = os.path.dirname(check_dir)
+root_project_dir = check_dir
 
-from .middleware.api_logger import log_request, log_response
-from .middleware.response_manipulator import response_manipulator
-from .utils.http_status_codes import handle_status_code
-from .utils.logger import setup_logger
-from .utils.flasgger import setup_flasgger
-
-# Initialize Flask extensions
-db = SQLAlchemy()
-login_manager = LoginManager()
-mail = Mail()
-compress = Compress()
+# Look for config.env on the same level as config.py
+config_env_path = os.path.join(serverdir, 'config.env')
+if os.path.exists(config_env_path):
+    print('Importing environment from .env file')
+    for line in open(config_env_path):
+        var = line.strip().split('=')
+        if len(var) == 2:
+            os.environ[var[0]] = var[1].replace("\"", "")
+else:
+    print(
+        'config.env file not found, please read README.md for config.env file structure'
+    )
 
 
-def create_server(config_name=None):
-    print('Starting initialisation of server')
-    load_dotenv('config.env')
-    server = Flask(__name__)
-    CORS(server)
-    
-    swagger = setup_flasgger(server) 
-    
-    if not config_name:
-        config_name = os.getenv('FLASK_CONFIG', 'default')
+class Config:
+    APP_NAME = os.environ.get('APP_NAME', 'Flask API Boilerplate')
+    if os.environ.get('SECRET_KEY'):
+        SECRET_KEY = os.environ.get('SECRET_KEY')
+    else:
+        SECRET_KEY = 'SECRET_KEY_ENV_VAR_NOT_SET'
+        print('SECRET KEY ENV VAR NOT SET! SHOULD NOT SEE IN PRODUCTION')
 
-    server.config.from_object(Config[config_name])
-    server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # Flask Config
+    FLASK_CONFIG = os.environ.get('FLASK_CONFIG', 'default')
 
-    Config[config_name].init_app(server)
+    # SQLAlchemy Config
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
-    # Set up extensions
-    db.init_app(server)
-    login_manager.init_app(server)
-    mail.init_app(server)
-    compress.init_app(server)
-    RQ(server)
+    # Log Level
+    LOGGING_LEVEL = os.environ.get('LOGGING_LEVEL', 'INFO')
 
-    # Configure SSL if platform supports it
-    if not server.debug and not server.testing and not server.config[
-            'SSL_DISABLE']:
-        from flask_sslify import SSLify
-        SSLify(server)
+    # Admin and Fake user
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'noemail@domain.com')
+    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+    FAKE_EMAIL = os.environ.get('FAKE_EMAIL')
+    FAKE_PASSWORD = os.environ.get('FAKE_PASSWORD')
 
-    # Set up logger
-    setup_logger()
+    @staticmethod
+    def init_app(app):
+        pass
 
-    @server.before_request
-    def before_request():
-        # Store the start time in Flask's global `g` object
-        g.start_time = time.time()
 
-    @server.errorhandler(404)
-    def page_not_found(e):
-        response, code = handle_status_code(404)
-        return response, code
+class DevelopmentConfig(Config):
+    ENV = 'development'
+    DEBUG = True
+    LOGGING_LEVEL = os.environ.get('LOGGING_LEVEL', 'DEBUG')
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DEV_DATABASE_URL',
+        'sqlite:///' + os.path.join(root_project_dir, 'data-dev.sqlite'))
 
-    # Register middleware
-    server.before_request(log_request)
-    # server.before_request(authenticate)
-    server.after_request(response_manipulator)
-    server.after_request(log_response)
+    @classmethod
+    def init_app(cls, app):
+        print('THIS APP IS IN DEBUG MODE. \
+                YOU SHOULD NOT SEE THIS IN PRODUCTION.')
 
-    # Register blueprints
-    from .api import server_blueprint as server_blueprint
-    server.register_blueprint(server_blueprint, url_prefix='/server')
-    from .api import user_blueprint as user_blueprint
-    server.register_blueprint(user_blueprint, url_prefix='/user')
 
-    @server.route('/favicon.ico')
-    def favicon():
-        return server.send_static_file('favicon.ico')
+class TestingConfig(Config):
+    ENV = 'testing'
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'TEST_DATABASE_URL',
+        'sqlite:///' + os.path.join(root_project_dir, 'data-test.sqlite'))
 
-    @server.route('/', methods=['GET'])
-    def index():
-        """
-        Index endpoint for the server.
-        """
-        return "Welcome to the Flask Server!"
-    
-    @server.route('/test')
-    def test_route():
-        response = jsonify({"status_code": 200, "data": "Test data"})
-        return response
+    @classmethod
+    def init_app(cls, app):
+        print('THIS APP IS IN TESTING MODE.  \
+                YOU SHOULD NOT SEE THIS IN PRODUCTION.')
 
-    return server
+
+class UnitTestingConfig(Config):
+    ENV = 'unittesting'
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'UNITTEST_DATABASE_URL',
+        'sqlite:///' + os.path.join(root_project_dir, 'data-unittest.sqlite'))
+    WTF_CSRF_ENABLED = False
+
+    @classmethod
+    def init_app(cls, app):
+        print('THIS APP IS IN UNIT TESTING MODE. \
+              YOU SHOULD NOT SEE THIS IN PRODUCTION.')
+
+
+class ProductionConfig(Config):
+    ENV = 'production'
+    DEBUG = False
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL',
+        'sqlite:///' + os.path.join(root_project_dir, 'data.sqlite'))
+
+    @classmethod
+    def init_app(cls, app):
+        Config.init_app(app)
+        assert os.environ.get('SECRET_KEY'), 'SECRET KEY IS NOT SET!'
+
+
+config = {
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'production': ProductionConfig,
+    'unittesting': UnitTestingConfig,
+    'default': DevelopmentConfig
+}
