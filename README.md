@@ -57,7 +57,6 @@ ADMIN_EMAIL='noemail@domain.com'
 ADMIN_PASSWORD='nopassword'
 FAKE_EMAIL='user@fake.com'
 FAKE_PASSWORD='fakepassword'
-FRONTEND_ORIGIN='http://localhost:5000'
 ```
 
 ### Name your app (server)
@@ -154,7 +153,6 @@ Other options include:
     FAKE_EMAIL=<your email>
     FAKE_PASSWORD=<your password>
     ```
-
 ### CORS Origin
 
 1. Set the `FRONTEND_ORIGIN` variable in `server/config.env` to the origin of your frontend, so that CORS is properly configured to allow requests from your frontend application, ensuring smooth communication between your server and client-side application.
@@ -209,6 +207,7 @@ Using ngrok you can expose your localhost server to the internet. This is useful
 2. Sign up and get your token
 
 3. Authenticate your ngrok agent. You only have to do this once. The Authtoken is saved in the default configuration file. Run this code in your terminal
+
 `ngrok config add-authtoken <token>`
 
 4. Run the following command in your terminal to expose your localhost server to the internet
@@ -228,6 +227,10 @@ Note: If you find that your ngrok has a authentication failed error because of a
 Take the process id and run:
 
 `kill -9 <process id>`
+
+Note: To see ngrok logs you can access:
+
+`http://127.0.0.1:4040`
 
 ### Make updates to database using flask migrate
 
