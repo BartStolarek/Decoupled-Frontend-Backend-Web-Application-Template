@@ -57,6 +57,7 @@ ADMIN_EMAIL='noemail@domain.com'
 ADMIN_PASSWORD='nopassword'
 FAKE_EMAIL='user@fake.com'
 FAKE_PASSWORD='fakepassword'
+FRONTEND_ORIGIN='http://localhost:5000'
 ```
 
 ### Name your app (server)
@@ -152,6 +153,14 @@ Other options include:
     ```env
     FAKE_EMAIL=<your email>
     FAKE_PASSWORD=<your password>
+    ```
+
+### CORS Origin
+
+1. Set the `FRONTEND_ORIGIN` variable in `server/config.env` to the origin of your frontend, so that CORS is properly configured to allow requests from your frontend application, ensuring smooth communication between your server and client-side application.
+
+    ```env
+    FRONTEND_ORIGIN=http://localhost:5000
     ```
 
 ## Database Setup

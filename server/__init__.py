@@ -25,7 +25,9 @@ def create_server(config_name=None):
     print('Starting initialisation of server')
     load_dotenv('config.env')
     server = Flask(__name__)
-    CORS(server, supports_credentials=True, origins=["https://andrew-cooper-e4df25.webflow.io"], methods=["GET", "POST", "OPTIONS"])
+    
+    frontend_origin = os.getenv('FRONTEND_ORIGIN', 'http://localhost:5000')
+    CORS(server, supports_credentials=True, origins=[frontend_origin], methods=["GET", "POST", "OPTIONS"])
 
     
     swagger = setup_flasgger(server) 
