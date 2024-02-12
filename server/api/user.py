@@ -4,7 +4,7 @@ from loguru import logger
 from flask import Blueprint, request
 
 from server.middleware import rate_limit
-from server.handler import register_user, authorize_user, delete_user, update_user, get_user_details
+from server.handler import handle_register_user, handle_authorize_user, handle_delete_user, handle_update_user, handle_user_details
 from server.middleware import token_required
 
 user_blueprint = Blueprint("user", __name__)
@@ -71,7 +71,7 @@ def register():
         description: Internal server error
     """
     logger.info("Registering user")
-    return register_user(request.json)
+    return handle_register_user(request.json)
 
 @user_blueprint.route("/authorize", methods=["POST"])
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
@@ -108,7 +108,7 @@ def authorize():
         description: Unauthorized, invalid credentials provided.
     """
     logger.info("Authorizing user")
-    return authorize_user(request.json)
+    return handle_authorize_user(request.json)
 
 
 @user_blueprint.route("/delete", methods=["POST"])
@@ -143,7 +143,7 @@ def delete():
         description: Conflict error if deletion conditions are not met.
     """
     logger.info("Deleting user")
-    return delete_user(request.json)
+    return handle_delete_user(request.json)
 
 
 @user_blueprint.route("/update", methods=["POST"])
@@ -184,12 +184,12 @@ def update():
         description: Internal server error.
     """
     logger.info("Updating user")
-    return update_user(request.json)
+    return handle_update_user(request.json)
 
 
 @user_blueprint.route("/user-details", methods=["GET"])
-@token_required
 @rate_limit(50, 30)
+@token_required
 def user_details(current_user_id):
     """
     Retrieve the details of the currently logged-in user.
@@ -220,6 +220,6 @@ def user_details(current_user_id):
         description: Internal server error.
     """
     logger.info("Retrieving user details")
-    return get_user_details(current_user_id)
+    return handle_user_details(current_user_id)
             
     

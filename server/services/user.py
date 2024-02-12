@@ -6,7 +6,7 @@ from server.extensions import db
 from server.models.user import User
 
 
-def register_user(user_dict: dict):
+def register_user(user_dict: dict) -> tuple[bool, str]:
     """Register a new user
 
     Args:
@@ -50,7 +50,7 @@ def register_user(user_dict: dict):
         return False, 'Unexpected error occured. Could not register user'
 
 
-def delete_user(user_dict: dict):
+def delete_user(user_dict: dict) -> tuple[bool, str]:
     """Delete a user from the database
 
     Args:
@@ -75,7 +75,7 @@ def delete_user(user_dict: dict):
         return False, 'Unexpected error occured. Could not delete user'
 
 
-def update_user(user_dict: dict):
+def update_user(user_dict: dict) -> tuple[bool, str]:
     """Update a user in the database.
 
     Args:

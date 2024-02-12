@@ -14,7 +14,7 @@ from server.utils.http_status_codes import handle_status_code
 from server.middleware import token_required
 
 
-def register_user(request_data):
+def handle_register_user(request_data):
     # Function implementation
 
     user_schema = UserSchema()
@@ -43,7 +43,7 @@ def register_user(request_data):
     return response, code
 
 
-def authorize_user(request_data):
+def handle_authorize_user(request_data):
 
     email = request_data.get("email")
     password = request_data.get("password")
@@ -78,7 +78,7 @@ def authorize_user(request_data):
         return response, code
 
 
-def delete_user(request_data):
+def handle_delete_user(request_data):
     user_schema = UserSchema(only=["email"])
     errors = user_schema.validate(request_data)
     if errors:
@@ -100,7 +100,7 @@ def delete_user(request_data):
         return response, code
 
 
-def update(request_data):
+def handle_update_user(request_data):
     user_schema = UserSchema(partial=True)
     errors = user_schema.validate(request_data)
     if errors:
@@ -128,7 +128,7 @@ def update(request_data):
         return response, code
 
 
-def get_user_details(current_user_id):
+def handle_user_details(current_user_id):
     try:
         success, message, user_details = get_user_details(current_user_id)
         if success:
