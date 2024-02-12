@@ -196,30 +196,27 @@ def user_details(current_user_id):
     ---
     tags:
         - user
-    description: Retrieves details of the currently logged-in user based on their user ID.
+    description: Retrieves details of the currently logged-in user based on their JWT token.
     parameters:
       - in: header
         name: Authorization
-        description: Access token to authenticate the request.
+        description: Access token to authenticate the request. Should be formatted as 'Bearer <token>'.
         required: true
         schema:
           type: string
-      - in: path
-        name: current_user_id
-        description: The ID of the current user whose details are being requested.
-        required: true
-        schema:
-          type: integer
     responses:
       200:
         description: User details retrieved successfully. Returns user details.
-        content:
       400:
-        description: Bad request or user does not exist.
+        description: Bad request, such as missing or invalid token.
+      401:
+        description: Unauthorized, such as token validation failure.
       500:
         description: Internal server error.
     """
     logger.info("Retrieving user details")
+    # Your logic here to decode the token, extract user ID, and fetch user details
+
     return handle_user_details(current_user_id)
             
     
