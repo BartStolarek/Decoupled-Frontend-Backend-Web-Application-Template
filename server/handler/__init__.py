@@ -1,1 +1,1 @@
-from server.handler.rate_limit import rate_limit
+from server.handler.user import * # noqa

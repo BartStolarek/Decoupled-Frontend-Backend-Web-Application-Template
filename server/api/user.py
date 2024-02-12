@@ -1,17 +1,10 @@
-from datetime import datetime, timedelta
 from loguru import logger
 
-import jwt
-
 # Assuming you have a SECRET_KEY defined in your config
-from flask import Blueprint, current_app, jsonify, request
-from werkzeug.security import check_password_hash
+from flask import Blueprint, request
 
-from server.handler import rate_limit
-from server.models import User  # Your User model
-from server.schema import UserSchema  # Your User schema
-from server.services import delete_user, register_user, update_user, get_user_details
-from server.utils.http_status_codes import handle_status_code
+from server.middleware import rate_limit
+from server.handler import register_user, authorize_user, delete_user, update_user, get_user_details
 from server.middleware import token_required
 
 user_blueprint = Blueprint("user", __name__)
@@ -77,33 +70,8 @@ def register():
       500:
         description: Internal server error
     """
-    # Function implementation
-
-    user_schema = UserSchema()
-    errors = user_schema.validate(request.json)
-    if errors:
-        logger.error(f"Failed to validate user against user schema: {errors}")
-        code = 400
-        response = handle_status_code(code, data={"error_info": errors})
-        return response, code
-    else:
-        user_data = user_schema.load(request.json)
-        success, message = register_user(user_data)
-        if success:
-            logger.info(f"User registered successfully: {message}")
-            code = 201
-            response = handle_status_code(code, data={"info": message})
-        else:
-            if "Integrity Error: User with that email already exists" in message:
-                logger.error(f"User already exists: {message}")
-                code = 409
-                response = handle_status_code(code, data={"error_info": message})
-            else:
-                logger.error(f"Internal server error: {message}")
-                code = 500
-                response = handle_status_code(code, data={"error_info": message})
-
-        return response, code
+    logger.info("Registering user")
+    return register_user(request.json)
 
 @user_blueprint.route("/authorize", methods=["POST"])
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
@@ -139,38 +107,8 @@ def authorize():
       401:
         description: Unauthorized, invalid credentials provided.
     """
-    data = request.json
-    email = data.get("email")
-    password = data.get("password")
-
-    if not email or not password:
-        logger.error("Authorization failed: Email and password are required")
-        code = 400
-        response = handle_status_code(code, data={"error_info": "Email and password are required"})
-        return response, code
-
-    user = User.query.filter_by(email=email).first()
-    if user and check_password_hash(user.password_hash, password):
-        try:
-            token = jwt.encode(
-                {"user_id": user.id, "exp": datetime.utcnow() + timedelta(hours=1)},
-                current_app.config["SECRET_KEY"],
-                algorithm="HS256",
-            )
-            logger.info(f"User {email} authorized successfully")
-            code = 200
-            response = handle_status_code(code, data={"user_token": token})
-            return response, code
-        except Exception as e:
-            logger.error(f"JWT encoding failed: {str(e)}")
-            code = 500
-            response = handle_status_code(code, data={"error_info": "Internal server error during JWT encoding"})
-            return response, code
-    else:
-        logger.warning(f"Authorization failed for user {email}: Invalid credentials")
-        code = 401
-        response = handle_status_code(code, data={"error_info": "Invalid credentials"})
-        return response, code
+    logger.info("Authorizing user")
+    return authorize_user(request.json)
 
 
 @user_blueprint.route("/delete", methods=["POST"])
@@ -204,25 +142,8 @@ def delete():
       409:
         description: Conflict error if deletion conditions are not met.
     """
-    user_schema = UserSchema(only=["email"])
-    errors = user_schema.validate(request.json)
-    if errors:
-        logger.error(f"Failed to validate user against user schema: {errors}")
-        code = 400
-        response = handle_status_code(code, data={"error_info": errors})
-        return response, code
-    else:
-        user_data = user_schema.load(request.json)
-        success, message = delete_user(user_data)
-        if success:
-            logger.info(f"User deleted successfully: {message}")
-            code = 201
-            response = handle_status_code(code, data={"info": message})
-        else:
-            logger.error(f"Conflict error: {message}")
-            code = 409
-            response = handle_status_code(code, data={"error_info": message})
-        return response, code
+    logger.info("Deleting user")
+    return delete_user(request.json)
 
 
 @user_blueprint.route("/update", methods=["POST"])
@@ -262,31 +183,8 @@ def update():
       500:
         description: Internal server error.
     """
-    user_schema = UserSchema(partial=True)
-    errors = user_schema.validate(request.json)
-    if errors:
-        logger.error(f"Failed to validate user against user schema: {errors}")
-        code = 400
-        response = handle_status_code(code, data={"error_info": errors})
-        return response, code
-    else:
-        user_data = user_schema.load(request.json)
-        success, message = update_user(user_data)
-        if success:
-            logger.info(f"User updated successfully: {message}")
-            code = 201
-            response = handle_status_code(code, data={"info": message})
-        else:
-            if "Integrity Error: User with that email already exists" in message:
-                logger.error(f"User already exists: {message}")
-                code = 409
-                response = handle_status_code(code, data={"error_info": message})
-            else:
-                logger.error(f"Internal server error: {message}")
-                code = 500
-                response = handle_status_code(code, data={"error_info": message})
-
-        return response, code
+    logger.info("Updating user")
+    return update_user(request.json)
 
 
 @user_blueprint.route("/user-details", methods=["GET"])
@@ -321,26 +219,7 @@ def user_details(current_user_id):
       500:
         description: Internal server error.
     """
-    try:
-        success, message, user_details = get_user_details(current_user_id)
-        if success:
-            code = 200
-            response = handle_status_code(code, data={"user_details": user_details})
-            logger.info(f"User details retrieved successfully: {message}. {user_details}")
-        else:
-            if message == "User does not exist":
-                code = 400
-                response = handle_status_code(code, data={"error_info": message})
-                logger.error(f"User does not exist: {message}")
-            else:
-                code = 500
-                response = handle_status_code(code, data={"error_info": message})
-                logger.error(f"Internal server error: {message}")
-    except Exception as e:
-        logger.error(f"User details retrieval failed: {str(e)}")
-        code = 500
-        response = handle_status_code(code, data={"error_info": "Internal server error"})
-        
-    return response, code
+    logger.info("Retrieving user details")
+    return get_user_details(current_user_id)
             
     

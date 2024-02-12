@@ -1,5 +1,6 @@
 from functools import wraps
 from time import time
+from loguru import logger
 
 from flask import abort, g, request
 
@@ -34,6 +35,7 @@ def rate_limit(max_requests, time_window):
             else:
                 g.rate_limit[key] = (requests + 1, last_checked)
 
+            logger.info(f"Within rate limit for {request.endpoint}")
             return f(*args, **kwargs)
 
         return wrapped

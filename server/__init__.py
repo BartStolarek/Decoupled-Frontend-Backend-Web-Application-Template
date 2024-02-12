@@ -69,7 +69,6 @@ def create_server(config_name=None):
 
     # Register middleware
     server.before_request(log_request)
-    # server.before_request(authenticate)
     server.after_request(response_manipulator)
     server.after_request(log_response)
 
