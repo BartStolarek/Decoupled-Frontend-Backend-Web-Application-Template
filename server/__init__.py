@@ -25,9 +25,10 @@ def create_server(config_name=None):
     print('Starting initialisation of server')
     load_dotenv('config.env')
     server = Flask(__name__)
-    
+     
     frontend_origin = os.getenv('FRONTEND_ORIGIN', 'http://localhost:5000')
-    CORS(server, supports_credentials=True, origins=[frontend_origin], methods=["GET", "POST", "OPTIONS"])
+    CORS(server, supports_credentials=True, origins=[frontend_origin], methods=["GET", "POST", "OPTIONS"], allow_headers=['Content-Type', 'Authorization', 'ngrok-skip-browser-warning'])
+
 
     
     swagger = setup_flasgger(server) 

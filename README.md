@@ -52,11 +52,12 @@ APP_NAME='Flask-React-Boilerplate'
 SECRET_KEY=''
 FLASK_CONFIG=development
 DATABASE_URL=data-dev.sqlite
-LOGGING_LEVEL=DEBUG
+LOGGING_LEVEL='DEBUG'
 ADMIN_EMAIL='noemail@domain.com'
 ADMIN_PASSWORD='nopassword'
 FAKE_EMAIL='user@fake.com'
 FAKE_PASSWORD='fakepassword'
+FRONTEND_ORIGIN=http://localhost:5000
 ```
 
 ### Name your app (server)
@@ -123,7 +124,7 @@ Database instances should be isolated to different environments.
 1. Set the `LOGGING_LEVEL` variable in `server/config.env` to the logging level you want to run the server in.
 
     ```env
-    LOGGING_LEVEL=DEBUG
+    LOGGING_LEVEL='DEBUG'
     ```
 
 Other options include:

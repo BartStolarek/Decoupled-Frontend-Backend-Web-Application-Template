@@ -1,6 +1,7 @@
 # Standard Imports
 import datetime
 import time
+import os
 
 # Third Party Imports
 from flask import Response, jsonify, g
@@ -20,10 +21,13 @@ def append_metadata(response, metadata):
     response.headers['X-Response-Time'] = metadata['responseTime']
     response.headers['X-Timestamp'] = metadata['timestamp']
 
-def handle_cors_headers(response, cors_headers):
-    for header in cors_headers:
-        if header in response.headers:
-            response.headers[header] = response.headers.get(header)
+def handle_cors_headers(response, frontend_origin):
+    response.headers['Access-Control-Allow-Origin'] = frontend_origin  # or a specific domain
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization,ngrok-skip-browser-warning'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response
+
 
 def create_error_response(status_code, message, metadata):
     response = jsonify({
@@ -41,15 +45,15 @@ def response_manipulator(response):
     }
 
     try:
-        cors_headers = [
-            'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials',
-            'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods',
-            'Access-Control-Expose-Headers'
-        ]
         append_metadata(response, metadata)
-        handle_cors_headers(response, cors_headers)
+        frontend_origin = os.getenv('FRONTEND_ORIGIN', 'http://localhost:5000')  # Default value for development
+        handle_cors_headers(response, frontend_origin)
     except Exception as e:
         logger.error(f"Error manipulating response: {e}")
         return create_error_response(500, "Internal Server Error", metadata)
+    
+    # Log response headers and status
+    logger.debug(f"Response Headers: {response.headers}")
+    logger.debug(f"Response Status: {response.status}")
 
     return response
