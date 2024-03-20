@@ -3,7 +3,9 @@
 
 ## Overview
 
-This project is a template for a Python Flask server, designed to expedite the setup of a basic server for serving a web application front end. It incorporates SQLAlchemy for database management and supports multiple environments including development, testing, unit testing, and production. The production environment is the only one configured for non-local (SQLite) databases. The template also integrates seamlessly with React, providing a full-stack solution for web application development.
+This project is a template for a Python Flask server, designed to expedite the setup of a basic server for serving a web application front end. It incorporates SQLAlchemy for database management and supports multiple environments including development, testing, unit testing, and production. The production environment is the only one configured for non-local (SQLite) databases.
+
+This is a hobby project for myself to learn the architecture of a full stack web application. If you have suggestions for improvements, please send them through. 
 
 ### Key Features:
 
