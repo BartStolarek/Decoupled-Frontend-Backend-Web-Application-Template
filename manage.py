@@ -9,14 +9,22 @@ import subprocess
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Server, Shell
 
-# Local Imports
+# Server Local Imports
 from server import create_server, db
-from server.config import Config
+from server.config import ServerConfig
 from server.models import Role, User
+server_app = create_server(os.getenv('FLASK_CONFIG') or 'default')
+manager = Manager(server_app)
+migrate = Migrate(server_app, db)
 
-app = create_server(os.getenv('FLASK_CONFIG') or 'default')
-manager = Manager(app)
-migrate = Migrate(app, db)
+
+# Frontend Local Imports
+from frontend import create_frontend
+from frontend.config import FrontEndConfig
+
+frontend_app = create_frontend(os.getenv('FLASK_CONFIG') or 'default')
+manager = Manager(frontend_app)
+
 
 ####################################################################################
 #
@@ -63,23 +71,23 @@ def setup_general():
     Role.insert_roles()
     admin_query = Role.query.filter_by(name='Administrator')
     if admin_query.first() is not None:
-        if User.query.filter_by(email=Config.ADMIN_EMAIL).first() is None:
+        if User.query.filter_by(email=ServerConfig.ADMIN_EMAIL).first() is None:
             user = User(first_name='Admin',
                         last_name='Account',
-                        password=Config.ADMIN_PASSWORD,
+                        password=ServerConfig.ADMIN_PASSWORD,
                         confirmed=True,
-                        email=Config.ADMIN_EMAIL)
+                        email=ServerConfig.ADMIN_EMAIL)
             db.session.add(user)
             db.session.commit()
             print('Added administrator {}'.format(user.full_name()))
     user_query = Role.query.filter_by(name='User')
     if user_query.first() is not None:
-        if User.query.filter_by(email=Config.FAKE_EMAIL).first() is None:
-            user = User(first_name=Config.FLASK_CONFIG,
+        if User.query.filter_by(email=ServerConfig.FAKE_EMAIL).first() is None:
+            user = User(first_name=ServerConfig.FLASK_CONFIG,
                         last_name='Fake',
-                        password=Config.FAKE_PASSWORD,
+                        password=ServerConfig.FAKE_PASSWORD,
                         confirmed=True,
-                        email=Config.FAKE_EMAIL)
+                        email=ServerConfig.FAKE_EMAIL)
             db.session.add(user)
             db.session.commit()
             print('Added Fake User {}'.format(user.full_name()))
@@ -156,7 +164,7 @@ def add_fake_data(number_users):
 def register_user(email, first_name, last_name, password, role_id,
                   arb_email_alerts, posEV_email_alerts):
 
-    with app.app_context():
+    with server_app.server_app_context():
         user = User.query.filter_by(email=email).first()
         if user:
             return
@@ -177,7 +185,7 @@ def register_user(email, first_name, last_name, password, role_id,
                 help='The user email to be updated')
 def delete_user(email):
 
-    with app.app_context():
+    with server_app.server_app_context():
         user = User.query.filter_by(email=email).first()
         if not user:
             return
@@ -197,13 +205,13 @@ def delete_user(email):
 @manager.option('-v', '--value', dest='value', help='The value to be set')
 def update_user(email, attribute, value):
 
-    with app.app_context():
+    with server_app.server_app_context():
         user = User.query.filter_by(email=email).first()
         if not user:
             return
         if attribute == 'password':
             user_input = input(
-                "Changing the password might not include the password hash, check it was applied. Otherwise delete user and create a new one. Continue (y/n)?"
+                "Changing the password might not include the password hash, check it was server_applied. Otherwise delete user and create a new one. Continue (y/n)?"
             )
             if user_input == 'n':
                 return
@@ -299,13 +307,15 @@ def test(filename=None, coverage_console=False):
 
 
 def make_shell_context():
-    return dict(app=app, db=db, User=User, Role=Role)
+    return dict(server_app=server_app, db=db, User=User, Role=Role)
 
 
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
-port = int(os.getenv('PORT', 5000))
-manager.add_command('runserver', Server(host="0.0.0.0", port=port))
+server_port = int(os.getenv('SERVER_PORT', 5000))
+frontend_port = int(os.getenv('FRONTEND_PORT', 3000))
+manager.add_command('runserver', Server(host="0.0.0.0", port=server_port))
+manager.add_command('runfrontend', Server(host="0.0.0.0", port=frontend_port))
 
 if __name__ == '__main__':
     manager.run()

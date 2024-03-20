@@ -22,7 +22,7 @@ else:
     )
 
 
-class ServerConfig:
+class FrontEndConfig:
     APP_NAME = os.environ.get('APP_NAME', 'Flask API Boilerplate')
     if os.environ.get('SECRET_KEY'):
         SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -52,7 +52,7 @@ class ServerConfig:
         pass
 
 
-class DevelopmentConfig(ServerConfig):
+class DevelopmentConfig(FrontEndConfig):
     ENV = 'development'
     DEBUG = True
     LOGGING_LEVEL = os.environ.get('LOGGING_LEVEL', 'DEBUG')
@@ -66,7 +66,7 @@ class DevelopmentConfig(ServerConfig):
                 YOU SHOULD NOT SEE THIS IN PRODUCTION.')
 
 
-class TestingConfig(ServerConfig):
+class TestingConfig(FrontEndConfig):
     ENV = 'testing'
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get(
@@ -79,7 +79,7 @@ class TestingConfig(ServerConfig):
                 YOU SHOULD NOT SEE THIS IN PRODUCTION.')
 
 
-class UnitTestingConfig(ServerConfig):
+class UnitTestingConfig(FrontEndConfig):
     ENV = 'unittesting'
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get(
@@ -93,7 +93,7 @@ class UnitTestingConfig(ServerConfig):
               YOU SHOULD NOT SEE THIS IN PRODUCTION.')
 
 
-class ProductionConfig(ServerConfig):
+class ProductionConfig(FrontEndConfig):
     ENV = 'production'
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get(
@@ -102,7 +102,7 @@ class ProductionConfig(ServerConfig):
 
     @classmethod
     def init_app(cls, app):
-        ServerConfig.init_app(app)
+        FrontEndConfig.init_app(app)
         assert os.environ.get('SECRET_KEY'), 'SECRET KEY IS NOT SET!'
 
 

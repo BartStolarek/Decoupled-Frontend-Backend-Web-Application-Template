@@ -6,7 +6,7 @@ import sys
 from loguru import logger
 
 # Local Imports
-from server.config import ServerConfig, root_project_dir
+from frontend.config import FrontEndConfig, root_project_dir
 
 
 def setup_logger():
@@ -32,12 +32,12 @@ def setup_logger():
                level=logging_level)
 
     # Check if directory exists
-    if not os.path.exists(f"{root_project_dir}/data/server/logs"):
-        os.makedirs(f"{root_project_dir}/data/server/logs")
+    if not os.path.exists(f"{root_project_dir}/data/frontend/logs"):
+        os.makedirs(f"{root_project_dir}/data/frontend/logs")
 
     # Add a log file
     logger.add(
-        f"{root_project_dir}/data/server/logs/server.log",
+        f"{root_project_dir}/data/frontend/logs/frontend.log",
         diagnose=diagnose,
         retention="10 days",
         enqueue=True,
