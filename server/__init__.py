@@ -2,6 +2,7 @@ import os
 import time
 
 from dotenv import load_dotenv
+from flasgger import Swagger
 from flask import Flask, g, jsonify
 from flask_compress import Compress
 from flask_cors import CORS
@@ -9,30 +10,33 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_rq import RQ
 from flask_sqlalchemy import SQLAlchemy
-from flasgger import Swagger
 
 from server.config import config as Config
-from server.extensions import db, login_manager, mail, compress
+from server.extensions import compress, db, login_manager, mail
 
-from .middleware.api_logger import log_request, log_response
-from .middleware.response_manipulator import response_manipulator
+from .middlewares.api_logger import log_request, log_response
+from .middlewares.response_manipulator import response_manipulator
+from .utils.flasgger import setup_flasgger
 from .utils.http_status_codes import handle_status_code
 from .utils.logger import setup_logger
-from .utils.flasgger import setup_flasgger
 
 
 def create_server(config_name=None):
     print('Starting initialisation of server')
     load_dotenv('config.env')
-    server = Flask(__name__)
-     
+    server = Flask(__name__, static_folder='static')
+
     frontend_origin = os.getenv('FRONTEND_ORIGIN', 'http://localhost:5000')
-    CORS(server, supports_credentials=True, origins=[frontend_origin], methods=["GET", "POST", "OPTIONS"], allow_headers=['Content-Type', 'Authorization', 'ngrok-skip-browser-warning'])
+    CORS(server,
+         supports_credentials=True,
+         origins=[frontend_origin],
+         methods=["GET", "POST", "OPTIONS"],
+         allow_headers=[
+             'Content-Type', 'Authorization', 'ngrok-skip-browser-warning'
+         ])
 
+    swagger = setup_flasgger(server)
 
-    
-    swagger = setup_flasgger(server) 
-    
     if not config_name:
         config_name = os.getenv('FLASK_CONFIG', 'default')
 
@@ -73,9 +77,9 @@ def create_server(config_name=None):
     server.after_request(log_response)
 
     # Register blueprints
-    from .api import server_blueprint as server_blueprint
+    from .apis import server_blueprint as server_blueprint
     server.register_blueprint(server_blueprint, url_prefix='/server')
-    from .api import user_blueprint as user_blueprint
+    from .apis import user_blueprint as user_blueprint
     server.register_blueprint(user_blueprint, url_prefix='/user')
 
     @server.route('/favicon.ico')
@@ -88,7 +92,7 @@ def create_server(config_name=None):
         Index endpoint for the server.
         """
         return "Welcome to the Flask Server!"
-    
+
     @server.route('/test')
     def test_route():
         response = jsonify({"status_code": 200, "data": "Test data"})

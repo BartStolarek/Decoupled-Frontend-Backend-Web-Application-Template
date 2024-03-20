@@ -1,6 +1,7 @@
 # server/utils/swagger.py
-from flasgger import Swagger, LazyJSONEncoder
+from flasgger import LazyJSONEncoder, Swagger
 from flask import request
+
 
 def setup_flasgger(server):
     server.json_encoder = LazyJSONEncoder
@@ -22,10 +23,7 @@ def setup_flasgger(server):
         },
         "host": "mysite.com",  # This would be your production API host
         "basePath": "/",
-        "schemes": [
-            "http",
-            "https"
-        ],
+        "schemes": ["http", "https"],
         "operationId": "getmyData",
         "externalDocs": {
             "description": "Find more info here",
@@ -38,17 +36,18 @@ def setup_flasgger(server):
     # Define the Flasgger configuration
     swagger_config = {
         'headers': [],
-        'specs': [
-            {
-                'endpoint': 'apispec_1',
-                'route': '/apispec_1.json',
-                'rule_filter': lambda rule: True,  # all in
-                'model_filter': lambda tag: True,  # all in
-            }
-        ],
-        'static_url_path': '/flasgger_static',
-        'swagger_ui': True,
-        'specs_route': '/apidocs/'
+        'specs': [{
+            'endpoint': 'apispec_1',
+            'route': '/apispec_1.json',
+            'rule_filter': lambda rule: True,  # all in
+            'model_filter': lambda tag: True,  # all in
+        }],
+        'static_url_path':
+        '/flasgger_static',
+        'swagger_ui':
+        True,
+        'specs_route':
+        '/apidocs/'
     }
 
     # Initialize Flasgger with the server, template, and configuration

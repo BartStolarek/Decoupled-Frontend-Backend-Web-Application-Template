@@ -1,14 +1,17 @@
 from datetime import datetime, timezone
 from functools import wraps
-from flask import request, jsonify, current_app
-import jwt
-from loguru import logger
-from jwt import ExpiredSignatureError, InvalidTokenError
 
-from server.services.user import get_users
+import jwt
+from flask import current_app, jsonify, request
+from jwt import ExpiredSignatureError, InvalidTokenError
+from loguru import logger
+
+from server.services.user import get_user
 from server.utils.http_status_codes import handle_status_code
 
+
 def token_required(f):
+
     @wraps(f)
     def decorated_function(*args, **kwargs):
         logger.info("Checking if token is valid")
@@ -22,46 +25,75 @@ def token_required(f):
         if not token:
             logger.error("Failed to access endpoint, token is missing!")
             code = 401
-            response = handle_status_code(code, data={"error_info": "Token is missing!"})
+            response = handle_status_code(
+                code, data={"error_info": "Token is missing!"})
             return response, 401
 
         try:
             # Decode the token
-            data = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=["HS256"])
-            
+            data = jwt.decode(token,
+                              current_app.config['SECRET_KEY'],
+                              algorithms=["HS256"])
+
             # Get current UTC time as Unix timestamp
             current_utc_timestamp = datetime.now(timezone.utc).timestamp()
-            
+
             # Check if token is expired
             if data['exp'] < current_utc_timestamp:
                 logger.error("Failed to access endpoint, token has expired!")
                 code = 401
-                response = handle_status_code(code, data={"error_info": "Failed to access endpoint, token has expired!"})
+                response = handle_status_code(
+                    code,
+                    data={
+                        "error_info":
+                        "Failed to access endpoint, token has expired!"
+                    })
                 return response, 401
-            
-            users = get_users("id", data['user_id'])
-            if not users:
+
+            success, message, user = get_user(user_id=data['user_id'])
+            if not user or not success:
                 logger.error("Failed to access endpoint, user does not exist!")
                 code = 401
-                response = handle_status_code(code, data={"error_info": "Failed to access endpoint, user does not exist!"})
+                response = handle_status_code(
+                    code,
+                    data={
+                        "error_info":
+                        "Failed to access endpoint, user does not exist!"
+                    })
                 return response, 401
             else:
-                current_user_id = users[0].id
-                
+                current_user_id = user.id
+
         except ExpiredSignatureError:
             logger.error("Failed to access endpoint, token has expired!")
             code = 401
-            response = handle_status_code(code, data={"error_info": "Failed to access endpoint, token has expired!"})
+            response = handle_status_code(
+                code,
+                data={
+                    "error_info":
+                    "Failed to access endpoint, token has expired!"
+                })
             return response, 401
         except InvalidTokenError:
             logger.error("Failed to access endpoint, token is invalid!")
             code = 401
-            response = handle_status_code(code, data={"error_info": "Failed to access endpoint, token is invalid!"})
+            response = handle_status_code(
+                code,
+                data={
+                    "error_info":
+                    "Failed to access endpoint, token is invalid!"
+                })
             return response, 401
         except Exception as e:
-            logger.error(f"Failed to access endpoint: Error type: {type(e)}, Error: {e}")
+            logger.error(
+                f"Failed to access endpoint: Error type: {type(e)}, Error: {e}"
+            )
             code = 500
-            response = handle_status_code(code, data={"error_info": "Failed to access endpoint - server error"})
+            response = handle_status_code(
+                code,
+                data={
+                    "error_info": "Failed to access endpoint - server error"
+                })
             return response, 500
 
         return f(current_user_id, *args, **kwargs)

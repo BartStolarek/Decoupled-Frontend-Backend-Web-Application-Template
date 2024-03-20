@@ -1,11 +1,11 @@
-from loguru import logger
-
 # Assuming you have a SECRET_KEY defined in your config
 from flask import Blueprint, request
+from loguru import logger
 
-from server.middleware import rate_limit
-from server.handler import handle_register_user, handle_authorize_user, handle_delete_user, handle_update_user, handle_user_details
-from server.middleware import token_required
+from server.handlers import (handle_authorize_user, handle_delete_user,
+                             handle_register_user, handle_update_user,
+                             handle_user_details)
+from server.middlewares import rate_limit, token_required
 
 user_blueprint = Blueprint("user", __name__)
 
@@ -72,6 +72,7 @@ def register():
     """
     logger.info("Registering user")
     return handle_register_user(request.json)
+
 
 @user_blueprint.route("/authorize", methods=["POST"])
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
@@ -218,5 +219,3 @@ def user_details(current_user_id):
     # Your logic here to decode the token, extract user ID, and fetch user details
 
     return handle_user_details(current_user_id)
-            
-    

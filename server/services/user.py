@@ -1,6 +1,6 @@
 from loguru import logger
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy import text
+from sqlalchemy.exc import IntegrityError
 
 from server.extensions import db
 from server.models.user import User
@@ -120,8 +120,29 @@ def update_user(user_dict: dict) -> tuple[bool, str]:
         return False, 'Unexpected error occurred. Could not update user'
 
 
+def get_user(user_id: int) -> tuple[bool, str, User]:
+    """Get user details from the database
 
-def get_users(search_column: str, search_value: str) -> list[User]:
+    Args:
+        user_id (int): The unique id of the user being retrieved
+
+    Returns:
+        bool: whether or not the user was successfully retrieved
+        str: a message indicating the result of the retrieval
+        User: a user object
+    """
+    if isinstance(user_id, User):
+        return True, "Success", user_id
+    try:
+        user = User.query.filter_by(id=user_id).first()
+        return True, "Success", user
+    except Exception as e:
+        logger.error(f"Unexpected Error trying to find user: {e}")
+        return False, 'Unexpected error occurred', {}
+
+
+def get_users(search_column: str,
+              search_value: str) -> tuple[bool, str, list[User]]:
     """Get a list of users that match search parameter
 
     Args:
@@ -129,15 +150,19 @@ def get_users(search_column: str, search_value: str) -> list[User]:
         search_value (str): The value to search for in the column
 
     Returns:
-        list[User]: list of users that were found matching those search parameters
+        bool: whether or not the user was successfully retrieved
+        str: a message indicating the result of the retrieval
+        list[User]: a list of users that match the search parameter
     """
     try:
-        return User.query.filter(text(f"{search_column}=:value")).params(value=search_value).all()
+        users = User.query.filter(
+            text(f"{search_column}=:value")).params(value=search_value).all()
+        return True, "Success", users
     except Exception as e:
         logger.error(f"Unexpected Error trying to find users: {e}")
-        return []
+        return False, 'Unexpected error occurred', []
 
-    
+
 def get_user_details(user_id: int) -> tuple[bool, str, dict]:
     """Get user details from the database. This function obtains the details dynamically. 
 
@@ -153,9 +178,9 @@ def get_user_details(user_id: int) -> tuple[bool, str, dict]:
         user = User.query.filter_by(id=user_id).first()
         if user is None:
             return False, 'User does not exist', {}
-        
+
         user_dict = user.to_dict()
-        
+
         return True, "Success", user_dict
     except Exception as e:
         logger.error(f"Unexpected Error trying to find user: {e}")

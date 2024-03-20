@@ -1,8 +1,8 @@
 from functools import wraps
 from time import time
-from loguru import logger
 
 from flask import abort, g, request
+from loguru import logger
 
 
 def rate_limit(max_requests, time_window):

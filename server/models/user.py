@@ -54,11 +54,17 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(64), index=True)
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-    date_of_birth = db.Column(db.Date)
-    weight_kg = db.Column(db.Float)
-    height_cm = db.Column(db.Float)
-    gender = db.Column(db.String(6))
 
+    
+    # One-to-One Relationships
+    athlete = db.relationship('Athlete', back_populates='user', uselist=False)
+    
+    # One-to-Many Relationships
+    trainingplans = db.relationship('TrainingPlan', back_populates='user')
+    
+    # Many-to-Many Relationships
+    equipments = db.relationship("User_Equipment", back_populates="users")
+    
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
@@ -68,24 +74,24 @@ class User(UserMixin, db.Model):
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
 
-    def to_dict(self, include_sensitive=False) -> dict:
-        """Return a dictionary representation of the user.
-
-        Args:
-            include_sensitive (bool, optional): Determine whether sensitive data like password, role_id and confirmed is included. Defaults to False.
+    def to_dict(self, include_sensitive: bool = False) -> dict:
+        """Return a dictionary representation of the the model.
 
         Returns:
-            dict: A dictionary representation of the user
+            dict: A dictionary representation of the equipment
         """
-        user_dict = {column.name: getattr(self, column.name) for column in self.__table__.columns}
-        
+        model_dict = {
+            column.name: getattr(self, column.name)
+            for column in self.__table__.columns
+        }
+
         if not include_sensitive:
-            user_dict.pop('password_hash')
-            user_dict.pop('confirmed')
-            user_dict.pop('role_id')
-        
-        return user_dict
-    
+            model_dict.pop('password_hash')
+            model_dict.pop('confirmed')
+            model_dict.pop('role_id')
+
+        return model_dict
+
     def full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
 
@@ -200,3 +206,7 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User \'%s\'>' % self.full_name()
+
+    def get_app_access_token(self):
+        # TODO: Create new tables for access tokens for devices
+        return "fake_token_for_now"

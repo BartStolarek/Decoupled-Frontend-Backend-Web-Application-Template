@@ -1,9 +1,8 @@
 # Standard Imports
 
 # Third Party Imports
-from flask import request
+from flask import Response, request
 from loguru import logger
-from flask import Response
 
 # Local Imports
 
@@ -39,17 +38,14 @@ def log_response(response):
                 decoded_data = truncated_data.decode('utf-8', errors='replace')
 
                 logger.info(
-                    f"Response: {response.status}, Data: {decoded_data}"
-                )
+                    f"Response: {response.status}, Data: {decoded_data}")
             except RuntimeError as e:
                 # Handle cases where the response is in direct passthrough mode
                 logger.error(f"Error logging response data: {e}")
                 logger.info(
-                    f"Response: {response.status} [Data not accessible]"
-                )
+                    f"Response: {response.status} [Data not accessible]")
         else:
             # If response is not a Flask Response object (e.g., direct passthrough mode), log without trying to access data
             logger.info(
-                f"Response: {response.status} [Direct passthrough mode]"
-            )
+                f"Response: {response.status} [Direct passthrough mode]")
     return response

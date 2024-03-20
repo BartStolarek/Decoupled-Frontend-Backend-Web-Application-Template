@@ -1,6 +1,6 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var base_url = ''; // Base URL defined here
+    var base_url = '<input_your_server_base_url_here>'; // Base URL defined here
     
     document.getElementById('login-button').addEventListener('click', function(e) {
         e.preventDefault(); // Prevent the default form submission
