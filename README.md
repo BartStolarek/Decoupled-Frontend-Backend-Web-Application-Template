@@ -23,9 +23,12 @@ This project is a template for a Python Flask server, designed to expedite the s
 
 To see API documentation, run the server and navigate to 
 `http://localhost:5000/apispec_1.json` 
-or whatever port you are running the server on.
+or
+`http://localhost:5000//apidocs`
 
-### How To Use:
+replace the port 5000 with whatever port you're using.
+
+# How To Use:
 
 This section guides you through setting up and managing your server. Follow the instructions below to get started.
 
@@ -39,7 +42,9 @@ Before you begin, ensure you have the following installed:
 To clone and run this project for the first time, follow these steps:
 1. Clone the repository: `git clone [repository URL]`
 2. Navigate to the project directory: `cd [project directory]`
-3. Install Python dependencies: `pip install -r requirements.txt`
+3. Create a virtual environment: `python3 -m venv venv`
+4. Activate the virtual environment: `source venv/bin/activate` (if you're using linux)
+5. Install Python dependencies: `pip install -r requirements.txt`
 
 
 ## Configure
@@ -293,22 +298,22 @@ Think of it as a representation of your data structure in code, mirroring tables
 Houses the core business logic of your application.
 This is where you write code that processes data, makes decisions, and performs the main operations of your application.
 
-**API (api/):** <br>
+**API (apis/):** <br>
 Contains the definitions of your API endpoints.
 This is where you define how external clients (like your frontend) interact with your application, usually through HTTP requests.
 
-**Handler (handler/):** <br>
+**Handler (handlers/):** <br>
 Manages incoming HTTP requests and directs them to the appropriate service.
 Think of it as a traffic controller, interpreting requests and determining the response flow.
 
-**Integration (integration/):** <br>
+**Integration (integrations/):** <br>
 Contains code that interacts with external services or systems.
 
-**Schema (schema/):** <br>
+**Schema (schemas/):** <br>
 Defines the structure of your data for validation purposes.
 It ensures that the data coming into your application (from users, external services, etc.) meets a certain format or set of rules.
 
-**Middleware (middleware/):** <br>
+**Middleware (middlewares/):** <br>
 Contains functions that execute during the request/response cycle, but outside of your main business logic.
 Typically used for tasks like logging, authentication, or modifying request/response objects.
 
@@ -320,9 +325,6 @@ Helpful in maintaining consistency and clarity in how data is structured and pas
 A collection of helper functions or constants that don’t fit neatly into other categories.
 These are usually generic functions used in multiple places in your application.
 
-**Migrations (migrations/):** <br>
-If you're using an ORM (Object-Relational Mapping) tool like SQLAlchemy, this directory would contain migration scripts to manage database schema changes.
-
 **Static (static/):** <br>
 For serving static files like images, CSS, and JavaScript (if your backend serves any frontend content).
 
@@ -332,7 +334,7 @@ If your application renders HTML on the server side, this directory would contai
 
 ## Contributing
 
-Interested in contributing? We welcome pull requests and issues from developers of all skill levels.
+Interested in contributing? I welcome pull requests and issues from developers of all skill levels.
 
 ## License
 
