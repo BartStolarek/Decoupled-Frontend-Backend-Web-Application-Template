@@ -349,3 +349,37 @@ It will utilise Tailwind css and potentiall daisyUI for components.
 
 The goal is to have a independent frontend and backend in the same git, which you could just delete the frontend folder or the server folder, and the remaining
 will still run smoothly. 
+
+## Tailwind
+
+### Installation
+
+1. Check that node and npm are installed by using these commands in your terminal `node -v` and `npm -v`, to get a version number.
+2. Navigate to the 'frontend' directory `cd frontend`
+3. run `npm init -y` to create a package.json file
+4. Install tailwind css via npm with `npm install tailwindcss`
+5. Generate tailwind configuration file with `npx tailwindcss init`, this creates a tailwind.config.js file.
+6. Run following code to create necessary css files 
+```
+echo '@tailwind base;\n@tailwind components;\n@tailwind utilities;' > static/css/style.css
+```
+7. Go to frontend/package.json file and add a build script under "scripts", that looks like this:
+```
+"scripts": {
+  "build:css": "tailwindcss -i ./static/css/style.css -o ./static/css/output.css --minify",
+  "watch:css": "tailwindcss -i ./static/css/style.css -o ./static/css/output.css --watch"
+}
+
+```
+
+### Management
+
+1. Change to frontend directory with `cd frontend` from root directory
+2. run `npm run build:css` to build the css file
+3. run `npm run watch:css` to watch the css file for changes and not need to do it everytime you make changes
+3. Include `<link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">` in flask html template files
+
+
+
+
+
