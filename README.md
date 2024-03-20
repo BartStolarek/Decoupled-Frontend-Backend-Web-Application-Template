@@ -339,3 +339,13 @@ Interested in contributing? I welcome pull requests and issues from developers o
 ## License
 
 This project is licensed under the MIT License - see the LICENSE.md file for details.
+
+
+# Road Map
+
+Currently I'm working on a branch called 'frontend' which adds in a de coupled front end server using Flask.
+This will include the general foundations to a webpage that has a user management system.
+It will utilise Tailwind css and potentiall daisyUI for components.
+
+The goal is to have a independent frontend and backend in the same git, which you could just delete the frontend folder or the server folder, and the remaining
+will still run smoothly. 
