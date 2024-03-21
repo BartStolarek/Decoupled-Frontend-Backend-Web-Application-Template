@@ -1,6 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base"; 
+@import "tailwindcss/components"; 
+@import "tailwindcss/utilities"; 
+@import "navbar.css";
 
 
 /* Global Padding - Example does not change across viewports, but you can adjust if needed */

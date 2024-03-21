@@ -16,6 +16,7 @@
     "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
-    "daisyui": "^4.7.3"
+    "daisyui": "^4.7.3",
+    "postcss-import": "^16.1.0"
   }
 }

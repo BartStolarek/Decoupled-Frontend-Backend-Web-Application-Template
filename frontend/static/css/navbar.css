@@ -1,0 +1,29 @@
+
+
+
+@layer utilities {
+    .bar {
+        height: 2px;
+        width: 100%;
+        background-color: theme('colors.text'); 
+        transition: all 0.3s ease;
+        border-radius: 10px;
+        
+    }
+
+    .menu-icon.active .bar:nth-child(1) {
+        transform: translateY(0.8rem) rotate(45deg);
+        background-color: white;
+    }
+
+    .menu-icon.active .bar:nth-child(2) {
+        opacity: 0;
+        background-color: white;
+    }
+
+    .menu-icon.active .bar:nth-child(3) {
+        transform: translateY(-0.8rem) rotate(-45deg);
+        background-color: white;
+    }
+}
+  

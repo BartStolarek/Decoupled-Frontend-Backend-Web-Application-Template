@@ -1,13 +1,15 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="mytheme">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
-</head>
-<body>
-    <div class="global">
+
+{% extends "base.html" %}
+
+{% block title %}Style Guide{% endblock %}
+
+
+
+{% block content %}
+
+    {% include 'components/navbar.html' %}
+
+    <div class="global min-width: 1024px;">
         <!-- Color Palette -->
         <div class="section">
             <div class = "grid grid-cols-2 gap-4">
@@ -193,7 +195,7 @@
                         <span class="loading loading-spinner"></span>
                     </button>
                 </div>
-           
+            
             </div>
         </div>
 
@@ -231,20 +233,20 @@
                     <!-- Checkbox -->
                     <div class="form-control">
                         <label class="cursor-pointer label">
-                          <span class="label-text">Remember me</span>
-                          <input type="checkbox" checked="checked" class="checkbox checkbox-secondary" />
+                            <span class="label-text">Remember me</span>
+                            <input type="checkbox" checked="checked" class="checkbox checkbox-secondary" />
                         </label>
-                      </div>
+                        </div>
                     
                     <!-- Radio Button -->
                     <div class="form-control">
                         <label class="label cursor-pointer">
-                          <span class="label-text">Male</span> 
-                          <input type="radio" name="radio-10" class="radio radio-accent checked:bg-red-500" checked />
+                            <span class="label-text">Male</span> 
+                            <input type="radio" name="radio-10" class="radio radio-accent checked:bg-red-500" checked />
                         </label>
                         <label class="label cursor-pointer">
-                          <span class="label-text">Female</span> 
-                          <input type="radio" name="radio-10" class="radio radio-accent checked:bg-blue-500" checked />
+                            <span class="label-text">Female</span> 
+                            <input type="radio" name="radio-10" class="radio radio-accent checked:bg-blue-500" checked />
                         </label>
                     </div>
                     
@@ -292,24 +294,24 @@
                         </label>
                         <div class="flex flex-col">
                             <div class="form-control w-52">
-                              <label class="cursor-pointer label">
+                                <label class="cursor-pointer label">
                                 <span class="label-text">Primary</span> 
                                 <input type="checkbox" class="toggle toggle-primary" checked />
-                              </label>
+                                </label>
                             </div>
                             <div class="form-control w-52">
-                              <label class="cursor-pointer label">
+                                <label class="cursor-pointer label">
                                 <span class="label-text">Secondary</span> 
                                 <input type="checkbox" class="toggle toggle-secondary" checked />
-                              </label>
+                                </label>
                             </div>
                             <div class="form-control w-52">
-                              <label class="cursor-pointer label">
+                                <label class="cursor-pointer label">
                                 <span class="label-text">Accent</span> 
                                 <input type="checkbox" class="toggle toggle-accent" checked />
-                              </label>
+                                </label>
                             </div>
-                          </div>
+                            </div>
                     </div>
 
 
@@ -321,9 +323,11 @@
                 </form>
             </div>
         </div>
+    </div>
 
-    
+    {% include 'components/footer.html' %}
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
-</html>
+
+
+{% endblock %}

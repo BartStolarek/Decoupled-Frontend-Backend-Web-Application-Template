@@ -355,11 +355,11 @@ will still run smoothly.
 1. Check that node and npm are installed by using these commands in your terminal `node -v` and `npm -v`, to get a version number.
 2. Navigate to the 'frontend' directory `cd frontend`
 3. run `npm init -y` to create a package.json file
-4. Install tailwind css via npm with `npm install @tailwindcss/latest @tailwindcss/typography`
+4. Install tailwind css via npm with `npm install @tailwindcss/latest @tailwindcss/typography -D postcss-import`
 5. Generate tailwind configuration file with `npx tailwindcss init`, this creates a tailwind.config.js file.
 6. Run following code to create necessary css files 
 ```
-echo '@tailwind base;\n@tailwind components;\n@tailwind utilities;' > static/css/style.css
+echo '"tailwindcss/base";\n@import "tailwindcss/components"; \n@import "tailwindcss/utilities";' > static/css/style.css
 ```
 7. Go to frontend/package.json file and add a build script under "scripts", that looks like this:
 ```
