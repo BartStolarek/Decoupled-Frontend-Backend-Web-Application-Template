@@ -102,7 +102,6 @@ Other options include:
 | `default`   | Default environment, has destinations as development |
 | `development` |  Development environment run locally with dev database (sqlite) being stored locally |
 | `testing`  | Testing environment run locally with test database (sqlite) being stored locally |
-| `unittesting`  | Environment used for unittesting |
 | `production`  | Production environment runs locally but connects to deployed (production) database |
 
 
@@ -121,7 +120,6 @@ Database instances should be isolated to different environments.
 | --------------- | -----|
 | `data-dev.sqlite`   | Development dedicated database stored locally using sqlite |
 | `data-test.sqlite` |  Testing dedicated database stored locally using sqlite |
-| `data-unittest.sqlite` |  Unit Testing dedicated database stored locally using sqlite |
 | postgres URL  | Production dedicated database |
 
 ### Logging Level
@@ -175,7 +173,7 @@ Setting up and managing the database is crucial for the application's functional
     
     `python manage.py recreate_db`
 
-2. You need to populate your database with admin and fake user accounts. For flask_configs other than production, you can run the following command to populate your database with admin and fake user accounts (development, testing, unittest). 
+2. You need to populate your database with admin and fake user accounts. For flask_configs other than production, you can run the following command to populate your database with admin and fake user accounts (development, testing). 
     
     `python manage.py setup_dev`
 
@@ -345,7 +343,7 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 Currently I'm working on a branch called 'frontend' which adds in a de coupled front end server using Flask.
 This will include the general foundations to a webpage that has a user management system.
-It will utilise Tailwind css and potentiall daisyUI for components.
+It will utilise Tailwind css and potentially daisyUI for components.
 
 The goal is to have a independent frontend and backend in the same git, which you could just delete the frontend folder or the server folder, and the remaining
 will still run smoothly. 
@@ -357,7 +355,7 @@ will still run smoothly.
 1. Check that node and npm are installed by using these commands in your terminal `node -v` and `npm -v`, to get a version number.
 2. Navigate to the 'frontend' directory `cd frontend`
 3. run `npm init -y` to create a package.json file
-4. Install tailwind css via npm with `npm install tailwindcss`
+4. Install tailwind css via npm with `npm install @tailwindcss/latest @tailwindcss/typography`
 5. Generate tailwind configuration file with `npx tailwindcss init`, this creates a tailwind.config.js file.
 6. Run following code to create necessary css files 
 ```
@@ -371,6 +369,7 @@ echo '@tailwind base;\n@tailwind components;\n@tailwind utilities;' > static/css
 }
 
 ```
+8. Go to tailwind.config.js and in the plugins section add `require("@tailwindcss/typography"),`
 
 ### Management
 
@@ -378,6 +377,50 @@ echo '@tailwind base;\n@tailwind components;\n@tailwind utilities;' > static/css
 2. run `npm run build:css` to build the css file
 3. run `npm run watch:css` to watch the css file for changes and not need to do it everytime you make changes
 3. Include `<link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">` in flask html template files
+
+## daisyUI
+
+### Installation
+
+1. Make sure you're in the frontend directory with your terminal (`cd frontend`)
+2. Install daisyUI using terminal `npm i -D daisyui@latest`
+3. Add daisyUI to your tailwind.config.js file
+```
+module.exports = {
+  //...
+  plugins: [require("daisyui")],
+}
+```
+4. Run `npm run build:css` to build the css file
+
+### Management
+
+Add as an example `<button class="btn btn-primary">Click me</button>` to a template html file like home.html
+
+#### Access Style Guide
+To check your websites style guide you can access `http://localhost:3000/styleguide` or whatever port you are running the server on.
+
+#### Update theme colours
+1. Access tailwindcss.config.js file
+2. go to the const 'myColors' and update the colours to your liking
+```const myColors = {
+  text: 'rgb(8, 28, 24)', // Usually best to have a monochrome (black to white)
+  background: 'rgb(243, 255, 252)',
+  primary: 'rgb(72, 203, 171)',
+  secondary: 'rgb(152, 159, 226)',
+  accent: 'rgb(130, 96, 210)',
+  neutral: "rgb(8, 28, 24, 0.15)", // 15% opacity of text is usually good for neutral
+  info: "#48a4cb",
+  success: "#96D05D",
+  warning: "#EDB95E", 
+  error: "#E2363F",
+};
+```
+
+This way, when you are using the daisyUI components and tailwind components, to colour something you just need to add the class `bg-primary` or `text-primary` etc to the class of the element in the html. For example:
+    
+    `<button class="btn btn-primary">Click me</button>`
+    `<div class="bg-accent"></div>`
 
 
 

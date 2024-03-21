@@ -64,10 +64,20 @@ def create_frontend(config_name=None):
     def page_not_found(e):
         response, code = handle_status_code(404)
         return response, code
+    
+    @frontend.after_request
+    def add_header(response):
+        # If development, test environment
+        if config_name in ['development', 'test']:
+            response.cache_control.no_store = True
+        return response  # Make sure to return the response object
+
 
     # Register blueprints
     from .pages import home_blueprint as home_blueprint
     frontend.register_blueprint(home_blueprint)
+    from .pages import style_guide_blueprint as style_guide_blueprint
+    frontend.register_blueprint(style_guide_blueprint)
     
     @frontend.route('/favicon.ico')
     def favicon():

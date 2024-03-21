@@ -79,20 +79,6 @@ class TestingConfig(ServerConfig):
                 YOU SHOULD NOT SEE THIS IN PRODUCTION.')
 
 
-class UnitTestingConfig(ServerConfig):
-    ENV = 'unittesting'
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        'UNITTEST_DATABASE_URL',
-        'sqlite:///' + os.path.join(root_project_dir, 'data-unittest.sqlite'))
-    WTF_CSRF_ENABLED = False
-
-    @classmethod
-    def init_app(cls, app):
-        print('THIS APP IS IN UNIT TESTING MODE. \
-              YOU SHOULD NOT SEE THIS IN PRODUCTION.')
-
-
 class ProductionConfig(ServerConfig):
     ENV = 'production'
     DEBUG = False
@@ -110,6 +96,5 @@ config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
-    'unittesting': UnitTestingConfig,
     'default': DevelopmentConfig
 }

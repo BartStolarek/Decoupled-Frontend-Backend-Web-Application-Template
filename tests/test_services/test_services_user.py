@@ -9,7 +9,7 @@ from unittest.mock import patch
 class TestRegisterUser:
     @pytest.fixture(autouse=True)
     def setUp(self):
-        self.app = create_server('unittesting')
+        self.app = create_server('testing')
         with self.app.app_context():
             db.drop_all()  # Drop all tables
             db.create_all()  # Recreate tables
@@ -92,7 +92,7 @@ class TestRegisterUser:
 class TestDeleteUser:
     @pytest.fixture(autouse=True)
     def setUp(self):
-        self.app = create_server('unittesting')
+        self.app = create_server('testing')
         with self.app.app_context():
             db.drop_all()  # Drop all tables
             db.create_all()  # Recreate tables
@@ -155,7 +155,7 @@ class TestDeleteUser:
 class TestUpdateUser:
     @pytest.fixture(autouse=True)
     def setUp(self):
-        self.app = create_server('unittesting')
+        self.app = create_server('testing')
         with self.app.app_context():
             db.drop_all()  # Drop all tables
             db.create_all()  # Recreate tables

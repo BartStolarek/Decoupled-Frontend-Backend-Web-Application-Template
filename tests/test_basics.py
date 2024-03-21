@@ -9,7 +9,7 @@ from server import create_server, db
 @pytest.fixture(scope='function')
 def test_client():
     # Configure your app for testing
-    app = create_server('unittesting')
+    app = create_server('testing')
     app.config['TESTING'] = True
     app_context = app.app_context()
     app_context.push()
