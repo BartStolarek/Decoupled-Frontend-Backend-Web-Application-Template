@@ -1,12 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 
 const myColors = {
-  text: 'rgb(8, 28, 24)', // Usually best to have a monochrome (black to white)
-  background: 'rgb(243, 255, 252)',
-  primary: 'rgb(72, 203, 171)',
-  secondary: 'rgb(152, 159, 226)',
-  accent: 'rgb(130, 96, 210)',
-  neutral: "rgb(8, 28, 24, 0.15)", // 15% opacity of text is usually good for neutral
+  text: 'rgb(8, 28, 24)', // Should contrast well with background (between black and white)
+  background: 'rgb(243, 255, 252)', // Sets the tone, should not compete with content. Neutral and not distracting
+  primary: 'rgb(72, 203, 171)', // For main interactive elements, like primary buttons, links, active states, or things you want drawn to
+  secondary: 'rgb(152, 159, 226)', // Elements that are not the main focus but still need emphasis
+  accent: 'rgb(130, 96, 210)', // Vibrant and used sparingly to draw attention
+  neutral: "rgb(8, 28, 24, 0.15)", // Useful for borders, shadows, disabled states, suggest to just do 0.15 opacity of text color
   info: "#48a4cb",
   success: "#96D05D",
   warning: "#EDB95E", 
@@ -36,10 +36,12 @@ module.exports = {
         'radial-primary-accent': `radial-gradient(circle, ${myColors.primary}, ${myColors.accent})`,
         'radial-secondary-accent': `radial-gradient(circle, ${myColors.secondary}, ${myColors.accent})`,
       },
+      
     },
   },
   plugins: [
     require("@tailwindcss/typography"),
     require('daisyui'),
+    require('@tailwindcss/forms'),
   ],
 };

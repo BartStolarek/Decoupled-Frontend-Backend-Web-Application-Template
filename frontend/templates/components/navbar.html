@@ -1,40 +1,23 @@
 
-<nav class="navbar bg-primary z-10 min-w-full">
+<nav class="navbar bg-neutral z-10 min-w-full shadow-lg">
     <div class="navbar-start">
         
-        <div tabindex="0" class="menu-icon btn btn-ghost btn-small h-8 w-8 mx-3 p-0 min-h-0  z-30 fixed " role="button">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
+        <div tabindex="0" class="menu-icon btn btn-ghost btn-small h-6 w-8 mx-3 p-0 min-h-0  z-30 fixed " role="button">
+            <span class="bar shadow-sm text-text bg-text"></span>
+            <span class="bar shadow-sm text-text bg-text"></span>
+            <span class="bar shadow-sm text-text bg-text"></span>
         </div>
         
     </div>
     <div class="navbar-center">
-        <a class="btn btn-ghost text-3xl">Logo</a>
+        <a class="btn btn-ghost text-3xl text-text">Logo</a>
     </div>
-    <div class="navbar-end">
-          
-        <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-ghost btn-sm avatar">
-              <div class="w-10 rounded-full">
-                <img alt="Tailwind CSS Navbar component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-              </div>
-            </div>
-            <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-              <li>
-                <a class="justify-between">
-                  Profile
-                  <span class="badge">New</span>
-                </a>
-              </li>
-              <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
-            </ul>
-          </div>
+    <div class="navbar-end" id="navbarEnd">
+          <!-- Placeholder for dynamic content -->
     </div>
 </nav>
 
-<div id="menuOverlay" class=" hidden fixed inset-0 bg-black bg-opacity-90 backdrop-blur-sm z-20 min-w-full items-top  text-white container">
+<div id="menuOverlay" class="hidden fixed inset-0 transform -translate-x-full bg-black bg-opacity-90 backdrop-blur-sm z-20 min-w-full items-top text-white container transition-transform duration-300 ease-in-out">
     <div class="flex flex-col min-w-full  space-y-20">
       <!-- Logo on the right side -->
       <div class="text-right min-w-full">

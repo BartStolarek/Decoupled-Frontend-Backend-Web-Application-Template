@@ -2,66 +2,37 @@
 @import "tailwindcss/components"; 
 @import "tailwindcss/utilities"; 
 @import "navbar.css";
+@import "colors.css";
+
 
 
 /* Global Padding - Example does not change across viewports, but you can adjust if needed */
 .global {
-    @apply m-0 p-4 w-full min-w-full;
+  @apply m-0 p-4 w-full min-w-full; /* Mobile first: apply margin and padding */
+  @apply sm:p-6; /* Small devices (640px and up) */
+  @apply md:p-8; /* Medium devices (768px and up) */
+  @apply lg:p-10; /* Large devices (1024px and up) */
+  @apply xl:p-12; /* Extra large devices (1280px and up) */
 }
+
 
 
 /* Page Sections (i.e., Hero, Call to action, etc) */
 .section {
-    @apply flex flex-col items-center justify-center w-full;
-    @apply w-full min-w-full;
-    @apply my-4 py-3; /* Smaller devices */
-    @apply md:my-6 md:py-4; /* Tablets / landscape phones */
-    @apply lg:my-8 lg:py-6; /* Desktop monitors */
+  @apply w-full;
+  @apply my-4 py-3;
+  @apply md:my-6 md:py-4;
+  @apply lg:my-8 lg:py-6;
 }
 
 /* Container (building blocks that make up a section) */
 .container {
-    @apply mx-auto px-4 py-4; /* Smaller devices */
-    @apply md:px-6 py-6; /* Tablets / landscape phones */
-    @apply lg:px-8 py-8 max-w-screen-lg; /* Desktop monitors */
+  @apply mx-auto px-4 py-4;
+  @apply md:px-6 md:py-6;
+  @apply lg:px-8 lg:py-8;
 }
 
 .center {
     @apply flex flex-col items-center justify-center w-full;
 }
-
-/* Typography text color gradient */
-@layer utilities {
-    .text-linear-primary-accent {
-        background-image: linear-gradient(to right, theme('colors.primary'), theme('colors.accent'));
-        -webkit-background-clip: text;
-        color: transparent;
-    }
-    .text-linear-primary-secondary {
-      background-image: linear-gradient(to right, theme('colors.primary'), theme('colors.secondary'));
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-    .text-linear-secondary-accent {
-      background-image: linear-gradient(to right, theme('colors.secondary'), theme('colors.accent'));
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-    .text-radial-primary-secondary {
-      background-image: radial-gradient(circle, theme('colors.primary'), theme('colors.secondary'));
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-    .text-radial-primary-accent {
-      background-image: radial-gradient(circle, theme('colors.primary'), theme('colors.accent'));
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-    .text-radial-secondary-accent {
-      background-image: radial-gradient(circle, theme('colors.secondary'), theme('colors.accent'));
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-}
-  
 

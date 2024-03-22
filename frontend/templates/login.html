@@ -1,0 +1,50 @@
+
+
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+
+
+{% block content %}
+
+    {% include 'components/navbar.html' %}
+
+    <!-- Login Content -->
+    <div class="global">
+
+        <!-- Logo Section -->
+        <section class="section">
+            <div class="container">
+                <!-- Placeholder for logo-->#
+            </div>
+        </section>
+        <!-- Login Form-->
+        <section class="section">
+            <div class="container">
+                <h2 class="text-center text-2xl font-bold tracking-tight text-text">Sign in to your account</h2>
+            </div>
+            <div class="container max-w-xl flex flex-col prose">
+                
+                <label for="email" class="text-sm font-medium text-gray-900">Email address</label>
+                <input id="email" name="email" type="email" autocomplete="email" class="mt-2 input input-sm rounded input-bordered focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                <label for="email" class="mt-6 text-sm font-medium text-gray-900">Password</label>
+                <input id="email" name="email" type="email" autocomplete="email" class="mt-2 input input-sm rounded input-bordered  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                <a href="#" class="mt-2 text-secondary hover:text-accent sm:text-sm">Forgot password?</a>
+            </div>
+
+            
+        </section>
+
+        <!-- Register Form -->
+    </div>
+    
+        
+  
+
+  {% include 'components/footer.html' %}
+
+    
+
+
+{% endblock %}

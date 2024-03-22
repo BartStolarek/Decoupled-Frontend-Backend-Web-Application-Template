@@ -78,6 +78,8 @@ def create_frontend(config_name=None):
     frontend.register_blueprint(home_blueprint)
     from .pages import style_guide_blueprint as style_guide_blueprint
     frontend.register_blueprint(style_guide_blueprint)
+    from .pages import login_blueprint as login_blueprint
+    frontend.register_blueprint(login_blueprint)
     
     @frontend.route('/favicon.ico')
     def favicon():

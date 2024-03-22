@@ -1,0 +1,97 @@
+/* Typography text color gradient */
+@layer utilities {
+    .text-linear-primary-accent {
+        background-image: linear-gradient(to right, theme('colors.primary'), theme('colors.accent'));
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+    .text-linear-primary-secondary {
+      background-image: linear-gradient(to right, theme('colors.primary'), theme('colors.secondary'));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .text-linear-secondary-accent {
+      background-image: linear-gradient(to right, theme('colors.secondary'), theme('colors.accent'));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .text-radial-primary-secondary {
+      background-image: radial-gradient(circle, theme('colors.primary'), theme('colors.secondary'));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .text-radial-primary-accent {
+      background-image: radial-gradient(circle, theme('colors.primary'), theme('colors.accent'));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .text-radial-secondary-accent {
+      background-image: radial-gradient(circle, theme('colors.secondary'), theme('colors.accent'));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+}
+  
+/* SVG Colours */
+@layer utilities {
+  .svg-text {
+    fill: theme('colors.text');
+    stroke: theme('colors.text');
+  }
+  .svg-primary {
+    fill: theme('colors.primary');
+    stroke: theme('colors.primary');
+  }
+  .svg-secondary {
+    fill: theme('colors.secondary');
+    stroke: theme('colors.secondary');
+  }
+  .svg-accent {
+    fill: theme('colors.accent');
+    stroke: theme('colors.accent');
+  }
+  .svg-neutral {
+    fill: theme('colors.neutral');
+    stroke: theme('colors.neutral');
+  }
+  .svg-info {
+    fill: theme('colors.info');
+    stroke: theme('colors.info');
+  }
+  .svg-success {
+    fill: theme('colors.success');
+    stroke: theme('colors.success');
+  }
+  .svg-warning {
+    fill: theme('colors.warning');
+    stroke: theme('colors.warning');
+  }
+  .svg-error {
+    fill: theme('colors.error');
+    stroke: theme('colors.error');
+  }
+  .svg-linear-primary-secondary {
+    stroke: transparent;
+    fill: theme('backgroundImage.linear-primary-secondary');
+  }
+  .svg-linear-primary-accent {
+    stroke: transparent;
+    fill: theme('backgroundImage.linear-primary-accent');
+  }
+  .svg-linear-secondary-accent {
+    stroke: transparent;
+    fill: theme('backgroundImage.linear-secondary-accent');
+  }
+  .svg-radial-primary-secondary {
+    stroke: transparent;
+    fill: theme('backgroundImage.radial-primary-secondary');
+  }
+  .svg-radial-primary-accent {
+    stroke: transparent;
+    fill: theme('backgroundImage.radial-primary-accent');
+  }
+  .svg-radial-secondary-accent {
+    stroke: transparent;
+    fill: theme('backgroundImage.radial-secondary-accent');
+  }
+}
