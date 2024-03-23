@@ -424,5 +424,10 @@ This way, when you are using the daisyUI components and tailwind components, to 
 
 
 
+# React
 
+## Installation
+
+1. Check that node and npm are installed by using these commands in your terminal `node -v` and `npm -v`, to get a version number.
+2. 
 

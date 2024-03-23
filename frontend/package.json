@@ -1,22 +1,30 @@
 {
   "name": "frontend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:css": "tailwindcss -i ./static/css/style.css -o ./static/css/output.css --minify",
-    "watch:css": "tailwindcss -i ./static/css/style.css -o ./static/css/output.css --watch"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "next": "14.1.4",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.10",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.3.0"
   },
   "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "postcss": "^8",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4",
     "daisyui": "^4.7.3",
     "postcss-import": "^16.1.0"
   }

@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 const myColors = {
   text: 'rgb(8, 28, 24)', // Should contrast well with background (between black and white)
   background: 'rgb(243, 255, 252)', // Sets the tone, should not compete with content. Neutral and not distracting
@@ -14,10 +15,8 @@ const myColors = {
 
 module.exports = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./src/**/*.{js,ts,jsx,tsx}", // If you keep your components/pages inside src
-    // Add any other directories where you might use Tailwind classes
+    "./templates/**/*.html",
+    "./static/**/*.js",
   ],
   daisyui: {
     themes: [
@@ -37,6 +36,7 @@ module.exports = {
         'radial-primary-accent': `radial-gradient(circle, ${myColors.primary}, ${myColors.accent})`,
         'radial-secondary-accent': `radial-gradient(circle, ${myColors.secondary}, ${myColors.accent})`,
       },
+      
     },
   },
   plugins: [
