@@ -14,10 +14,7 @@ const myColors = {
 
 module.exports = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./src/**/*.{js,ts,jsx,tsx}", // If you keep your components/pages inside src
-    // Add any other directories where you might use Tailwind classes
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   daisyui: {
     themes: [

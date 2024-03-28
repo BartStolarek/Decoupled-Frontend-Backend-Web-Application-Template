@@ -1,8 +1,7 @@
 @import "tailwindcss/base"; 
 @import "tailwindcss/components"; 
 @import "tailwindcss/utilities"; 
-@import "navbar.css";
-@import "colors.css";
+@import "./colors.css";
 
 
 
@@ -33,6 +32,8 @@
 }
 
 .center {
-    @apply flex flex-col items-center justify-center w-full;
+    @apply flex flex-col items-center justify-center;
 }
+
+
 

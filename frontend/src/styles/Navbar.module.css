@@ -1,0 +1,23 @@
+/* styles/Navbar.module.css */
+.bar {
+  height: 2px;
+  width: 100%;
+  background-color: #000; /* Update this as per your theme('colors.text') equivalent */
+  transition: all 0.3s ease;
+  border-radius: 10px;
+}
+
+.activeBar1 {
+  transform: translateY(8px) rotate(45deg);
+  background-color: #fff;
+}
+
+.activeBar2 {
+  opacity: 0;
+  background-color: #fff;
+}
+
+.activeBar3 {
+  transform: translateY(-8px) rotate(-45deg);
+  background-color: #fff;
+}
