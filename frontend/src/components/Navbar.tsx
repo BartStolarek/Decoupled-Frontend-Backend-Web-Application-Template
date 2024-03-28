@@ -27,7 +27,7 @@ const Navbar = () => {
 					</div>
 				</div>
 				<div className="navbar-center">
-					<a className="btn btn-ghost text-3xl text-text">Logo</a>
+					<a href="/" className="btn btn-ghost text-3xl text-text">Logo</a>
 				</div>
 				<div className="navbar-end" id="navbarEnd">
 					{token ? (
@@ -49,9 +49,8 @@ const Navbar = () => {
 						<a href="#" className="text-4xl font-bold">Logo</a>
 					</div>
 					<div className="space-y-16">
-						<a href="#" className="block text-5xl mb-4">Homepage</a>
-						<a href="#" className="block text-5xl mb-4">Portfolio</a>
-						<a href="#" className="block text-5xl">About</a>
+						<a href="/" className="block text-5xl mb-4">Home</a>
+						<a href="/about" className="block text-5xl">About</a>
 					</div>
 				</div>
 			</div>

@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
               excepturi exercitationem quasi. In deleniti eaque aut repudiandae
               et a id nisi.
             </p>
-            <button className="btn btn-primary">Get Started</button>
+            <a href="/register" className="btn btn-primary">Get Started</a>
           </div>
         </div>
       </div>
