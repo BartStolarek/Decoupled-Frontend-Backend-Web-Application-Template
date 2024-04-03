@@ -54,16 +54,6 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(64), index=True)
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-
-    
-    # One-to-One Relationships
-    athlete = db.relationship('Athlete', back_populates='user', uselist=False)
-    
-    # One-to-Many Relationships
-    trainingplans = db.relationship('TrainingPlan', back_populates='user')
-    
-    # Many-to-Many Relationships
-    equipments = db.relationship("User_Equipment", back_populates="users")
     
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)

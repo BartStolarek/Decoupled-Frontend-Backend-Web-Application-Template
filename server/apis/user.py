@@ -2,7 +2,7 @@
 from flask import Blueprint, request
 from loguru import logger
 
-from server.handlers import (handle_authorize_user, handle_delete_user,
+from server.handlers import (handle_login_user, handle_delete_user,
                              handle_register_user, handle_update_user,
                              handle_user_details)
 from server.middlewares import rate_limit, token_required
@@ -10,7 +10,7 @@ from server.middlewares import rate_limit, token_required
 user_blueprint = Blueprint("user", __name__)
 
 
-@user_blueprint.route("/register", methods=["POST"])
+@user_blueprint.route("/register", methods=["POST", "OPTIONS"])
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
 def register():
     """
@@ -29,10 +29,6 @@ def register():
           required:
             - first_name
             - last_name
-            - date_of_birth
-            - height_cm
-            - weight_kg
-            - gender
             - email
             - password
           properties:
@@ -42,18 +38,6 @@ def register():
             last_name:
               type: string
               description: Last name of the user.
-            date_of_birth:
-              type: string
-              description: Date of birth of the user.
-            height_cm:
-              type: string
-              description: Height of the user.
-            weight_kg:
-              type: string
-              description: Weight of the user.
-            gender:
-              type: string
-              description: Gender of the user.
             email:
               type: string
               description: Email address of the user
@@ -74,11 +58,11 @@ def register():
     return handle_register_user(request.json)
 
 
-@user_blueprint.route("/authorize", methods=["POST"])
+@user_blueprint.route("/login", methods=["POST"])
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
-def authorize():
+def login():
     """
-    Authorize a user and return a JWT token.
+    Login a user and return a JWT token.
     ---
     tags:
       - user
@@ -108,8 +92,8 @@ def authorize():
       401:
         description: Unauthorized, invalid credentials provided.
     """
-    logger.info("Authorizing user")
-    return handle_authorize_user(request.json)
+    logger.info("Logging in user")
+    return handle_login_user(request.json)
 
 
 @user_blueprint.route("/delete", methods=["POST"])

@@ -20,10 +20,6 @@ def register_user(user_dict: dict) -> tuple[bool, str]:
         user = User(
             first_name=user_dict.get("first_name"),
             last_name=user_dict.get("last_name"),
-            date_of_birth=user_dict.get("date_of_birth"),
-            height_cm=user_dict.get("height"),
-            weight_kg=user_dict.get("weight"),
-            gender=user_dict.get("gender"),
             email=user_dict.get("email"),
             # Set the password using the password setter
         )

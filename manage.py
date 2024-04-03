@@ -18,14 +18,6 @@ manager = Manager(server_app)
 migrate = Migrate(server_app, db)
 
 
-# Frontend Local Imports
-from frontend import create_frontend
-from frontend.config import FrontEndConfig
-
-frontend_app = create_frontend(os.getenv('FLASK_CONFIG') or 'default')
-manager = Manager(frontend_app)
-
-
 ####################################################################################
 #
 #         Project Formatting Functions
@@ -236,7 +228,7 @@ def update_user(email, attribute, value):
                 value = value.strip("[]").replace(" ", "").split(",")
             elif attribute_type == dict:
                 value = json.loads(value)
-        except Exception as e:
+        except Exception:
             return
 
         setattr(user, attribute, value)
@@ -313,9 +305,7 @@ def make_shell_context():
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 server_port = int(os.getenv('SERVER_PORT', 5000))
-frontend_port = int(os.getenv('FRONTEND_PORT', 3000))
 manager.add_command('runserver', Server(host="0.0.0.0", port=server_port))
-manager.add_command('runfrontend', Server(host="0.0.0.0", port=frontend_port))
 
 if __name__ == '__main__':
     manager.run()

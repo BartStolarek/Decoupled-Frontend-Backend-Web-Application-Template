@@ -127,7 +127,8 @@ leave_this_but_ignore_children = [
     "styles",
     "webassets-external",
     "node_modules",
-    "htmlcov"  
+    "htmlcov",
+    ".next"
 ]
 
 

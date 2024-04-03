@@ -1,8 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const LoginPage: React.FC = () => {
+  const router = useRouter();
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL;
+      const response = await fetch(`${API_URL}/user/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log(`Token received: ${data.data.user_token}`)
+        // Store the token in localStorage
+        localStorage.setItem('user_token', data.data.user_token); // Assuming the token is returned in the response body under 'token'
+        
+        router.push('/'); // Redirect to the homepage or dashboard as needed
+      } else {
+        alert(`Login failed: ${data.message}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred during login');
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -15,17 +59,20 @@ const LoginPage: React.FC = () => {
         <section className="section">
           <div className="container">
             <h2 className="text-center text-2xl font-bold tracking-tight text-text">Sign in to your account</h2>
+            <a href="#" className="mt-2 text-secondary hover:text-accent text-sm block md:hidden">Register?</a>
           </div>
-          <div className="container max-w-xl flex flex-col prose">
+          <form onSubmit={handleSubmit} className="container max-w-xl flex flex-col prose">
             <label htmlFor="email" className="text-sm font-medium text-gray-900">Email address</label>
-            <input id="email" name="email" type="email" autoComplete="email" className="mt-2 input input-sm rounded input-bordered focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+            <input id="email" name="email" type="email" autoComplete="email" value={formData.email} onChange={handleChange} className="mt-2 input input-sm rounded input-bordered focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
             <label htmlFor="password" className="mt-6 text-sm font-medium text-gray-900">Password</label>
-            <input id="password" name="password" type="password" autoComplete="current-password" className="mt-2 input input-sm rounded input-bordered focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
-            <a href="#" className="mt-2 text-secondary hover:text-accent sm:text-sm">Forgot password?</a>
-          </div>
-          <div className="container center">
-            <a href="#" className="btn center btn-sm w-24">Login</a>
-          </div>
+            <input id="password" name="password" type="password" autoComplete="current-password" value={formData.password} onChange={handleChange} className="mt-2 input input-sm rounded input-bordered focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+            <a href="#" className="mt-2 text-secondary hover:text-accent text-sm">Forgot password?</a>
+            <div className="container center">
+              <button type="submit" className="btn center btn-sm w-24">
+                Login
+              </button>
+            </div>
+          </form>
         </section>
       </div>
       <Footer />

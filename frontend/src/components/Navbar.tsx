@@ -1,19 +1,37 @@
 // components/Navbar.tsx
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/Navbar.module.css'; // Importing CSS module
+import Link from 'next/link'; // Using Next.js Link for navigation without page refresh
+
 
 const Navbar = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
-	const [token, setToken] = useState('');
+	const [user_token, setToken] = useState('');
 
 	useEffect(() => {
 		// Simulating retrieval of token from localStorage
-		setToken(localStorage.getItem('jwtToken') || '');
+		setToken(localStorage.getItem('user_token') || '');
 	}, []);
+
+	const handleLogout = () => {
+		localStorage.removeItem('user_token'); // Remove the token
+		setToken(''); // Update state to reflect logout
+		window.location.reload(); // Refresh the page
+	};
+
+	const handleRegister = () => {
+		window.location.assign('/register')
+	}
+
+	const handleLogin = () => {
+		window.location.assign('/login')
+	}
 
 	return (
 		<>
 			<nav className="navbar bg-neutral z-10 min-w-full shadow-lg">
+
+				{/* Navbar Start */}
 				<div className="navbar-start">
 					<div
 						tabIndex={0}
@@ -26,18 +44,45 @@ const Navbar = () => {
 						<span className={`${styles.bar} ${menuOpen ? styles.activeBar3 : ''}`}></span>
 					</div>
 				</div>
+
+				{/* Navbar Center */}
 				<div className="navbar-center">
 					<a href="/" className="btn btn-ghost text-3xl text-text">Logo</a>
 				</div>
-				<div className="navbar-end" id="navbarEnd">
-					{token ? (
+
+				{/* Navbar End */}
+				<div className="navbar-end sm:pr-4" id="navbarEnd">
+					{user_token ? (
 						<div className="dropdown dropdown-end">
-							{/* User Avatar and Dropdown */}
+							<div className="dropdown dropdown-end">
+								<div tabIndex={0} role="button" className="btn btn-ghost btn-sm avatar">
+									<div className="w-10 rounded-full shadow">
+										<img alt="Tailwind CSS Navbar component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+									</div>
+								</div>
+								<ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+									<li>
+										<a className="justify-between">
+											Profile
+											<span className="badge">New</span>
+										</a>
+									</li>
+									<li><a>Settings</a></li>
+									<li><button onClick={handleLogout}>Logout</button></li>
+								</ul>
+							</div>
+
 						</div>
 					) : (
 						<div className="flex gap-8">
-							<a href="/register" className="btn btn-ghost btn-sm w-24 hidden md:block text-lg text-text ">Register</a>
-							<a href="/login" className="btn btn-secondary btn-sm shadow w-24 hidden md:block text-text text-lg">Login</a>
+							<button onClick={handleRegister} className="btn btn-ghost btn-sm w-24 hidden md:block text-lg text-text ">Register</button>
+							<button onClick={handleLogin} className="btn btn-secondary btn-sm shadow w-24 hidden md:block text-text text-lg">Login</button>
+							<a href="/login" className="btn btn-ghost md:hidden flex justify-center items-center">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" className="w-6 h-6 svg-text">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+								</svg>
+
+							</a>
 						</div>
 					)}
 				</div>
@@ -51,6 +96,7 @@ const Navbar = () => {
 					<div className="space-y-16">
 						<a href="/" className="block text-5xl mb-4">Home</a>
 						<a href="/about" className="block text-5xl">About</a>
+						<a href="/contact" className="block text-5xl">Contact Us</a>
 					</div>
 				</div>
 			</div>

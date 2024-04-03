@@ -16,6 +16,7 @@ from server.extensions import compress, db, login_manager, mail
 
 from .middlewares.api_logger import log_request, log_response
 from .middlewares.response_manipulator import response_manipulator
+from .middlewares.preflight import handle_preflight
 from .utils.flasgger import setup_flasgger
 from .utils.http_status_codes import handle_status_code
 from .utils.logger import setup_logger
@@ -26,7 +27,12 @@ def create_server(config_name=None):
     load_dotenv('config.env')
     server = Flask(__name__, static_folder='static')
 
-    frontend_origin = os.getenv('FRONTEND_ORIGIN', 'http://localhost:5000')
+    # Apply the custom preflight handling middleware by calling it with the server
+    handle_preflight(server)  # Adjust this line to correctly apply your middleware
+
+    
+    
+    frontend_origin = os.getenv('FRONTEND_ORIGIN', 'http://localhost:3000')
     CORS(server,
          supports_credentials=True,
          origins=[frontend_origin],

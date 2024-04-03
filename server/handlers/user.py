@@ -17,14 +17,19 @@ from server.handlers.global_functions import check_not_success_message_and_get_c
 
 def handle_register_user(request_data):
     # Function implementation
-
     user_schema = UserSchema()
     errors = user_schema.validate(request_data)
     if errors:
-        logger.error(f"Failed to validate user against user schema: {errors}")
+        error_messages = []
+        for field, field_errors in errors.items():
+            if field == '_schema':
+                error_messages.append(f"Invalid input type: {field_errors}")
+            else:
+                for error in field_errors:
+                    error_messages.append(f"{field}: {error}")
+        logger.error(f"Failed to validate user against user schema: {', '.join(error_messages)}")
         code = 400
         response = handle_status_code(code, data={"error_info": errors})
-
     else:
         user_data = user_schema.load(request_data)
         success, message = register_user(user_data)
@@ -37,7 +42,7 @@ def handle_register_user(request_data):
     return response, code
 
 
-def handle_authorize_user(request_data):
+def handle_login_user(request_data):
 
     email = request_data.get("email")
     password = request_data.get("password")
