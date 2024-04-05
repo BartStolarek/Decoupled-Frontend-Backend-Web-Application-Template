@@ -7,6 +7,14 @@ import Link from 'next/link'; // Using Next.js Link for navigation without page 
 const Navbar = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [user_token, setToken] = useState('');
+	const [userRole, setUserRole] = useState('');
+
+	useEffect(() => {
+		// Get the user's role from local storage
+		const role = localStorage.getItem('user_role');
+		setUserRole(role ?? '');
+	}, []);
+
 
 	useEffect(() => {
 		// Simulating retrieval of token from localStorage
@@ -67,6 +75,9 @@ const Navbar = () => {
 											<span className="badge">New</span>
 										</a>
 									</li>
+									{userRole === 'Administrator' && (
+										<li><a href="/admin/">Admin</a></li>
+									)}
 									<li><a>Settings</a></li>
 									<li><button onClick={handleLogout}>Logout</button></li>
 								</ul>
@@ -78,8 +89,8 @@ const Navbar = () => {
 							<button onClick={handleRegister} className="btn btn-ghost btn-sm w-24 hidden md:block text-lg text-text ">Register</button>
 							<button onClick={handleLogin} className="btn btn-secondary btn-sm shadow w-24 hidden md:block text-text text-lg">Login</button>
 							<a href="/login" className="btn btn-ghost md:hidden flex justify-center items-center">
-								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" className="w-6 h-6 svg-text">
-									<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" className="w-6 h-6 svg-text">
+									<path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
 								</svg>
 
 							</a>

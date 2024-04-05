@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import jwt_decode from "jwt-decode";
+
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
@@ -15,12 +17,19 @@ const LoginPage: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  function parseJwt(token: string) {
+    if (!token) { return; }
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(window.atob(base64));
+}
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       const API_URL = process.env.NEXT_PUBLIC_API_URL;
-      const response = await fetch(`${API_URL}/user/login`, {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -37,6 +46,14 @@ const LoginPage: React.FC = () => {
         // Store the token in localStorage
         localStorage.setItem('user_token', data.data.user_token); // Assuming the token is returned in the response body under 'token'
         
+        
+        // Decode the token to read the user's role
+        const decodedToken = parseJwt(data.data.user_token);
+        const userRole = decodedToken.user_role;
+
+        // Optionally, store the role in localStorage for quick access
+        localStorage.setItem('user_role', userRole);
+
         router.push('/'); // Redirect to the homepage or dashboard as needed
       } else {
         alert(`Login failed: ${data.message}`);
