@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User } from '@/types/user';
+import { useRouter } from 'next/router';
+import { useUser } from '@/contexts/UserContext';
 
 // Define a type for the keys of User that you will sort by
 type UserKey = keyof User | undefined;
@@ -12,8 +14,12 @@ type SortConfig = {
 
 
 const DatabaseUsersTable = () => {
+    
     const [users, setUsers] = useState<User[]>([]);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+    const router = useRouter();
+    const { updateUser } = useUser(); // Use the context to get access to updateUser
+
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -79,6 +85,12 @@ const DatabaseUsersTable = () => {
         }
         return sortableUsers;
     }, [users, sortConfig]);
+
+    const navigateToSettings = (userId: string) => {
+        updateUser(userId); // Update the global state with the selected user ID
+        router.push(`/settings`); // Navigate to settings without adding userId to the URL
+    };
+
 
     return (
         <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -150,7 +162,7 @@ const DatabaseUsersTable = () => {
                                 <td className="px-4 py-5">
                                     <div className="flex items-center space-x-3.5">
 
-                                        <button className="hover:text-danger">
+                                        <button onClick={() => navigateToSettings(user.id)} className="hover:text-danger">
                                             <svg
                                                 className="fill-current"
                                                 width="18"

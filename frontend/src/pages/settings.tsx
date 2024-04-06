@@ -2,14 +2,72 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Image from "next/image";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useUser } from '@/contexts/UserContext'; // Adjust the path to your context file
+import { User } from '@/types/user'; // Adjust the path to your types file
 
-export const metadata: Metadata = {
-  title: "Next.js Settings | TailAdmin - Next.js Dashboard Template",
-  description:
-    "This is Next.js Settings page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
-};
+const Settings: React.FC = () => {
+  const [userData, setUserData] = useState<User | null>(null);
+  const { userId, updateUser } = useUser();
+  const router = useRouter();
+  const [validUserId, setValidUserId] = useState<boolean>(false); // Initialize with false
 
-const Settings = () => {
+  useEffect(() => {
+    if (!userId) {
+      setValidUserId(false); // Indicate that we do not have a valid userId
+      return; // Stop execution of the rest of the useEffect
+    }
+
+    setValidUserId(true); // We have a valid userId
+
+    const fetchUserData = async () => {
+      try {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL;
+        const response = await fetch(`${API_URL}/api/user/${userId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('user_token')}`, // Adjust as needed for your auth token
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+
+        const result = await response.json();
+        setUserData(result); // Assuming the API directly returns a User object; adjust as needed
+      } catch (error) {
+        console.error('There was a problem fetching user data:', error);
+        // Handle the error appropriately
+      }
+    };
+
+    fetchUserData();
+
+    // Function to clear userId when navigating away
+    const handleRouteChange = () => {
+      updateUser(null);
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+
+    // Cleanup function
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, [userId, updateUser, router]);
+
+  // Conditional rendering based on validUserId
+  if (!validUserId) {
+    return <p>User ID is not valid or not provided. Please select a user to view settings.</p>;
+  }
+
+  // Further conditional rendering based on userData loading state
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <DefaultLayout>
       <div className="mx-auto max-w-270">
@@ -322,3 +380,4 @@ const Settings = () => {
 };
 
 export default Settings;
+

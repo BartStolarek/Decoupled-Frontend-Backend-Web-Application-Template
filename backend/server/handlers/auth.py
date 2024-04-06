@@ -34,7 +34,23 @@ def handle_login(request_data):
         code = 401
         response = handle_status_code(code, data={"error_info": message})
         return response, code
-    
+ 
+
+def handle_admin(user):
+    if user is None:
+        logger.warning("Unauthorized access to /admin route, no user provided")
+        code = 401
+        response = handle_status_code(code, data={"error_info": "Unauthorized"})
+    else:
+        if user.is_admin():
+            logger.info(f"Admin access granted to {user.email}")
+            code = 200
+            response = handle_status_code(code, data={"info": "Admin access granted"})
+        else:
+            logger.warning(f"Unauthorized access to /admin route by {user.email}")
+            code = 401
+            response = handle_status_code(code, data={"error_info": "Unauthorized"})
+    return response, code
 
 def handle_logout(request_data):
     # TODO: Implement logout functionality for backend (i.e. remove token)
