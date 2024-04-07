@@ -1,20 +1,24 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DatabaseUsersTable from "@/components/Tables/DatabaseUsersTable";
-import TableOne from "@/components/Tables/TableOne";
-import TableThree from "@/components/Tables/TableThree";
-import TableTwo from "@/components/Tables/TableTwo";
-
-import { Metadata } from "next";
+import useRequireAuth from '@/hooks/useRequireAuth'
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import AlertComponent from '@/components/Alert';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
-export const metadata: Metadata = {
-  title: "Next.js Tables | TailAdmin - Next.js Dashboard Template",
-  description:
-    "This is Next.js Tables page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
-};
 
 const UsersPage = () => {
+
+  const { loading } = useRequireAuth("Administrator");
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
+    <>
+    <Navbar />
+    <AlertComponent />
     <DefaultLayout>
       <Breadcrumb pageName="Users" />
 
@@ -22,6 +26,8 @@ const UsersPage = () => {
         <DatabaseUsersTable />
       </div>
     </DefaultLayout>
+    <Footer />
+    </>
   );
 };
 

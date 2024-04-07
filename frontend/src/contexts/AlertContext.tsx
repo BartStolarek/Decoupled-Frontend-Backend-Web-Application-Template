@@ -4,11 +4,11 @@ import { useRouter } from 'next/router'; // Assuming you're using Next.js for ro
 type AlertContextType = {
   message: string;
   title: string;
-  type: 'success' | 'error' | 'warning';
+  type: 'success' | 'error' | 'warning' | 'info';
   showAlert: (
     title: string,
     message: string,
-    type: 'success' | 'error' | 'warning',
+    type: 'success' | 'error' | 'warning' | 'info',
     redirect?: string | null,
     timeout?: number
   ) => void;
@@ -24,7 +24,7 @@ const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const showAlert = (
     title: string,
     message: string,
-    type: 'success' | 'error' | 'warning',
+    type: 'success' | 'error' | 'warning' | 'info',
     redirect: string | null = null, // Default to null
     timeout: number = 105000
   ) => {

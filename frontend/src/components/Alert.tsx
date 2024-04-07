@@ -11,9 +11,10 @@ const AlertComponent = () => {
 
   // Define the styles based on the type of alert
   const alertStyles = {
-    success: 'bg-[#34D399] border-[#34D399] text-white',
-    error: 'bg-[#F87171] border-[#F87171] text-white',
-    warning: 'bg-warning border-warning text-[#9D5425]',
+    success: 'bg-success border-success text-white',
+    error: 'bg-error border-error text-white',
+    warning: 'bg-warning border-warning text-white',
+    info: 'bg-info border-info text-white'
   };
 
   return (

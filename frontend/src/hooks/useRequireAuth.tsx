@@ -1,6 +1,4 @@
-// hooks/useRequireAuth.tsx
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAlert } from "@/contexts/AlertContext";
 
@@ -9,36 +7,29 @@ type Role = "Administrator" | "User";
 const useRequireAuth = (requiredRole: Role) => {
   const { isAuthenticated, loading } = useAuth();
   const { showAlert } = useAlert();
-  const router = useRouter();
-  const [redirectInitiated, setRedirectInitiated] = useState(false);
 
   useEffect(() => {
-    if (!loading && !redirectInitiated) {
+    // This effect should run after loading is complete and if the user's
+    // authentication status is confirmed to avoid unnecessary checks.
+    if (!loading) {
       const role = localStorage.getItem("user_role");
-      // For now, assume that the presence of "user_role" in localStorage is enough to validate a role
-      // You might want to implement a more secure method to validate roles
+      // Assuming role validation is based on the presence of a 'user_role' key in localStorage
+      // It's recommended to use a more secure method for production applications.
 
-      // Check if user is not authenticated or does not have the required role
+      // Check if the user is not authenticated or does not have the required role
       if (!isAuthenticated || role !== requiredRole) {
         const alertMessage = requiredRole === "Administrator"
           ? "You are not authorized to access this page. Please login with an Administrator account."
           : "You are not authorized to access this page. Please login.";
-        showAlert("Unauthorized", alertMessage, "error", "/", 5000);
-        setRedirectInitiated(true); // Prevent further redirects
-        // Optional: Redirect to login or home page
-        // router.push('/login');
+
+        // Show an alert and handle redirection after a timeout
+        showAlert("Unauthorized", alertMessage, "error", "/login", 20000);
       }
     }
-  }, [isAuthenticated, loading, router, showAlert, redirectInitiated, requiredRole]);
+  }, [isAuthenticated, loading, showAlert, requiredRole]);
 
-  // Placeholder for user auth function
-  // TODO: Implement user authentication logic here if needed
-
-  return {
-    isAuthenticated,
-    loading,
-    redirectInitiated,
-  };
+  // The hook returns only isAuthenticated and loading states for now.
+  return { isAuthenticated, loading };
 };
 
 export default useRequireAuth;
