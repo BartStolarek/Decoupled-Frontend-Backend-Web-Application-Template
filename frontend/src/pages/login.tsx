@@ -33,6 +33,10 @@ const LoginPage: React.FC = () => {
       const data = await response.json();
       if (response.ok) {
         // Now using the login method from useAuth
+
+        // Decode token using jwt and get the user role
+        
+
         login(data.data.user_token, data.data.user_role); // Assuming the token and role are returned correctly
         router.push('/'); // Redirect to the homepage or dashboard as needed
       } else {
