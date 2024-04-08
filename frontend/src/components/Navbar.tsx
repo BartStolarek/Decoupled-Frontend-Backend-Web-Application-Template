@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from '../styles/Navbar.module.css';
 import useLocalStorage from '@/hooks/useLocalStorage'; // Make sure the path is correct
 
 const Navbar = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
-	// Adjusted to use useLocalStorage hook
-	const [user, setUser] = useLocalStorage('user', { token: '', role: '' });
+	const [user, setUser] = useState({ token: '', role: '' });
+
+	useEffect(() => {
+		// This code now runs only on the client side
+		const userFromStorage = localStorage.getItem('user');
+		if (userFromStorage) {
+			setUser(JSON.parse(userFromStorage));
+		}
+	}, []);
 
 	const handleLogout = () => {
-		setUser({ token: '', role: '' }); // Update using setUser from useLocalStorage
-		window.location.reload(); // Refresh the page
+		localStorage.removeItem('user'); // Adjust according to how you're storing the user info
+		setUser({ token: '', role: '' });
+		window.location.reload(); // Consider using router.push for a more React-friendly navigation
 	};
 
 	const handleRegister = () => {
-		window.location.assign('/register');
+		window.location.assign('/register'); // Consider using Next.js Link or router.push here
 	};
 
 	const handleLogin = () => {
-		window.location.assign('/login');
+		window.location.assign('/login'); // Consider using Next.js Link or router.push here
 	};
 
 	return (

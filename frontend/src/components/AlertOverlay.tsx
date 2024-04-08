@@ -8,41 +8,36 @@ const AlertOverlay = () => {
 
     if (!alert) return null;
 
-    let backgroundColor = 'bg-green-500';
-    switch (alert.type) {
-        case 'error':
-            backgroundColor = 'bg-red-500';
-            break;
-        case 'warning':
-            backgroundColor = 'bg-yellow-500';
-            break;
-        case 'info':
-            backgroundColor = 'bg-blue-500';
-            break;
-        case 'success':
-        default:
-            backgroundColor = 'bg-green-500';
-            break;
-    }
+    const alertStyles = {
+        success: 'bg-success border-success text-white',
+        error: 'bg-error border-error text-white',
+        warning: 'bg-warning border-warning text-white',
+        info: 'bg-info border-info text-white'
+    };
 
     return (
-        <div className={`fixed inset-0 z-50 flex items-end justify-center px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end`}>
-            <div className={`max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden ${backgroundColor}`}>
-                <div className="p-4">
-                    <div className="flex items-center">
-                        <div className="w-0 flex-1 flex justify-between">
-                            <p className="w-full text-sm font-medium text-white">
-                                {alert.title}
-                            </p>
-                            <p className="w-full text-sm font-medium text-white">
-                                {alert.message}
-                            </p>
-                            <button onClick={hideAlert} className="ml-4 flex-shrink-0 bg-transparent text-white">
-                                <span>Close</span>
-                            </button>
-                        </div>
+        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className={`w-full max-w-md border-l-6 ${alertStyles[alert.type]} bg-opacity-[15%] px-7 py-8 shadow-md`}>
+                <div className="flex items-center">
+                    {/* Render the appropriate icon based on the alert type */}
+                    <div className={`mr-5 flex h-9 w-9 items-center justify-center rounded-lg ${alertStyles[alert.type]} bg-opacity-30`}>
+                        {/* Icon SVG */}
+                    </div>
+                    <div className="w-full">
+                        {/* Display the title if available */}
+                        {alert.title && <h4 className={`mb-2 text-xl font-semibold ${alertStyles[alert.type]}`}>{alert.title}</h4>}
+                        <h5 className={`mb-3 text-lg ${alertStyles[alert.type]}`}>
+                            {alert.type === 'success' ? 'Success' : alert.type === 'error' ? 'Error' : 'Warning'}
+                        </h5>
+                        <p className={`leading-relaxed ${alertStyles[alert.type]}`}>{alert.message}</p>
                     </div>
                 </div>
+                <button
+                    onClick={hideAlert}
+                    className="mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200"
+                >
+                    Close
+                </button>
             </div>
         </div>
     );

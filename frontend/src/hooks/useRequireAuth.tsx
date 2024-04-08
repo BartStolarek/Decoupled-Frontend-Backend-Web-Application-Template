@@ -13,10 +13,10 @@ export const useRequireAuth = (requiredRole: 'Administrator' | 'User' | null = n
     const handleAuthCheck = async () => {
       if (!isAuthenticated()) {
         // Show an error message before redirecting
-        showAlert('Unauthorized', 'You must be logged in to access this page', 'error', 20000, '/login');
+        showAlert('Unauthorized', 'Only administrators can access this page', 'error', 30000, '/login');
       } else if (requiredRole && user.role !== requiredRole) {
         // Show an error message for incorrect role before redirecting
-        showAlert('Unauthorized', 'You do not have permission to access this page', 'error', 20000, '/login');
+        showAlert('Unauthorized', 'You do not have permission to access this page', 'error', 30000, '/login');
       }
     };
 
