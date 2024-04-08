@@ -4,7 +4,8 @@ import Head from 'next/head';
 import '../styles/output.css';
 import { UserProvider } from '@/contexts/UserContext';
 import { AuthProvider } from '@/contexts/AuthContext';
-import AlertProvider from '@/contexts/AlertContext';
+import { AlertProvider } from '@/contexts/AlertContext';
+import AlertOverlay from '@/components/AlertOverlay';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -14,6 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <AlertProvider>
+        <AlertOverlay />
         <AuthProvider>
           <UserProvider>
             <Component {...pageProps} />
