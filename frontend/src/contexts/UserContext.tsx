@@ -29,7 +29,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     // Optionally, log the current userId state when it changes
     React.useEffect(() => {
-        console.log('Current userId in context:', userId);
     }, [userId]);
 
     return (

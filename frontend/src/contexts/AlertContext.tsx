@@ -1,60 +1,45 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { useRouter } from 'next/router'; // Assuming you're using Next.js for routing
+import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
+import { useRouter } from 'next/router';
 
-type AlertContextType = {
-  message: string;
-  title: string;
-  type: 'success' | 'error' | 'warning' | 'info';
-  showAlert: (
-    title: string,
-    message: string,
-    type: 'success' | 'error' | 'warning' | 'info',
-    redirect?: string | null,
-    timeout?: number
-  ) => void;
+type AlertType = 'success' | 'warning' | 'error' | 'info';
+
+interface AlertContextType {
+  showAlert: (title: string, message: string, type: AlertType, timeout?: number, redirectTo?: string) => void;
   hideAlert: () => void;
-};
+  alert: { title: string, message: string; type: AlertType } | null;
+}
 
 const AlertContext = createContext<AlertContextType | undefined>(undefined);
 
-const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [alert, setAlert] = useState({ title: '', message: '', type: '' });
-  const router = useRouter(); // Use Next.js useRouter hook for redirection
+export { AlertContext };
 
-  const showAlert = (
-    title: string,
-    message: string,
-    type: 'success' | 'error' | 'warning' | 'info',
-    redirect: string | null = null, // Default to null
-    timeout: number = 105000
-  ) => {
+export const AlertProvider = ({ children }: { children: ReactNode }) => {
+
+  const [alert, setAlert] = useState<{ title: string, message: string; type: AlertType } | null>(null);
+  const router = useRouter();
+
+  const showAlert = useCallback((title: string, message: string, type: AlertType, timeout = 0, redirectTo?: string) => {
     setAlert({ title, message, type });
 
-    setTimeout(() => {
-      setAlert({ title: '', message: '', type: '' });
-      if (redirect !== null) { // Explicitly check for non-null value
-        router.push(redirect); // Redirect if a valid path is provided
-      }
-    }, timeout); // Hide (and potentially redirect) after specified timeout
-  };
+    if (timeout > 0) {
+      setTimeout(() => {
+        setAlert(null);
+        if (redirectTo) {
+          router.push(redirectTo);
+        }
+      }, timeout);
+    }
+  }, [router]);
 
-  const hideAlert = () => {
-    setAlert({ title: '', message: '', type: '' });
-  };
+  const hideAlert = useCallback(() => {
+    setAlert(null);
+  }, []);
 
   return (
-    <AlertContext.Provider value={{ ...alert, showAlert, hideAlert }}>
+    <AlertContext.Provider value={{ showAlert, hideAlert, alert }}>
       {children}
     </AlertContext.Provider>
   );
 };
 
-export const useAlert = () => {
-  const context = useContext(AlertContext);
-  if (!context) {
-    throw new Error('useAlert must be used within an AlertProvider');
-  }
-  return context;
-};
 
-export default AlertProvider;

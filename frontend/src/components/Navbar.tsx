@@ -2,28 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/Navbar.module.css'; // Importing CSS module
 import Link from 'next/link'; // Using Next.js Link for navigation without page refresh
+import { useAuth } from '@/contexts/AuthContext';
 
 
 const Navbar = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [user_token, setToken] = useState('');
 	const [userRole, setUserRole] = useState('');
-
-	useEffect(() => {
-		// Get the user's role from local storage
-		const role = localStorage.getItem('user_role');
-		setUserRole(role ?? '');
-	}, []);
-
-
-	useEffect(() => {
-		// Simulating retrieval of token from localStorage
-		setToken(localStorage.getItem('user_token') || '');
-	}, []);
+	const { user, logout } = useAuth();
 
 	const handleLogout = () => {
-		localStorage.removeItem('user_token'); // Remove the token
-		setToken(''); // Update state to reflect logout
+		logout();
 		window.location.reload(); // Refresh the page
 	};
 
@@ -35,10 +24,10 @@ const Navbar = () => {
 		window.location.assign('/login')
 	}
 
+	//TODO: issue when i log in as admin, go to admin page, then go back to homepage
 	return (
 		<>
 			<nav className="navbar bg-neutral z-10 min-w-full shadow-lg">
-
 				{/* Navbar Start */}
 				<div className="navbar-start">
 					<div
@@ -60,7 +49,7 @@ const Navbar = () => {
 
 				{/* Navbar End */}
 				<div className="navbar-end sm:pr-4" id="navbarEnd">
-					{user_token ? (
+					{user ? (
 						<div className="dropdown dropdown-end">
 							<div className="dropdown dropdown-end">
 								<div tabIndex={0} role="button" className="btn btn-ghost btn-sm avatar">
@@ -75,24 +64,22 @@ const Navbar = () => {
 											<span className="badge">New</span>
 										</a>
 									</li>
-									{userRole === 'Administrator' && (
+									{user && user.role === 'Administrator' && (
 										<li><a href="/admin/">Admin</a></li>
 									)}
 									<li><a>Settings</a></li>
 									<li><button onClick={handleLogout}>Logout</button></li>
 								</ul>
 							</div>
-
 						</div>
 					) : (
 						<div className="flex gap-8">
-							<button onClick={handleRegister} className="btn btn-ghost btn-sm w-24 hidden md:block text-lg text-text ">Register</button>
+							<button onClick={handleRegister} className="btn btn-ghost btn-sm w-24 hidden md:block text-lg text-text">Register</button>
 							<button onClick={handleLogin} className="btn btn-secondary btn-sm shadow w-24 hidden md:block text-text text-lg">Login</button>
 							<a href="/login" className="btn btn-ghost md:hidden flex justify-center items-center">
 								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" className="w-6 h-6 svg-text">
 									<path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
 								</svg>
-
 							</a>
 						</div>
 					)}
@@ -102,7 +89,7 @@ const Navbar = () => {
 			<div id="menuOverlay" className={`fixed inset-0 transform ${menuOpen ? 'translate-x-0' : '-translate-x-full'} bg-black bg-opacity-90 backdrop-blur-sm z-20 min-w-full items-top text-white container transition-transform duration-300 ease-in-out`}>
 				<div className="flex flex-col min-w-full space-y-20">
 					<div className="text-right min-w-full">
-						<a href="#" className="text-4xl font-bold">Logo</a>
+						<a href="/" className="text-4xl font-bold">Logo</a>
 					</div>
 					<div className="space-y-16">
 						<a href="/" className="block text-5xl mb-4">Home</a>

@@ -67,7 +67,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             {/* <!-- SIDEBAR HEADER --> */}
             <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
                 <Link href="/admin">
-                    <h1 class="text-2xl font-semibold text-white">Admin Panel</h1>
+                    <h1 className="text-2xl font-semibold text-white">Admin Panel</h1>
                 </Link>
 
                 <button

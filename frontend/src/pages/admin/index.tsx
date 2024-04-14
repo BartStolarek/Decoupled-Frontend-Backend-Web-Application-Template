@@ -1,32 +1,27 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import DefaultLayout from '@/components/Layouts/DefaultLayout';
-import AlertComponent from '@/components/Alert';
-import useRequireAuth from '@/hooks/useRequireAuth';
-import { Metadata } from "next";
+import { useRequireAuth } from '@/hooks/useRequireAuth'; // Make sure the path is correct
 
-export const metadata: Metadata = {
+// Assuming Metadata and other imports are correctly set up
+export const metadata = {
     title: "Next.js Buttons | TailAdmin - Next.js Dashboard Template",
     description:
         "This is Next.js Buttons page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
 };
 
 const IndexAdminPage: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const { isAuthenticated, loading } = useRequireAuth("Administrator");
+    // Use the useRequireAuth hook to check for "Administrator" role
+    const { isLoading } = useRequireAuth('Administrator');
 
-    // If the authentication status is loading or the user is not authenticated,
-    // show a loading indicator or another placeholder. This prevents the page
-    // content from being rendered until the authentication process is complete.
-    if (loading || !isAuthenticated) {
-        return <div>Loading...</div>;
+    if (isLoading) {
+        return <div>Loading...</div>
     }
 
-    // Once authenticated and loading is complete, render the page content.
     return (
         <>
             <Navbar />
-            <AlertComponent />  // Ensure AlertComponent is properly set up to listen and respond to alerts from AlertContext.
             <DefaultLayout>
                 {children}
             </DefaultLayout>
