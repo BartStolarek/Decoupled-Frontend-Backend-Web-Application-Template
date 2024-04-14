@@ -3,13 +3,13 @@ import React, { useState, useEffect } from 'react';
 import styles from '../styles/Navbar.module.css'; // Importing CSS module
 import Link from 'next/link'; // Using Next.js Link for navigation without page refresh
 import { useAuth } from '@/contexts/AuthContext';
+import useCheckAuth from '@/hooks/useCheckAuth';
 
 
 const Navbar = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
-	const [user_token, setToken] = useState('');
-	const [userRole, setUserRole] = useState('');
 	const { user, logout } = useAuth();
+	const { isLoading, userRole } = useCheckAuth();
 
 	const handleLogout = () => {
 		logout();
@@ -24,7 +24,6 @@ const Navbar = () => {
 		window.location.assign('/login')
 	}
 
-	//TODO: issue when i log in as admin, go to admin page, then go back to homepage
 	return (
 		<>
 			<nav className="navbar bg-neutral z-10 min-w-full shadow-lg">
