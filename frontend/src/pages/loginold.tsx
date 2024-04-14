@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { useAuth } from '@/contexts/AuthContext'; // Adjust path as needed
-import jwt_decode from "jwt-decode"
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import jwt_decode from "jwt-decode";
+
 
 const LoginPage: React.FC = () => {
-  const { login } = useAuth(); // Destructure login function from useAuth
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -23,7 +22,7 @@ const LoginPage: React.FC = () => {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace('-', '+').replace('_', '/');
     return JSON.parse(window.atob(base64));
-  };
+    }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,18 +34,26 @@ const LoginPage: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
       });
 
       const data = await response.json();
       if (response.ok) {
-        // Now using the login method from useAuth
-
-        // Decode token using jwt and get the user role
+        console.log(`Token received: ${data.data.user_token}`)
+        // Store the token in localStorage
+        localStorage.setItem('user_token', data.data.user_token); // Assuming the token is returned in the response body under 'token'
+        
+        
+        // Decode the token to read the user's role
         const decodedToken = parseJwt(data.data.user_token);
         const userRole = decodedToken.user_role;
 
-        login(data.data.user_token, userRole); // Assuming the token and role are returned correctly
+        // Optionally, store the role in localStorage for quick access
+        localStorage.setItem('user_role', userRole);
+
         router.push('/'); // Redirect to the homepage or dashboard as needed
       } else {
         alert(`Login failed: ${data.message}`);

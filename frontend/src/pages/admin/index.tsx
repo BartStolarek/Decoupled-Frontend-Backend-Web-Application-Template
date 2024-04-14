@@ -13,7 +13,11 @@ export const metadata = {
 
 const IndexAdminPage: React.FC<{ children: ReactNode }> = ({ children }) => {
     // Use the useRequireAuth hook to check for "Administrator" role
-    useRequireAuth('Administrator');
+    const { isLoading } = useRequireAuth('Administrator');
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
 
     return (
         <>
