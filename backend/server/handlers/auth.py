@@ -8,7 +8,7 @@ from werkzeug.security import check_password_hash
 
 from server.models import User, Role  # Your User model
 from server.schemas import UserSchema  # Your User schema
-from server.services import login_user
+from server.services import login_user, get_new_token
 from server.utils.http_status_codes import handle_status_code
 from server.handlers.global_functions import check_not_success_message_and_get_code_and_response
 
@@ -43,11 +43,30 @@ def handle_admin(user):
         response = handle_status_code(code, data={"error_info": "Unauthorized"})
     else:
         if user.is_admin():
-            logger.info(f"Admin access granted to {user.email}")
+            logger.info(f"Admin access granted to {user.email}, resetting token")
+            token = get_new_token(user.id, "Administrator")
             code = 200
-            response = handle_status_code(code, data={"info": "Admin access granted"})
+            response = handle_status_code(code, data={"info": "Admin access granted", "user_token": token})
         else:
             logger.warning(f"Unauthorized access to /admin route by {user.email}")
+            code = 401
+            response = handle_status_code(code, data={"error_info": "Unauthorized"})
+    return response, code
+
+
+def handle_user(user):
+    if user is None:
+        logger.warning("Unauthorized access to /user route, no user provided")
+        code = 401
+        response = handle_status_code(code, data={"error_info": "Unauthorized"})
+    else:
+        if user.is_user():
+            logger.info(f"User access granted to {user.email}, resetting token")
+            token = get_new_token(user.id, "User")
+            code = 200
+            response = handle_status_code(code, data={"info": "User access granted", "user_token": token})
+        else:
+            logger.warning(f"Unauthorized access to /user route by {user.email}")
             code = 401
             response = handle_status_code(code, data={"error_info": "Unauthorized"})
     return response, code

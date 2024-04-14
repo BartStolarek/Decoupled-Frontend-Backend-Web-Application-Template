@@ -2,8 +2,8 @@
 from flask import Blueprint, request
 from loguru import logger
 
-from server.handlers import (handle_login, handle_admin, handle_logout, handle_forgot_password, handle_reset_password)
-from server.middlewares import rate_limit, user_token_required
+from server.handlers import (handle_login, handle_admin, handle_user, handle_logout, handle_forgot_password, handle_reset_password)
+from server.middlewares import rate_limit, admin_token_required, user_token_required
 
 auth_blueprint = Blueprint("auth", __name__)
 
@@ -16,10 +16,18 @@ def login():
 
 @auth_blueprint.route("/admin", methods=["GET"])
 @rate_limit(50, 30)  # Applying custom rate limit as decorator
-@user_token_required
+@admin_token_required
 def admin(user):
     logger.info(f"/admin route called by {user.email}")
     return handle_admin(user)
+
+
+@auth_blueprint.route("/user", methods=["GET"])
+@rate_limit(50, 30)  # Applying custom rate limit as decorator
+@user_token_required
+def user(user):
+    logger.info(f"/user route called by {user.email}")
+    return handle_user(user)
 
 
 @auth_blueprint.route("/logout", methods=["POST"])
