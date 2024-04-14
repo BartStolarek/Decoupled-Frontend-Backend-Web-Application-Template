@@ -44,9 +44,8 @@ def handle_admin(user):
     else:
         if user.is_admin():
             logger.info(f"Admin access granted to {user.email}, resetting token")
-            token = get_new_token(user.id, "Administrator")
             code = 200
-            response = handle_status_code(code, data={"info": "Admin access granted", "user_token": token})
+            response = handle_status_code(code, data={"info": "Admin access granted"})
         else:
             logger.warning(f"Unauthorized access to /admin route by {user.email}")
             code = 401
@@ -62,14 +61,31 @@ def handle_user(user):
     else:
         if user.is_user():
             logger.info(f"User access granted to {user.email}, resetting token")
-            token = get_new_token(user.id, "User")
             code = 200
-            response = handle_status_code(code, data={"info": "User access granted", "user_token": token})
+            response = handle_status_code(code, data={"info": "User access granted"})
         else:
             logger.warning(f"Unauthorized access to /user route by {user.email}")
             code = 401
             response = handle_status_code(code, data={"error_info": "Unauthorized"})
     return response, code
+
+
+def handle_refresh(user):
+    if user is None:
+        logger.warning("Unauthorized access to /refresh route, no user provided")
+        code = 401
+        response = handle_status_code(code, data={"error_info": "Unauthorized"})
+    else:
+        logger.info(f"Token refreshed for {user.email}")
+        success, message, token = get_new_token(user)
+        if success:
+            code = 200
+            response = handle_status_code(code, data={"info": "Token refreshed", "user_token": token})
+        else:
+            code = 500
+            response = handle_status_code(code, data={"error_info": message})
+    return response, code
+
 
 def handle_logout(request_data):
     # TODO: Implement logout functionality for backend (i.e. remove token)

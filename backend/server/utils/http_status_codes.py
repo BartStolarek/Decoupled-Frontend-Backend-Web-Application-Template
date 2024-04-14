@@ -300,6 +300,15 @@ def handle_status_code(code: int, data: dict = None) -> jsonify:
     else:
         logger.info(f'{code} API Status: {status_info["message"]}')
 
-    response = jsonify(response_dict)
-    response.status_code = code  # Set the correct status code
+    try:
+        response = jsonify(response_dict)
+        response.status_code = code  # Set the correct status code
+    except Exception as e:
+        logger.error(f"Error creating response: {e}")
+        response = jsonify({
+            "status_code": 500,
+            "message": "Internal Server Error",
+            "status": "error"
+        })
+        response.status_code = 500
     return response
