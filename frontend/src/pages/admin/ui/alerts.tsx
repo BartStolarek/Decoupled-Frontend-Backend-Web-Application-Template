@@ -1,10 +1,18 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
+
+
 
 
 
 const Alerts = () => {
+  const { isLoading } = useRequireAuth("Administrator");
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Alerts" />

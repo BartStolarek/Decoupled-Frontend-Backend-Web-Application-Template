@@ -1,21 +1,19 @@
 import Calendar from "@/components/Calender";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import useRequireAuth from '@/hooks/useRequireAuth'
-import AlertComponent from '@/components/Alert';
+import { useRequireAuth } from '@/hooks/useRequireAuth'
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 const CalendarPage = () => {
 
-  const { loading } = useRequireAuth("Administrator");
+  const { isLoading } = useRequireAuth("Administrator");
 
-  if (loading) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
   return (
     <>
     <Navbar />
-    <AlertComponent />
     <DefaultLayout>
       <Calendar />
     </DefaultLayout>

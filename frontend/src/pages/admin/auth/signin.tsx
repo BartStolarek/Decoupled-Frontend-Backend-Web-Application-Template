@@ -4,8 +4,16 @@ import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 
 const SignIn: React.FC = () => {
+
+  const { isLoading } = useRequireAuth("Administrator");
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Sign In" />

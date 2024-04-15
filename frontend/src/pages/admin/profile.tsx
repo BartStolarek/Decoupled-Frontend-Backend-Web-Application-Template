@@ -3,9 +3,17 @@ import Image from "next/image";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Link from "next/link";
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 
 
 const Profile = () => {
+
+  const { isLoading } = useRequireAuth("Administrator");
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <DefaultLayout>
       <div className="mx-auto max-w-242.5">

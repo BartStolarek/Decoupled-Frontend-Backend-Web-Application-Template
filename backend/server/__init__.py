@@ -89,6 +89,8 @@ def create_server(config_name=None):
     server.register_blueprint(user_blueprint, url_prefix='/api/user')
     from .apis import auth_blueprint as auth_blueprint
     server.register_blueprint(auth_blueprint, url_prefix='/api/auth')
+    from .apis import role_blueprint as role_blueprint
+    server.register_blueprint(role_blueprint, url_prefix='/api/role')
 
     @server.route('/favicon.ico')
     def favicon():

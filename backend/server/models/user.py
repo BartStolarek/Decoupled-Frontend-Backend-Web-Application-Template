@@ -44,6 +44,22 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role \'%s\'>' % self.name
+    
+    def to_dict(self, include_sensitive: bool = False) -> dict:
+        """Return a dictionary representation of the the model.
+
+        Returns:
+            dict: A dictionary representation of the equipment
+        """
+        model_dict = {
+            column.name: getattr(self, column.name)
+            for column in self.__table__.columns
+        }
+
+        if not include_sensitive:
+            model_dict.pop('permissions')
+            
+        return model_dict
 
 
 class User(UserMixin, db.Model):

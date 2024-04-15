@@ -2,7 +2,7 @@ import React, { ReactNode, useEffect } from "react";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import DefaultLayout from '@/components/Layouts/DefaultLayout';
-import { useRequireAuth } from '@/hooks/useRequireAuth'; // Make sure the path is correct
+import { useRequireAuth } from '@/hooks/useRequireAuth';
 
 // Assuming Metadata and other imports are correctly set up
 export const metadata = {

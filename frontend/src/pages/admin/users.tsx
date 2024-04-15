@@ -1,24 +1,22 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DatabaseUsersTable from "@/components/Tables/DatabaseUsersTable";
-import useRequireAuth from '@/hooks/useRequireAuth'
+import { useRequireAuth } from "@/hooks/useRequireAuth";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import AlertComponent from '@/components/Alert';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 
 const UsersPage = () => {
 
-  const { loading } = useRequireAuth("Administrator");
+  const { isLoading } = useRequireAuth("Administrator");
 
-  if (loading) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
   return (
     <>
     <Navbar />
-    <AlertComponent />
     <DefaultLayout>
       <Breadcrumb pageName="Users" />
 

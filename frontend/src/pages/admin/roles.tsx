@@ -1,32 +1,32 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import TableOne from "@/components/Tables/TableOne";
-import TableThree from "@/components/Tables/TableThree";
-import TableTwo from "@/components/Tables/TableTwo";
-import TableFour from "@/components/Tables/TableFour";
+import DatabaseRolesTable from "@/components/Tables/DatabaseRolesTable";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
-
-import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 
-const TablesPage = () => {
+const RolesPage = () => {
 
   const { isLoading } = useRequireAuth("Administrator");
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
   return (
+    <>
+    <Navbar />
     <DefaultLayout>
-      <Breadcrumb pageName="Tables" />
+      <Breadcrumb pageName="Roles" />
 
       <div className="flex flex-col gap-10">
-        <TableOne />
-        <TableTwo />
-        <TableThree />
+        <DatabaseRolesTable />
       </div>
     </DefaultLayout>
+    <Footer />
+    </>
   );
 };
 
-export default TablesPage;
+export default RolesPage;
