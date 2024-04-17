@@ -36,7 +36,7 @@ def create_server(config_name=None):
     CORS(server,
          supports_credentials=True,
          origins=[frontend_origin],
-         methods=["GET", "POST", "OPTIONS"],
+         methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
          allow_headers=[
              'Content-Type', 'Authorization', 'ngrok-skip-browser-warning'
          ])

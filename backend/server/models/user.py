@@ -112,7 +112,10 @@ class User(UserMixin, db.Model):
     
     def is_user(self):
         return self.can(Permission.GENERAL)
-
+    
+    def get_role_name(self):
+        return Role.query.filter_by(id=self.role_id).first().name
+        
     @property
     def password(self):
         raise AttributeError('`password` is not a readable attribute')

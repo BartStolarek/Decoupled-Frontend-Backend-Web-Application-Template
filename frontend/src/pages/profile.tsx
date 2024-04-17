@@ -3,22 +3,50 @@ import Image from "next/image";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Link from "next/link";
-import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { useFetchData } from '@/services/api';
+import { useEffect, useState } from "react";
+import { User } from '@/types/user';
+import { useRouter } from 'next/router';
+import Navbar from '@/components/Navbar';
+
+const Profile = () => {
+  const router = useRouter();
+  const { profileID } = router.query;
+  const [user, setUser] = useState<User>();
+  const fetchData = useFetchData();
+
+  const handleFetchedUser = async () => {
+    try {
+      let response;
+      if (profileID) {
+        response = await fetchData(`/api/user/${profileID}`, 'GET');
+      } else {
+        response = await fetchData('/api/user/', 'GET');
+      }
+      const result = await response.json();
+      if (result.data) {
+        setUser(result.data.user)
+      } else {
+        throw new Error('Unexpected data format');
+      }
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (profileID !== undefined || router.isReady) {
+      handleFetchedUser();
+    }
+  }, [profileID, router.isReady]);
 
 
-const AdminProfile = () => {
-
-  const { isLoading } = useRequireAuth("Administrator");
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
-    <DefaultLayout>
+    <>
+      <Navbar />
       <div className="mx-auto max-w-242.5">
         <Breadcrumb pageName="Profile" />
-
         <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="relative z-20 h-35 md:h-65">
             <Image
@@ -119,27 +147,27 @@ const AdminProfile = () => {
             </div>
             <div className="mt-4">
               <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
-                Danish Heilium
+                {user?.first_name} {user?.last_name}
               </h3>
-              <p className="font-medium">Ui/Ux Designer</p>
+              <p className="font-medium">{user?.role_name}</p>
               <div className="mx-auto mb-5.5 mt-4.5 grid max-w-94 grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
                 <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
                   <span className="font-semibold text-black dark:text-white">
                     259
                   </span>
-                  <span className="text-sm">Posts</span>
+                  <span className="text-sm">Stat #1</span>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
                   <span className="font-semibold text-black dark:text-white">
                     129K
                   </span>
-                  <span className="text-sm">Followers</span>
+                  <span className="text-sm">Stat #2</span>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
                   <span className="font-semibold text-black dark:text-white">
                     2K
                   </span>
-                  <span className="text-sm">Following</span>
+                  <span className="text-sm">Stat #3</span>
                 </div>
               </div>
 
@@ -312,8 +340,9 @@ const AdminProfile = () => {
           </div>
         </div>
       </div>
-    </DefaultLayout>
+
+    </>
   );
 };
 
-export default AdminProfile;
+export default Profile;

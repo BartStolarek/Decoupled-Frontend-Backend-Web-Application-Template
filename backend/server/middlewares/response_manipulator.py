@@ -27,7 +27,7 @@ def append_metadata(response, metadata):
 def handle_cors_headers(response, frontend_origin):
     response.headers[
         'Access-Control-Allow-Origin'] = frontend_origin  # or a specific domain
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS, PUT, DELETE'
     response.headers[
         'Access-Control-Allow-Headers'] = 'Content-Type,Authorization,ngrok-skip-browser-warning'
     response.headers['Access-Control-Allow-Credentials'] = 'true'

@@ -35,12 +35,12 @@ const Navbar = () => {
 
 	return (
 		<>
-		  <nav className="navbar bg-neutral z-10 min-w-full shadow-lg">
+		  <nav className="navbar bg-neutral z-10 min-w-full shadow-lg ">
 			{/* Navbar Start */}
 			<div className="navbar-start">
 			  <div
 				tabIndex={0}
-				className="menu-icon btn btn-ghost btn-small h-6 w-8 mx-3 p-0 min-h-0 z-30 fixed"
+				className="menu-icon btn btn-ghost btn-small h-6 w-8 mx-3 p-0 min-h-0 z-30"
 				role="button"
 				onClick={() => setMenuOpen(!menuOpen)}
 			  >

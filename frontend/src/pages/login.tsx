@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext'; // Adjust path as needed
 import jwt_decode from "jwt-decode"
 
 const LoginPage: React.FC = () => {
-  const { login } = useAuth(); // Destructure login function from useAuth
+  const { login, parseJwt } = useAuth(); // Destructure login function from useAuth
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -16,13 +16,6 @@ const LoginPage: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  function parseJwt(token: string) {
-    if (!token) { return; }
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(window.atob(base64));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -45,8 +38,9 @@ const LoginPage: React.FC = () => {
         // Decode token using jwt and get the user role
         const decodedToken = parseJwt(data.data.user_token);
         const userRole = decodedToken.user_role;
+        const userID = decodedToken.user_id;
 
-        login(data.data.user_token, userRole); // Assuming the token and role are returned correctly
+        login(data.data.user_token, userID, userRole); // Assuming the token and role are returned correctly
         router.push('/'); // Redirect to the homepage or dashboard as needed
       } else {
         alert(`Login failed: ${data.message}`);

@@ -48,4 +48,5 @@ def log_response(response):
             # If response is not a Flask Response object (e.g., direct passthrough mode), log without trying to access data
             logger.info(
                 f"Response: {response.status} [Direct passthrough mode]")
+    logger.info("Response sent successfully.")
     return response

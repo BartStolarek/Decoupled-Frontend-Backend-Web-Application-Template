@@ -6,12 +6,13 @@ import { parse } from 'path';
 
 interface User {
     token: string;
+    user_id: number;
     role: 'Administrator' | 'User' | null;
 }
 
 interface AuthContextType {
     user: User | null;
-    login: (token: string, role: 'Administrator' | 'User') => void;
+    login: (token: string, user_id: number, role: 'Administrator' | 'User') => void;
     logout: () => void;
     isAuthenticated: (role: 'Administrator' | 'User') => Promise<boolean>;
 }
@@ -21,9 +22,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useLocalStorage<User | null>('user', null);
 
-    const login = (token: string, role: 'Administrator' | 'User') => {
-        setUser({ token, role });
-        console.log('User Logged in, role:', role)
+    const login = (token: string, user_id: number, role: 'Administrator' | 'User') => {
+        setUser({ token: token, user_id: user_id, role: role });
     };
 
     const logout = () => {
@@ -41,8 +41,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const decodeUserRole = (token: string) => {
         const decodedToken = parseJwt(token);
-        const userRole = decodedToken.user_role;
-        return userRole;
+        return decodedToken.user_role; // Make sure the key matches the JWT structure
+    }
+    
+    const decodeUserId = (token: string) => {
+        const decodedToken = parseJwt(token);
+        return decodedToken.user_id; // Make sure the key matches the JWT structure
     }
 
     const refreshToken = async () => {
@@ -74,12 +78,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (response.ok) {
             const data = await response.json();
             const user_role = decodeUserRole(data.data.user_token);
-            setUser({ token: data.data.user_token, role: user_role })
+            const user_id = decodeUserId(data.data.user_token);
+            console.log('User ID', user_id, 'User Role:', user_role)
+            setUser({ token: data.data.user_token, user_id: user_id, role: user_role })
             console.log('Refresh successful')
             return true;
         } else {
             console.log('Refreshed failed')
-            return false;
+            logout();
         }
     };
 
@@ -153,7 +159,7 @@ export const useAuth = () => {
         // Return a default object that matches the shape of AuthContextType
         // to avoid breaking SSR with a missing context error.
         return {
-            user: { token: '', role: null },
+            user: { token: '', user_id: 0, role: null },
             login: () => { },
             logout: () => { },
             isAuthenticated: () => Promise.resolve(false),

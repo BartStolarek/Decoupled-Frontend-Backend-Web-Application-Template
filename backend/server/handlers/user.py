@@ -3,7 +3,7 @@ from loguru import logger
 
 from server.schemas import UserSchema  # Your User schema
 from server.services import (create_user, get_users, get_user_by_id, update_user, update_user_by_id, delete_user, delete_user_by_id)
-from server.models import User
+from server.models import User, Role
 from server.utils.http_status_codes import handle_status_code
 from server.handlers.global_functions import check_not_success_message_and_get_code_and_response
 
@@ -44,6 +44,11 @@ def handle_get_users(user):
     if user.is_admin():
         success, message, users = get_users()
         user_dict_list = [user.to_dict() for user in users]
+        
+        for user in user_dict_list:
+            # Get the role name from the role id
+            user_dict_list['role_name'] = user.get_role_name()
+            
         if not success:
             return unified_response(False, message, code=500)
         return unified_response(True, message, data={"users": user_dict_list}, code=200)
@@ -53,14 +58,18 @@ def handle_get_user(user):
     if not isinstance(user, User):
         return unified_response(False, 'User not found', code=404)
     else:
-        return unified_response(True, 'Success', data={"user": user.to_dict()}, code=200)
+        user_dict = user.to_dict()
+        user_dict['role_name'] = user.get_role_name()
+        return unified_response(True, 'Success', data={"user": user_dict}, code=200)
 
 
 def handle_get_user_by_id(userId):
     success, message, user = get_user_by_id(userId)
     if not success:
         return unified_response(False, message, code=500)
-    return unified_response(True, message, data={"user": user.to_dict()}, code=200)
+    user_dict = user.to_dict()
+    user_dict['role_name'] = user.get_role_name()
+    return unified_response(True, message, data={"user": user_dict}, code=200)
 
 
 def handle_update_user(user, request_data):
