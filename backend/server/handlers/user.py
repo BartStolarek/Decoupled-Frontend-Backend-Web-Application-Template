@@ -43,11 +43,14 @@ def handle_create_user(request_data):
 def handle_get_users(user):
     if user.is_admin():
         success, message, users = get_users()
-        user_dict_list = [user.to_dict() for user in users]
         
-        for user in user_dict_list:
-            # Get the role name from the role id
-            user_dict_list['role_name'] = user.get_role_name()
+        user_dict_list = []
+        
+        for user in users:
+            role_name = user.get_role_name()
+            user_dict = user.to_dict()
+            user_dict['role_name'] = role_name
+            user_dict_list.append(user_dict)
             
         if not success:
             return unified_response(False, message, code=500)

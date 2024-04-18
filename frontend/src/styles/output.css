@@ -5909,6 +5909,10 @@ select {
   padding-top: 1.875rem;
 }
 
+.pb-4 {
+  padding-bottom: 1rem;
+}
+
 .text-left {
   text-align: left;
 }

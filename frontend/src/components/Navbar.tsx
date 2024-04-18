@@ -11,6 +11,10 @@ const Navbar = () => {
 	const { user, isAuthenticated, logout } = useAuth();
 	const { isLoading, userRole } = useCheckRole();
 
+	const handleProfile = () => {
+		window.location.assign(`/profile/${user?.user_id}`)
+	};
+
 	const handleLogout = () => {
 		logout();
 		window.location.reload(); // Refresh the page
@@ -66,16 +70,15 @@ const Navbar = () => {
 					  </div>
 					</div>
 					<ul tabIndex={0} className="mt-3 z-999 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-					  <li>
-						<a className="justify-between">
-						  Profile
-						  <span className="badge">New</span>
-						</a>
-					  </li>
+					<li><button onClick={handleProfile}>Profile</button></li>
 					  {userRole === 'Administrator' && (
-						<li><button onClick={handleAdmin}>Admin</button></li>
+						<li>
+							<button onClick={handleAdmin}>
+								Admin 
+								<span className="badge">New</span>
+							</button>
+						</li>
 					  )}
-					  <li><a>Settings</a></li>
 					  <li><button onClick={handleLogout}>Logout</button></li>
 					</ul>
 				  </div>

@@ -36,8 +36,7 @@ const DatabaseUsersTable = () => {
   };
 
   const handleEdit = (userId: number) => {
-    // Implement the logic to handle editing a user
-    console.log('Edit user with ID:', userId);
+    window.location.assign(`/profile/${userId}`)
   };
 
   const handleDelete = (userId: number) => {
