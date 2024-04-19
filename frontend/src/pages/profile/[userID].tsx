@@ -20,9 +20,9 @@ const Profile: React.FC = () => {
         try {
             let response;
             if (userID) {
-                response = await fetchData(`/api/user/${userID}`, 'GET');
+                response = await fetchData(`/api/v1/user/${userID}`, 'GET');
             } else {
-                response = await fetchData('/api/user/', 'GET');
+                response = await fetchData('/api/v1/user/', 'GET');
             }
 
             if (response.status !== 200) {
@@ -49,7 +49,7 @@ const Profile: React.FC = () => {
         }
 
         try {
-            const response = await fetchData(`/api/user/${userID}`, 'PUT', {
+            const response = await fetchData(`/api/v1/user/${userID}`, 'PUT', {
                 first_name: e.currentTarget.firstName.value,
                 last_name: e.currentTarget.lastName.value,
                 email: e.currentTarget.email.value,

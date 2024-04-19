@@ -12,7 +12,7 @@ const DatabaseUsersTable = () => {
   // Fetch data from API user all endpoint
   const handleFetchedUsers = async () => {
     try {
-      const response = await fetchData('/api/user/all', 'GET');
+      const response = await fetchData('/api/v1/user/all', 'GET');
       const result = await response.json();
       if (result.data && Array.isArray(result.data.users)) {
         setUsers(result.data.users);

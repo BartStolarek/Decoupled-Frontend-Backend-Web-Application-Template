@@ -30,8 +30,6 @@ def create_server(config_name=None):
     # Apply the custom preflight handling middleware by calling it with the server
     handle_preflight(server)  # Adjust this line to correctly apply your middleware
 
-    
-    
     frontend_origin = os.getenv('FRONTEND_ORIGIN', 'http://localhost:3000')
     CORS(server,
          supports_credentials=True,
@@ -41,7 +39,7 @@ def create_server(config_name=None):
              'Content-Type', 'Authorization', 'ngrok-skip-browser-warning'
          ])
 
-    swagger = setup_flasgger(server)
+    setup_flasgger(server)
 
     if not config_name:
         config_name = os.getenv('FLASK_CONFIG', 'default')
@@ -84,13 +82,15 @@ def create_server(config_name=None):
 
     # Register blueprints
     from .apis import server_blueprint as server_blueprint
-    server.register_blueprint(server_blueprint, url_prefix='/api/server')
+    server.register_blueprint(server_blueprint, url_prefix='/api/v1/server')
     from .apis import user_blueprint as user_blueprint
-    server.register_blueprint(user_blueprint, url_prefix='/api/user')
+    server.register_blueprint(user_blueprint, url_prefix='/api/v1/user')
     from .apis import auth_blueprint as auth_blueprint
-    server.register_blueprint(auth_blueprint, url_prefix='/api/auth')
+    server.register_blueprint(auth_blueprint, url_prefix='/api/v1/auth')
     from .apis import role_blueprint as role_blueprint
-    server.register_blueprint(role_blueprint, url_prefix='/api/role')
+    server.register_blueprint(role_blueprint, url_prefix='/api/v1/role')
+    from .apis import product_blueprint as product_blueprint
+    server.register_blueprint(product_blueprint, url_prefix='/api/v1/product')
 
     @server.route('/favicon.ico')
     def favicon():

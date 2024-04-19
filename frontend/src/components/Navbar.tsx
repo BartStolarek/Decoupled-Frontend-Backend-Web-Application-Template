@@ -104,6 +104,8 @@ const Navbar = () => {
 			  </div>
 			  <div className="space-y-16">
 				<a href="/" className="block text-5xl mb-4">Home</a>
+				<a href="/products" className="block text-5xl">Products</a>
+				<a href="/services" className="block text-5xl">Services</a>
 				<a href="/about" className="block text-5xl">About</a>
 				<a href="/contact" className="block text-5xl">Contact Us</a>
 			  </div>

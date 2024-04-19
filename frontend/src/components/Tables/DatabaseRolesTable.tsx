@@ -12,7 +12,7 @@ const DatabaseRolesTable = () => {
   // Fetch data from API user all endpoint
   const handleFetchedRoles = async () => {
     try {
-      const response = await fetchData('/api/role/all', 'GET');
+      const response = await fetchData('/api/v1/role/all', 'GET');
       const result = await response.json();
       if (result.data && Array.isArray(result.data.roles)) {
         setRoles(result.data.roles);
