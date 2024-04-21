@@ -31,3 +31,16 @@ class StripeIntegration:
         except Exception as e:
             logger.error(f"Unexpected error occurred: {e}")
             return False, "Unexpected error occurred", []
+        
+    def fetch_price(self, price_id):
+        """
+        Fetches the price details from Stripe using the given price ID.
+        :param price_id: The ID of the price to fetch.
+        :return: Price object if found, otherwise None.
+        """
+        try:
+            price = stripe.Price.retrieve(price_id)
+            logger.info(f"Fetched price details for {price_id} = {price}")
+            return price
+        except stripe.error.InvalidRequestError:
+            return None
