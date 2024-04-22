@@ -14,6 +14,7 @@ interface AuthContextType {
     user: User | null;
     login: (token: string, user_id: number, role: 'Administrator' | 'User') => void;
     logout: () => void;
+    parseJwt: (token: string) => any;
     isAuthenticated: (role: 'Administrator' | 'User') => Promise<boolean>;
 }
 
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.log('User Logged out');
     };
 
-    function parseJwt(token: string) {
+    const parseJwt = (token: string) => {
         if (!token) { return; }
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -100,7 +101,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             if (role === 'Administrator') {
                 // Call the API for Administrator role authentication
                 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-                const response = await fetch(`${API_URL}/api/auth/admin`, {
+                const response = await fetch(`${API_URL}/api/v1/auth/admin`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${user.token}`,
@@ -146,7 +147,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+        <AuthContext.Provider value={{ user, login, logout, parseJwt, isAuthenticated }}>
             {children}
         </AuthContext.Provider>
     );
@@ -162,6 +163,7 @@ export const useAuth = () => {
             user: { token: '', user_id: 0, role: null },
             login: () => { },
             logout: () => { },
+            parseJwt: () => { },
             isAuthenticated: () => Promise.resolve(false),
         };
     }

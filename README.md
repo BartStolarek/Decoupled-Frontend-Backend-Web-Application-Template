@@ -431,3 +431,26 @@ This way, when you are using the daisyUI components and tailwind components, to 
 1. Check that node and npm are installed by using these commands in your terminal `node -v` and `npm -v`, to get a version number.
 2. 
 
+# Roadmap
+
+## 1. Integrate https://plausible.io/ for analytics
+## 2. Stripe (webhook and checkout)
+Create checkout sessions
+Handle webhooks to update user's account (subscriptions, one-time payments...)
+Tips to setup your account & reduce chargebacks
+## 3. Mailgun (DNS records and avoid spam)
+Send transactional emails
+DNS setup to avoid spam folder (DKIM, DMARC, SPF in subdomain)
+Webhook to receive & forward emails
+## 4. NextAuth (google login and magic link)
+Magic links setup
+Login with Google walkthrough
+Save user in MongoDB/Supabase
+Private/protected pages & API calls
+## 5. SEO Tags
+Entire blog structure (example)
+All meta tags to rank on Google
+OpenGraph tags to share on social media
+Automated sitemap generation to fasten Google indexing
+Structured data markup for Rich Snippets
+SEO-optimized UI components

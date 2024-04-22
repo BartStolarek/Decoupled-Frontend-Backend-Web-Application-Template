@@ -4734,6 +4734,10 @@ select {
   height: 1rem;
 }
 
+.h-48 {
+  height: 12rem;
+}
+
 .h-5 {
   height: 1.25rem;
 }
@@ -4784,10 +4788,6 @@ select {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-48 {
-  height: 12rem;
 }
 
 .min-h-0 {
@@ -5708,6 +5708,24 @@ select {
   --tw-bg-opacity: 15%;
 }
 
+.bg-gradient-radial {
+  background-image: radial-gradient(var(--tw-gradient-stops));
+}
+
+.bg-gradient-to-r {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+
+.from-primary {
+  --tw-gradient-from: rgb(72, 203, 171) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(72 203 171 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-secondary {
+  --tw-gradient-to: rgb(152, 159, 226) var(--tw-gradient-to-position);
+}
+
 .fill-body {
   fill: #64748B;
 }
@@ -6287,6 +6305,11 @@ select {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-accent {
+  --tw-text-opacity: 1;
+  color: rgb(130 96 210 / var(--tw-text-opacity));
 }
 
 .\!opacity-100 {
@@ -7140,6 +7163,10 @@ select {
 
   .sm\:flex {
     display: flex;
+  }
+
+  .sm\:hidden {
+    display: none;
   }
 
   .sm\:h-44 {

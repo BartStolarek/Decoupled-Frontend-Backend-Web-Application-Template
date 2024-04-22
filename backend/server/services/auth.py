@@ -38,6 +38,7 @@ def get_new_token(user: User) -> tuple[bool, str, str]:
 
 def login_user(email: str, password: str) -> tuple[bool, str, str]:
     try:
+        print(email, password)
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password_hash, password):
             # Find the role name associated with the user

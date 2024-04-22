@@ -91,6 +91,8 @@ def create_server(config_name=None):
     server.register_blueprint(role_blueprint, url_prefix='/api/v1/role')
     from .apis import product_blueprint as product_blueprint
     server.register_blueprint(product_blueprint, url_prefix='/api/v1/product')
+    from .apis import service_blueprint as service_blueprint
+    server.register_blueprint(service_blueprint, url_prefix='/api/v1/service')
 
     @server.route('/favicon.ico')
     def favicon():

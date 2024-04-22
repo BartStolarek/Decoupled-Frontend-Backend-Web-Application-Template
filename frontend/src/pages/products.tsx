@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useFetchData } from '@/services/api';
 
-const ProductPage: React.FC = () => {
+const ProductsPage: React.FC = () => {
   const [products, setProducts] = useState<any[]>([]);
   const fetchData = useFetchData();
 
@@ -58,7 +58,7 @@ const ProductPage: React.FC = () => {
                     ? formatPrice(product.display_price)
                     : formatPrice(product.default_price)}
                 </div>
-                <button className="btn btn-primary">Learn now!</button>
+                <button className="btn btn-primary">Buy now</button>
               </div>
             </div>
           </div>
@@ -69,4 +69,4 @@ const ProductPage: React.FC = () => {
   );
 };
 
-export default ProductPage;
+export default ProductsPage;

@@ -39,7 +39,7 @@ const LoginPage: React.FC = () => {
         const decodedToken = parseJwt(data.data.user_token);
         const userRole = decodedToken.user_role;
         const userID = decodedToken.user_id;
-
+``
         login(data.data.user_token, userID, userRole); // Assuming the token and role are returned correctly
         router.push('/'); // Redirect to the homepage or dashboard as needed
       } else {
