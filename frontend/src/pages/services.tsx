@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { useFetchData } from '@/services/api';
+import { useFetchData } from '@/services/serverAPI';
 
 const ServicesPage: React.FC = () => {
   const [services, setServices] = useState<any[]>([]);
@@ -9,7 +9,7 @@ const ServicesPage: React.FC = () => {
 
   const handleFetchServices = async () => {
     try {
-      const response = await fetchData(`/api/v1/service/all`, 'GET');
+      const response = await fetchData(`/api/v1/stripe/service/all`, 'GET');
       if (response.status !== 200) {
         return console.error('TODO: Add in error message.');
       }

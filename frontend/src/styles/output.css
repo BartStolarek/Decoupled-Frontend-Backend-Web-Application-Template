@@ -4427,6 +4427,11 @@ select {
   margin-right: -2rem;
 }
 
+.mx-16 {
+  margin-left: 4rem;
+  margin-right: 4rem;
+}
+
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -5708,10 +5713,6 @@ select {
   --tw-bg-opacity: 15%;
 }
 
-.bg-gradient-radial {
-  background-image: radial-gradient(var(--tw-gradient-stops));
-}
-
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -5724,10 +5725,6 @@ select {
 
 .to-secondary {
   --tw-gradient-to: rgb(152, 159, 226) var(--tw-gradient-to-position);
-}
-
-.fill-body {
-  fill: #64748B;
 }
 
 .fill-current {
@@ -6222,6 +6219,11 @@ select {
   color: rgb(208 145 92 / var(--tw-text-opacity));
 }
 
+.text-accent {
+  --tw-text-opacity: 1;
+  color: rgb(130 96 210 / var(--tw-text-opacity));
+}
+
 .text-base-content {
   --tw-text-opacity: 1;
   color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
@@ -6305,11 +6307,6 @@ select {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-accent {
-  --tw-text-opacity: 1;
-  color: rgb(130 96 210 / var(--tw-text-opacity));
 }
 
 .\!opacity-100 {
@@ -6825,10 +6822,6 @@ select {
   --tw-bg-opacity: 0.9;
 }
 
-.hover\:fill-primary:hover {
-  fill: rgb(72, 203, 171);
-}
-
 .hover\:text-accent:hover {
   --tw-text-opacity: 1;
   color: rgb(130 96 210 / var(--tw-text-opacity));
@@ -6847,6 +6840,11 @@ select {
 .hover\:text-primary:hover {
   --tw-text-opacity: 1;
   color: rgb(72 203 171 / var(--tw-text-opacity));
+}
+
+.hover\:text-secondary:hover {
+  --tw-text-opacity: 1;
+  color: rgb(152 159 226 / var(--tw-text-opacity));
 }
 
 .hover\:text-white:hover {
@@ -7030,10 +7028,6 @@ select {
   fill: #1C2434;
 }
 
-:is(.dark .dark\:fill-bodydark) {
-  fill: #AEB7C0;
-}
-
 :is(.dark .dark\:fill-white) {
   fill: #FFFFFF;
 }
@@ -7089,10 +7083,6 @@ select {
 
 :is(.dark .dark\:hover\:bg-opacity-50:hover) {
   --tw-bg-opacity: 0.5;
-}
-
-:is(.dark .dark\:hover\:fill-primary:hover) {
-  fill: rgb(72, 203, 171);
 }
 
 :is(.dark .dark\:focus\:border-primary:focus) {
@@ -7491,10 +7481,6 @@ select {
 
   .xl\:w-1\/2 {
     width: 50%;
-  }
-
-  .xl\:w-125 {
-    width: 31.25rem;
   }
 
   .xl\:w-5\/12 {

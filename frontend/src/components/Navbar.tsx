@@ -52,11 +52,11 @@ const Navbar = () => {
 						<span className={`${styles.bar} ${menuOpen ? styles.activeBar2 : ''}`}></span>
 						<span className={`${styles.bar} ${menuOpen ? styles.activeBar3 : ''}`}></span>
 					</div>
-					<div className="hidden sm:flex gap-4 mr-4">
-						<Link href="/products" className="btn btn-ghost">
+					<div className="hidden sm:flex gap-4 mx-16">
+						<Link href="/products" className="btn btn-ghost hover:text-secondary">
 							Products
 						</Link>
-						<Link href="/services" className="btn btn-ghost">
+						<Link href="/services" className="btn btn-ghost hover:text-secondary">
 							Services
 						</Link>
 					</div>
@@ -95,7 +95,7 @@ const Navbar = () => {
 						</div>
 					) : (
 						<div className="flex gap-8">
-							<button onClick={handleRegister} className="btn btn-ghost btn-sm w-24 hidden md:block text-accent font-bold">Register</button>
+							<button onClick={handleRegister} className="btn btn-ghost btn-sm w-24 hidden md:block text-accent font-bold  hover:text-secondary">Register</button>
 							<button onClick={handleLogin} className="btn border-secondary bg-gradient-to-r from-primary to-secondary btn-sm shadow w-24 hidden md:block text-text font-bold text-white">Login</button>
 							<a href="/login" className="btn btn-ghost md:hidden flex justify-center items-center">
 								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" className="w-6 h-6 svg-text">

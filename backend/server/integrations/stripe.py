@@ -44,3 +44,16 @@ class StripeIntegration:
             return price
         except stripe.error.InvalidRequestError:
             return None
+        
+    def fetch_session_by_id(self, session_id):
+        """
+        Fetches the session details from Stripe using the given session ID.
+        :param session_id: The ID of the session to fetch.
+        :return: Session object if found, otherwise None.
+        """
+        try:
+            session = stripe.checkout.Session.retrieve(session_id)
+            logger.info(f"Fetched session details for {session_id}")
+            return session
+        except stripe.error.InvalidRequestError:
+            return None
