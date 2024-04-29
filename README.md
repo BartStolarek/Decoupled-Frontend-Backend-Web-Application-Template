@@ -2,6 +2,8 @@
 
 This repository serves as a template for a decoupled full-stack web application. The frontend is built with React Next.js and Tailwind CSS, while the backend is developed using Python Flask and SQLAlchemy.
 
+Yes, you can just use the backend and delete the frontend or vice versa.
+
 ## Overview
 
 This project provides a starting point for building a modern, decoupled web application. The frontend and backend are developed independently, allowing for flexibility and scalability. The template is designed to expedite the setup process and provide a solid foundation for further development.
