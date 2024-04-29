@@ -47,16 +47,18 @@ To set up and run the backend, follow these steps:
 - Create a `config.env` file in the `server/` directory.
 - Set the following variables in the `config.env` file:
   ```
-  APP_NAME='Your App Name'
-  SECRET_KEY='Your Secret Key'
-  FLASK_CONFIG=development
+  APP_NAME='Your app name'
+  SECRET_KEY=''
   DATABASE_URL=data-dev.sqlite
-  LOGGING_LEVEL='DEBUG'
-  ADMIN_EMAIL='admin@example.com'
-  ADMIN_PASSWORD='admin_password'
-  FAKE_EMAIL='fake@example.com'
-  FAKE_PASSWORD='fake_password'
+  FLASK_CONFIG=development
+  LOGGING_LEVEL="INFO"
+  ADMIN_EMAIL=noemail@domain.com
+  ADMIN_PASSWORD=nopassword
+  FAKE_EMAIL=user@fake.com
+  FAKE_PASSWORD=fakepassword
   FRONTEND_ORIGIN=http://localhost:3000
+  TOKEN_EXPIRATION_TIME_SECONDS=86400
+  STRIPE_SECRET_KEY='your_private_secret_stripe_key'
   ```
 - Replace the placeholders with your own values.
 
