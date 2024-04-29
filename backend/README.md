@@ -17,13 +17,6 @@ This backend is designed to be a scalable and modular foundation for building we
 
 ### APIs
 
-The backend provides the following APIs:
-
-- User
-  - Register: Allows new users to create an account.
-  - Delete: Enables users to remove their account.
-  - Update: Provides functionality for users to update their account details.
-
 To view the API documentation, run the server and navigate to:
 - Swagger JSON: `http://localhost:5000/apispec_1.json`
 - Swagger UI: `http://localhost:5000/apidocs`
