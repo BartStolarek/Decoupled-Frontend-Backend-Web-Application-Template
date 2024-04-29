@@ -3,6 +3,9 @@ import { loadStripe, Stripe } from '@stripe/stripe-js';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useFetchData } from '@/services/serverAPI';
+import { useAuth } from '@/contexts/AuthContext';
+import { User } from '@/types/user';
+import { formatPrice, handleFetchItems, handleItemAction } from '@/utils/stripe';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -11,6 +14,7 @@ const API_URL = process.env.NEXT_PUBLIC_WEBSITE_URL;
 const ProductsPage: React.FC = () => {
     const [products, setProducts] = useState<any[]>([]);
     const fetchData = useFetchData();
+    const { user: userAuth, isAuthenticated } = useAuth();
 
     const handleFetchProducts = async () => {
         try {
@@ -43,20 +47,49 @@ const ProductsPage: React.FC = () => {
 
     const handleBuyNow = async (priceId: string, productId: string) => {
         const stripe = await stripePromise;
-        if (stripe) {
-            const { error } = await stripe.redirectToCheckout({
-                lineItems: [{ price: priceId, quantity: 1 }],
-                mode: 'payment',
-                successUrl: `${API_URL}/success?session_id={CHECKOUT_SESSION_ID}&product_id=${productId}`,
-                cancelUrl: `${API_URL}/cancel`,
-                customerEmail: 'customer@example.com',
-                clientReferenceId: 'your_reference_id',
-            });
-            if (error) {
-                console.error('Error redirecting to Stripe Checkout:', error);
-                console.error('TODO: Add in error message pop up.');
+
+        // Check user is not logged in and redirect to login page
+        const isUserAuthenticated = await isAuthenticated('User');
+        let userData: User | null = null;
+        if (!isUserAuthenticated || !userAuth) {
+            console.error('User not authenticated');
+            console.error('TODO: Add in error message pop up.');
+            window.location.assign('/login');
+        } else {
+            try {
+                const response = await fetchData(`/api/v1/user/${userAuth.user_id}`, 'GET');
+                if (response.status !== 200) {
+                    console.error('Error fetching user data');
+                    console.error('TODO: Add in error message pop up.');
+                    return;
+                }
+
+                const result = await response.json();
+                userData = result.data.user as User;
+
+                if (stripe) {
+                    const { error } = await stripe.redirectToCheckout({
+                        lineItems: [{ price: priceId, quantity: 1 }],
+                        mode: 'payment',
+                        successUrl: `${API_URL}/success?session_id={CHECKOUT_SESSION_ID}&product_id=${productId}`,
+                        cancelUrl: `${API_URL}/products`,
+                        customerEmail: userData!.email,
+                        clientReferenceId: 'your_reference_id',
+                    });
+                    if (error) {
+                        console.error('Error redirecting to Stripe Checkout:', error);
+                        console.error('TODO: Add in error message pop up.');
+                    }
+                }
+
+
+            } catch (error) {
+                console.error("Error fetching user data: ", error);
+                return;
             }
         }
+
+        
     };
 
     return (

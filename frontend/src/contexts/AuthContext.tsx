@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
         // Call the API for Administrator role authentication
         const API_URL = process.env.NEXT_PUBLIC_API_URL;
-        const response = await fetch(`${API_URL}/api/auth/refresh`, {
+        const response = await fetch(`${API_URL}/api/v1/auth/refresh`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${user.token}`,
@@ -119,7 +119,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             } else if (role === 'User') {
                 // Call the API for Administrator role authentication
                 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-                const response = await fetch(`${API_URL}/api/auth/user`, {
+                const response = await fetch(`${API_URL}/api/v1/auth/user`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${user.token}`,

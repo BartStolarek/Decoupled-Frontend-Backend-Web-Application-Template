@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DatabaseDynamicTable, { SortConfig } from './DatabaseDynamicTable';
 import { User } from '@/types/user';
-import { useFetchData } from '@/services/api';
+import { useFetchData } from '@/services/serverAPI';
 
 const DatabaseUsersTable = () => {
   const [users, setUsers] = useState<User[]>([]);
